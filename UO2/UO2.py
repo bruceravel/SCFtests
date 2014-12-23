@@ -17,8 +17,11 @@ def do_fit(self, which):
 
     if which == 'testrun':
         folder = self.testrun
-    else:
+    elif which == 'baseline':
         folder = self.baseline
+    else:
+        folder = realpath(join(self.folder, 'baseline', which))
+    #endif
 
     data = read_xdi(join(self.path, 'UO2.chik'), _larch=self._larch)
 

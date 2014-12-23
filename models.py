@@ -51,7 +51,7 @@ if isdir(target): rmtree(target)
 makedirs(target)
 
 if options.six:
-    copy(join(options.folder, 'Copper.feff6'), join(target, 'feff.inp'))
+    copy(join(options.folder, options.folder+'.feff6'), join(target, 'feff.inp'))
 else:
     renderer = pystache.Renderer()
     with open(join(target,'feff.inp'), 'w') as inp:

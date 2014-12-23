@@ -23,8 +23,6 @@ def do_fit(self, which):
         folder = realpath(join(self.folder, 'baseline', which))
     #endif
 
-    print '>>>>>> %s' % folder
-
     data = read_xdi(join(self.path, 'Copper.chik'), _larch=self._larch)
 
     gds = Group(amp    = Parameter(1,     vary=True),

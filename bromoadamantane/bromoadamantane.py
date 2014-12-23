@@ -16,13 +16,15 @@ def do_fit(self, which):
 
     if which == 'testrun':
         folder = self.testrun
-    else:
+    elif which == 'baseline':
         folder = self.baseline
-    #end if
+    else:
+        folder = realpath(join(self.folder, 'baseline', which))
+    #endif
 
     data = read_xdi(join(self.path, 'bromoadamantane.chik'), _larch=self._larch)
 
-    gds = Group(amp     = Parameter(1.021,     vary=True,  _larch=self._larch),
+    gds = Group(amp     = Parameter(0.9,       vary=True,  _larch=self._larch),
                 enot    = Parameter(4.01,      vary=True,  _larch=self._larch),
                 delr    = Parameter(-0.007,    vary=True,  _larch=self._larch),
                 brc     = Parameter(expr = '1.9521+delr',  _larch=self._larch),
@@ -35,7 +37,7 @@ def do_fit(self, which):
                 drh     = Parameter(0.04,      vary=True,  _larch=self._larch),
                 ssh     = Parameter(0.005,     vary=True,  _larch=self._larch),
                 ss2     = Parameter(expr = 'ss*(brc2/brc)**2', _larch=self._larch),
-                c3      = Parameter(-0.0007,   vary=True,  _larch=self._larch),
+                c3      = Parameter(0.0000001, vary=True,  _larch=self._larch),
                 _larch=self._larch  )
 
     paths = list()

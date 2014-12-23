@@ -2,22 +2,51 @@
 from tabulate import tabulate
 add_plugin('f85ut')
 
-which = 'Copper'
+try:
+    material
+except NameError:
+    material = 'Copper'
+#endtry
 
 
-a=ut(which)
+a=ut(material)
 a.verbose=False
 a.fitcompare()
 
+print " "
+print material
+print " "
+print "Best fit values"
+print "==============="
+variables = a.noSCF.params.covar_vars
+table = []
+for d in a.models:
+    inner = [d,]
+    for var in variables:
+        inner.append( getattr(getattr(getattr(getattr(a, d), 'params'), var), 'value') )
+    #endfor
+    table.append(inner)
+#endfor
 
-# for param in a.withoutscf.params.covar_vars:
-#     print "  %-11s    %12.5f (%.5f)           %12.5f (%.5f)" % (param,
-#                                                                getattr(getattr(a.withoutscf.params, param), 'value'),
-#                                                                getattr(getattr(a.withoutscf.params, param), 'stderr'),
-#                                                                getattr(getattr(a.withscf.params, param), 'value'),
-#                                                                getattr(getattr(a.withscf.params, param), 'stderr'))
-# #endfor
+print tabulate(table, headers=['model']+variables, floatfmt=".5f")
 
+print " "
+print "Uncertainties"
+print "============="
+table = []
+for d in a.models:
+    inner = [d,]
+    for var in variables:
+        inner.append( getattr(getattr(getattr(getattr(a, d), 'params'), var), 'stderr') )
+    #endfor
+    table.append(inner)
+#endfor
+
+print tabulate(table, headers=['model']+variables, floatfmt=".5f")
+
+print " "
+print "Statistics"
+print "=========="
 table = []
 for d in a.models:
     inner = [d,]
