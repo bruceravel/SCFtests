@@ -1,0 +1,32 @@
+# -*- python -*-
+from tabulate import tabulate
+add_plugin('f85ut')
+
+which = 'Copper'
+
+
+a=ut(which)
+a.verbose=False
+a.fitcompare()
+
+
+# for param in a.withoutscf.params.covar_vars:
+#     print "  %-11s    %12.5f (%.5f)           %12.5f (%.5f)" % (param,
+#                                                                getattr(getattr(a.withoutscf.params, param), 'value'),
+#                                                                getattr(getattr(a.withoutscf.params, param), 'stderr'),
+#                                                                getattr(getattr(a.withscf.params, param), 'value'),
+#                                                                getattr(getattr(a.withscf.params, param), 'stderr'))
+# #endfor
+
+table = []
+for d in a.models:
+    inner = [d,]
+    for stat in ('chi_square', 'chi_reduced', 'rfactor'):
+        inner.append( getattr(getattr(getattr(a, d), 'params'), stat) )
+    #endfor
+    table.append(inner)
+#endfor
+
+print tabulate(table, headers=['model','chi_square', 'chi_reduced', 'rfactor'])
+
+
