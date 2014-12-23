@@ -1,0 +1,15 @@
+* Materials used in these tests
+
+** Implemented
+
+1. Copper
+2. NiO
+3. UO2
+4. bromoadamantane
+
+** Possibilties
+
+1. methyltin
+2. FeS2
+3. Uranyl acetate
+4. BaZrO3
