@@ -46,7 +46,8 @@ def do_fit(self, which):
                           e0     = 'enot',
                           sigma2 = 'ss',
                           deltar = 'delr',
-                          third  = 'c3', _larch=self._larch))
+                          third  = 'c3', 
+                          _larch=self._larch))
     paths.append(feffpath(realpath(join(folder, "feff0002.dat")),
                           s02    = 'amp',
                           e0     = 'enot',
