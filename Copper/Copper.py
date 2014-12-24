@@ -25,12 +25,12 @@ def do_fit(self, which):
 
     data = read_xdi(join(self.path, 'Copper.chik'), _larch=self._larch)
 
-    gds = Group(amp    = Parameter(1,     vary=True),
-                enot   = Parameter(0,     vary=True),
-                thetad = Parameter(500,   vary=True),
-                temp   = Parameter(10,    vary=False),
-                alpha  = Parameter(0,     vary=True),
-                ss1    = Parameter(0.003, vary=True),
+    gds = Group(amp    = Parameter(1,     vary=True,  _larch=self._larch),
+                enot   = Parameter(0,     vary=True,  _larch=self._larch),
+                thetad = Parameter(500,   vary=True,  _larch=self._larch),
+                temp   = Parameter(10,    vary=False,  _larch=self._larch),
+                alpha  = Parameter(0,     vary=True,  _larch=self._larch),
+                ss1    = Parameter(0.003, vary=True,  _larch=self._larch),
                 _larch=self._larch  )
 
     paths = list()
