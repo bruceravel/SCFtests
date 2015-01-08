@@ -22,7 +22,7 @@ def do_fit(self, which):
         folder = realpath(join(self.folder, 'baseline', which))
     #endif
 
-    data = read_xdi(join(self.path, 'bromoadamantane.chik'), _larch=self._larch)
+    data = read_xdi(join(self.path, '1-bromoadamantane.chik'), _larch=self._larch)
 
     gds = Group(amp     = Parameter(0.9,       vary=True,  _larch=self._larch),
                 enot    = Parameter(4.01,      vary=True,  _larch=self._larch),

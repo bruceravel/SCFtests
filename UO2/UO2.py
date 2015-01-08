@@ -1,4 +1,4 @@
-
+## see http://dx.doi.org/10.1021/es0208409
 
 
 from os.path import realpath, exists, join
@@ -26,13 +26,13 @@ def do_fit(self, which):
     data = read_xdi(join(self.path, 'UO2.chik'), _larch=self._larch)
 
     gds = Group(amp    = Parameter(1,      vary=True, _larch=self._larch),
-                enot   = Parameter(0.01,   vary=True, _larch=self._larch),
+                enot   = Parameter(1e-7,   vary=True, _larch=self._larch),
                 sso    = Parameter(0.003,  vary=True, _larch=self._larch),
                 ssu    = Parameter(0.003,  vary=True, _larch=self._larch),
                 sso2   = Parameter(0.003,  vary=True, _larch=self._larch),
-                dro    = Parameter(0.0001, vary=True, _larch=self._larch),
-                dru    = Parameter(0.0001, vary=True, _larch=self._larch),
-                dro2   = Parameter(0.0001, vary=True, _larch=self._larch),
+                dro    = Parameter(1e-7,   vary=True, _larch=self._larch),
+                dru    = Parameter(1e-7,   vary=True, _larch=self._larch),
+                dro2   = Parameter(1e-7,   vary=True, _larch=self._larch),
                 nu     = Parameter(12,     vary=True, _larch=self._larch),
                 no2    = Parameter(expr='2*nu',       _larch=self._larch),
                 _larch=self._larch  )
@@ -46,8 +46,8 @@ def do_fit(self, which):
     # paths.append(feffpath(realpath(join(folder, "feff0002.dat")), # triangle in first shell
     #                       s02    = 'amp',
     #                       e0     = 'enot',
-    #                       sigma2 = 'sso*1.5',
-    #                       deltar = 'dro*(1+sqrt(2))/2', _larch=self._larch))
+    #                       sigma2 = 'sso*(1+sqrt(3))**2',
+    #                       deltar = 'dro*(1+sqrt(3))/2', _larch=self._larch))
     paths.append(feffpath(realpath(join(folder, "feff0003.dat")), # 2nd shell U SS
                           degen  = 1,
                           s02    = 'amp*nu',
@@ -57,20 +57,25 @@ def do_fit(self, which):
     # paths.append(feffpath(realpath(join(folder, "feff0004.dat")), # 1st shell, longer triangle
     #                       s02    = 'amp',
     #                       e0     = 'enot',
-    #                       sigma2 = '2*sso',
-    #                       deltar = '2*dro', _larch=self._larch))
+    #                       sigma2 = 'sso*(1+sqrt(2/3))**2',
+    #                       deltar = '(1+sqrt(2/3))*dro', _larch=self._larch))
+    # paths.append(feffpath(realpath(join(folder, "feff0005.dat")), # 1st shell, longer U-O-U triangle
+    #                       degen  = 1,
+    #                       s02    = 'amp*nu',
+    #                       e0     = 'enot',
+    #                       sigma2 = 'sso*ssu/2',
+    #                       deltar = '(1+sqrt(2/3))*dro', _larch=self._larch))
     paths.append(feffpath(realpath(join(folder, "feff0006.dat")), # 3rd shell O SS
                           degen  = 1,
                           s02    = 'amp*no2',
-                          #s02    = 'amp*nu*2',
                           e0     = 'enot',
                           sigma2 = 'sso2',
                           deltar = 'dro2', _larch=self._larch))
     paths.append(feffpath(realpath(join(folder, "feff0007.dat")), # 1st shell, non-forward linear through absorber
                           s02    = 'amp',
                           e0     = 'enot',
-                          sigma2 = 'sso2',
-                          deltar = 'dro2', _larch=self._larch))
+                          sigma2 = '2*sso2',
+                          deltar = '2*dro2', _larch=self._larch))
     paths.append(feffpath(realpath(join(folder, "feff0008.dat")), # 1st shell forward through absorber
                           s02    = 'amp',
                           e0     = 'enot',

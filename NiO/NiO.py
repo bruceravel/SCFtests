@@ -58,7 +58,7 @@ def do_fit(self, which):
     paths.append(feffpath(realpath(join(folder, "feff0004.dat")), # O-Ni triangle
                           s02    = 'amp',
                           e0     = 'enot',
-                          sigma2 = 'sso+ssni',
+                          sigma2 = 'sso+ssni/2',
                           deltar = 'alpha*reff', _larch=self._larch))
     paths.append(feffpath(realpath(join(folder, "feff0005.dat")), # 3rd shell O SS
                           s02    = 'amp',
@@ -85,10 +85,15 @@ def do_fit(self, which):
                           e0     = 'enot',
                           sigma2 = 'sso*2',
                           deltar = 'alpha*reff', _larch=self._larch))
-    paths.append(feffpath(realpath(join(folder, "feff0010.dat")), # O-Ni-O double forward
+    paths.append(feffpath(realpath(join(folder, "feff0011.dat")), # O-Ni-O double forward
                           s02    = 'amp',
                           e0     = 'enot',
                           sigma2 = 'ssni2',
+                          deltar = 'alpha*reff', _larch=self._larch))
+    paths.append(feffpath(realpath(join(folder, "feff0010.dat")), # O-O rattle (the order of 10 and 11 is different in Demeter's pathfinder!)
+                          s02    = 'amp',
+                          e0     = 'enot',
+                          sigma2 = 'sso*4',
                           deltar = 'alpha*reff', _larch=self._larch))
 
 

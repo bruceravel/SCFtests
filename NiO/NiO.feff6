@@ -45,7 +45,7 @@
  *         ixc  [ Vr  Vi ]     *** ixc=0 means to use Hedin-Lundqvist
  EXCHANGE  0
                                            *** Radius for self-consistent pots (2 shells is a good choice)
- RMAX      4.3
+ RMAX      5.9
 
  POTENTIALS
  *   ipot   Z  element
