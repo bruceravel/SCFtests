@@ -6,10 +6,10 @@
 2. NiO
 3. UO2
 4. bromoadamantane
+5. Uranyl acetate
+6. BaZrO3
 
 ** Possibilties
 
-1. methyltin
-2. FeS2
-3. Uranyl acetate
-4. BaZrO3
+1. methyltin, possibly interesting molecule
+2. FeS2, not very different from NiO and UO2
