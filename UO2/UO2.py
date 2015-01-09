@@ -6,12 +6,14 @@ from os.path import realpath, exists, join
 from larch import (Group, Parameter, isParameter, param_value, use_plugin_path, isNamedClass)
 use_plugin_path('io')
 from xdi import read_xdi
+from columnfile import write_ascii
 use_plugin_path('xafs')
 from feffit import feffit_dataset, feffit_transform, feffit, feffit_report
 from feffdat import feffpath
 use_plugin_path('wx')
 from plotter import (_newplot, _plot)
 
+import pystache
 
 def do_fit(self, which):
 
@@ -106,6 +108,22 @@ def do_fit(self, which):
     if self.verbose:
         print feffit_report(fit, _larch=self._larch)
     #end if
+
+    write_ascii(join(self.folder, "fit_"+which+".k"), dset.data.k, dset.data.chi, dset.model.chi,
+                labels="r data_mag fit_mag data_re fit_re", _larch=self._larch)
+    write_ascii(join(self.folder, "fit_"+which+".r"), dset.data.r, dset.data.chir_mag, dset.model.chir_mag,
+                dset.data.chir_re, dset.model.chir_re, labels="r data_mag fit_mag data_re fit_re", _larch=self._larch)
+
+    renderer = pystache.Renderer()
+    with open(join('UO2','fit_'+which+'.gp'), 'w') as inp:
+        inp.write(renderer.render_path( 'fit.mustache', # gnuplot mustache file
+                                        {'material': 'UO2',
+                                         'model': which,
+                                         'kmin': 3,
+                                         'kmax': 11,
+                                         'rmin': 1.25,
+                                         'rmax': 4.3,
+                                     } ))
 
     return fit
 #end def

@@ -1,5 +1,15 @@
 # -*- python -*-
-from tabulate import tabulate
+import tabulate
+bs=u'\\ '
+bs=bs[0:1]
+tabulate.LATEX_ESCAPE_RULES[bs]=bs
+tabulate.LATEX_ESCAPE_RULES[u'{']=u'{'
+tabulate.LATEX_ESCAPE_RULES[u'}']=u'}'
+tabulate.LATEX_ESCAPE_RULES[u'^']=u'^'
+tabulate.LATEX_ESCAPE_RULES[u'_']=u'_'
+tabulate.LATEX_ESCAPE_RULES[u'$']=u'$'
+
+from os.path import join
 add_plugin('f85ut')
 
 try:
@@ -13,49 +23,57 @@ a=ut(material)
 a.verbose=False
 a.fitcompare()
 
-print " "
-print material
-print " "
-print "Best fit values"
-print "==============="
+
+f = open(join(material, material+'.tex'), 'w')
+
+f.write('\\subsection{Best fit values}\n')
+
 variables = a.noSCF.params.covar_vars
 table = []
 for d in a.models:
-    inner = [d,]
+    dd=d
+    if "_" in dd : dd=d.replace("_", "(") + ")"
+    inner = [dd,]
     for var in variables:
-        inner.append( getattr(getattr(getattr(getattr(a, d), 'params'), var), 'value') )
+        if var in ('amp', 'enot', 'nu'):
+            val = "\\num{%.2f(%d)}" % (getattr(getattr(getattr(getattr(a, d), 'params'), var), 'value'),
+                                       int(100*getattr(getattr(getattr(getattr(a, d), 'params'), var), 'stderr')))
+        elif var in ('thetad'):
+            val = "\\num{%.0f(%d)}" % (getattr(getattr(getattr(getattr(a, d), 'params'), var), 'value'),
+                                       int(getattr(getattr(getattr(getattr(a, d), 'params'), var), 'stderr')))
+        elif var.startswith('dr'):
+            val = "\\num{%.3f(%d)}" % (getattr(getattr(getattr(getattr(a, d), 'params'), var), 'value'),
+                                       int(1000*getattr(getattr(getattr(getattr(a, d), 'params'), var), 'stderr')))
+        elif var.startswith('e'):
+            val = "\\num{%.3f(%d)}" % (getattr(getattr(getattr(getattr(a, d), 'params'), var), 'value'),
+                                       int(1000*getattr(getattr(getattr(getattr(a, d), 'params'), var), 'stderr')))
+        else:
+            val = "\\num{%.5f(%d)}" % (getattr(getattr(getattr(getattr(a, d), 'params'), var), 'value'),
+                                       int(100000*getattr(getattr(getattr(getattr(a, d), 'params'), var), 'stderr')))
+        #endif
+        inner.append( val )
     #endfor
     table.append(inner)
 #endfor
 
-print tabulate(table, headers=['model']+variables, floatfmt=".5f")
+f.write(tabulate.tabulate(table, headers=['model']+variables, tablefmt="latex"))
 
-print " "
-print "Uncertainties"
-print "============="
+
+f.write('\n\n\subsection{Statistics}\n')
+
 table = []
 for d in a.models:
-    inner = [d,]
-    for var in variables:
-        inner.append( getattr(getattr(getattr(getattr(a, d), 'params'), var), 'stderr') )
-    #endfor
-    table.append(inner)
-#endfor
-
-print tabulate(table, headers=['model']+variables, floatfmt=".5f")
-
-print " "
-print "Statistics"
-print "=========="
-table = []
-for d in a.models:
-    inner = [d,]
+    dd=d
+    if "_" in dd : dd=d.replace("_", "(") + ")"
+    inner = [dd,]
     for stat in ('chi_square', 'chi_reduced', 'rfactor'):
         inner.append( getattr(getattr(getattr(a, d), 'params'), stat) )
     #endfor
     table.append(inner)
 #endfor
 
-print tabulate(table, headers=['model','chi_square', 'chi_reduced', 'rfactor'])
+f.write(tabulate.tabulate(table, headers=['model','$\chi^2$', '$\chi^2_\\nu$', '$\mathcal{R}$'], tablefmt="latex", floatfmt=".4f"))
+f.write('\n')
 
+f.close
 

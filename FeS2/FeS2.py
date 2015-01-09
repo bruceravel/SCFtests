@@ -25,81 +25,66 @@ def do_fit(self, which):
         folder = realpath(join(self.folder, 'baseline', which))
     #endif
 
-    data = read_xdi(join(self.path, 'NiO.chik'), _larch=self._larch)
-    if hasattr(data, 'wavenumber'):
-        data.k = data.wavenumber
+    data = read_xdi(join(self.path, 'FeS2.chik'), _larch=self._larch)
 
     gds = Group(amp    = Parameter(1,      vary=True, _larch=self._larch),
-                enot   = Parameter(0.01,   vary=True, _larch=self._larch),
-                alpha  = Parameter(0.0001, vary=True, _larch=self._larch),
-                sso    = Parameter(0.003,  vary=True, _larch=self._larch),
-                ssni   = Parameter(0.003,  vary=True, _larch=self._larch),
-                sso2   = Parameter(0.003,  vary=True, _larch=self._larch),
-                #sso3   = Parameter(0.003,  vary=True, _larch=self._larch),
-                ssni2  = Parameter(0.003,  vary=True, _larch=self._larch),
-                #ssni3  = Parameter(0.003,  vary=True, _larch=self._larch),
-                #ssni4  = Parameter(0.003,  vary=True, _larch=self._larch),
+                enot   = Parameter(1e-7,   vary=True, _larch=self._larch),
+                alpha  = Parameter(1e-7,   vary=True, _larch=self._larch),
+                ss     = Parameter(0.003,  vary=True, _larch=self._larch),
+                ss2    = Parameter(0.003,  vary=True, _larch=self._larch),
+                ss3    = Parameter(expr='ss2',        _larch=self._larch),
+                ssfe   = Parameter(0.003,  vary=True, _larch=self._larch),
                 _larch=self._larch  )
 
     paths = list() 
-    paths.append(feffpath(realpath(join(folder, "feff0001.dat")), # 1st shell O SS
+    paths.append(feffpath(realpath(join(folder, "feff0001.dat")), # 1st shell S SS
                           s02    = 'amp',
                           e0     = 'enot',
-                          sigma2 = 'sso',
+                          sigma2 = 'ss',
                           deltar = 'alpha*reff', _larch=self._larch))
-    paths.append(feffpath(realpath(join(folder, "feff0002.dat")), # 2nd shell Ni SS
+    paths.append(feffpath(realpath(join(folder, "feff0002.dat")), # 2nd shell S SS
                           s02    = 'amp',
                           e0     = 'enot',
-                          sigma2 = 'ssni',
+                          sigma2 = 'ss2',
                           deltar = 'alpha*reff', _larch=self._larch))
-    paths.append(feffpath(realpath(join(folder, "feff0003.dat")), # O-O triangle
+    paths.append(feffpath(realpath(join(folder, "feff0003.dat")), # 3rd shell S SS
                           s02    = 'amp',
                           e0     = 'enot',
-                          sigma2 = '1.5*sso',
+                          sigma2 = 'ss3',
                           deltar = 'alpha*reff', _larch=self._larch))
-    paths.append(feffpath(realpath(join(folder, "feff0004.dat")), # O-Ni triangle
+    paths.append(feffpath(realpath(join(folder, "feff0004.dat")), # 4th shell Fe SS
                           s02    = 'amp',
                           e0     = 'enot',
-                          sigma2 = 'sso+ssni/2',
+                          sigma2 = 'ssfe',
                           deltar = 'alpha*reff', _larch=self._larch))
-    paths.append(feffpath(realpath(join(folder, "feff0005.dat")), # 3rd shell O SS
+    paths.append(feffpath(realpath(join(folder, "feff0005.dat")), # S-S triangle
                           s02    = 'amp',
                           e0     = 'enot',
-                          sigma2 = 'sso2',
+                          sigma2 = 'ss*1.5',
                           deltar = 'alpha*reff', _larch=self._larch))
-    paths.append(feffpath(realpath(join(folder, "feff0006.dat")), # 4th shell Ni SS
+    paths.append(feffpath(realpath(join(folder, "feff0006.dat")), # S-Fe triangle
                           s02    = 'amp',
                           e0     = 'enot',
-                          sigma2 = 'ssni2',
+                          sigma2 = 'ss/2+ssfe',
                           deltar = 'alpha*reff', _larch=self._larch))
-    paths.append(feffpath(realpath(join(folder, "feff0007.dat")), # O-O non-forward linear
+    paths.append(feffpath(realpath(join(folder, "feff0012.dat")), # S-S non-forward linear
                           s02    = 'amp',
                           e0     = 'enot',
-                          sigma2 = 'sso*2',
+                          sigma2 = 'ss*2',
                           deltar = 'alpha*reff', _larch=self._larch))
-    paths.append(feffpath(realpath(join(folder, "feff0008.dat")), # O-Ni forward scattering
+    paths.append(feffpath(realpath(join(folder, "feff0013.dat")), # S-S forward scattering
                           s02    = 'amp',
                           e0     = 'enot',
-                          sigma2 = 'ssni2',
+                          sigma2 = 'ss*2',
                           deltar = 'alpha*reff', _larch=self._larch))
-    paths.append(feffpath(realpath(join(folder, "feff0009.dat")), # O-O forward through absorber
+    paths.append(feffpath(realpath(join(folder, "feff0014.dat")), # S-S rattle
                           s02    = 'amp',
                           e0     = 'enot',
-                          sigma2 = 'sso*2',
-                          deltar = 'alpha*reff', _larch=self._larch))
-    paths.append(feffpath(realpath(join(folder, "feff0011.dat")), # O-Ni-O double forward
-                          s02    = 'amp',
-                          e0     = 'enot',
-                          sigma2 = 'ssni2',
-                          deltar = 'alpha*reff', _larch=self._larch))
-    paths.append(feffpath(realpath(join(folder, "feff0010.dat")), # O-O rattle (the order of 10 and 11 is different in Demeter's pathfinder!)
-                          s02    = 'amp',
-                          e0     = 'enot',
-                          sigma2 = 'sso*4',
+                          sigma2 = 'ss*4',
                           deltar = 'alpha*reff', _larch=self._larch))
 
 
-    trans = feffit_transform(kmin=3, kmax=15.938, kw=(2,1,3), dk=1, window='hanning', rmin=1.5, rmax=4.2, _larch=self._larch)
+    trans = feffit_transform(kmin=3, kmax=12.956, kw=(2,1,3), dk=1, window='hanning', rmin=1.2, rmax=4.2, _larch=self._larch)
     dset  = feffit_dataset(data=data, pathlist=paths, transform=trans, _larch=self._larch)
     fit   = feffit(gds, dset, _larch=self._larch)
 
@@ -124,13 +109,13 @@ def do_fit(self, which):
                 dset.data.chir_re, dset.model.chir_re, labels="r data_mag fit_mag data_re fit_re", _larch=self._larch)
 
     renderer = pystache.Renderer()
-    with open(join('NiO','fit_'+which+'.gp'), 'w') as inp:
+    with open(join('FeS2','fit_'+which+'.gp'), 'w') as inp:
         inp.write(renderer.render_path( 'fit.mustache', # gnuplot mustache file
-                                        {'material': 'NiO',
+                                        {'material': 'FeS2',
                                          'model': which,
                                          'kmin': 3,
-                                         'kmax': 15.938,
-                                         'rmin': 1.5,
+                                         'kmax': 12.956,
+                                         'rmin': 1.2,
                                          'rmax': 4.2,
                                      } ))
 

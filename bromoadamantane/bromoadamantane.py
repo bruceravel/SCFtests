@@ -6,11 +6,14 @@ from os.path import realpath, exists, join
 from larch import (Group, Parameter, use_plugin_path)
 use_plugin_path('io')
 from xdi import read_xdi
+from columnfile import write_ascii
 use_plugin_path('xafs')
 from feffit import feffit_dataset, feffit_transform, feffit, feffit_report
 from feffdat import feffpath, _ff2chi
 use_plugin_path('wx')
 from plotter import (_newplot, _plot)
+
+import pystache
 
 def do_fit(self, which):
 
@@ -70,7 +73,7 @@ def do_fit(self, which):
                           deltar = '(brc+brc2+cc)/2 - 3.173', _larch=self._larch))
 
 
-    trans = feffit_transform(kmin=2, kmax=13, kw=(2,1,3), dk=1, window='hanning', rmin=1.25, rmax=3, _larch=self._larch)
+    trans = feffit_transform(kmin=3, kmax=13, kw=(2,1,3), dk=1, window='hanning', rmin=1.25, rmax=3, _larch=self._larch)
     dset  = feffit_dataset(data=data, pathlist=paths, transform=trans, _larch=self._larch)
     fit   = feffit(gds, dset, _larch=self._larch)
 
@@ -88,6 +91,22 @@ def do_fit(self, which):
     if self.verbose:
         print feffit_report(fit, _larch=self._larch)
     #end if
+
+    write_ascii(join(self.folder, "fit_"+which+".k"), dset.data.k, dset.data.chi, dset.model.chi,
+                labels="r data_mag fit_mag data_re fit_re", _larch=self._larch)
+    write_ascii(join(self.folder, "fit_"+which+".r"), dset.data.r, dset.data.chir_mag, dset.model.chir_mag,
+                dset.data.chir_re, dset.model.chir_re, labels="r data_mag fit_mag data_re fit_re", _larch=self._larch)
+
+    renderer = pystache.Renderer()
+    with open(join('bromoadamantane','fit_'+which+'.gp'), 'w') as inp:
+        inp.write(renderer.render_path( 'fit.mustache', # gnuplot mustache file
+                                        {'material': 'bromoadamantane',
+                                         'model': which,
+                                         'kmin': 3,
+                                         'kmax': 13,
+                                         'rmin': 1.25,
+                                         'rmax': 3,
+                                     } ))
 
     return fit
 #end def
