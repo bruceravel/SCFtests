@@ -71,6 +71,11 @@ case $material in
 	./models.py -f bromoadamantane		# feff8 no self-consistency
 	./models.py -f bromoadamantane -s -r 8	# feff8 SCF the whole molecule
 	;;
+    "methyltin")
+	./models.py -f methyltin -6	        # feff6
+	./models.py -f methyltin		# feff8 no self-consistency
+	./models.py -f methyltin -s -r 8	# feff8 SCF the whole molecule
+	;;
     *)
 	echo "$material is not a material"
 esac

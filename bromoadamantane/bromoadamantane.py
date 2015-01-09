@@ -22,7 +22,7 @@ def do_fit(self, which):
         folder = realpath(join(self.folder, 'baseline', which))
     #endif
 
-    data = read_xdi(join(self.path, 'bromoadamantane.chik'), _larch=self._larch)
+    data = read_xdi(join(self.path, '1-bromoadamantane.chik'), _larch=self._larch)
 
     gds = Group(amp     = Parameter(0.9,       vary=True,  _larch=self._larch),
                 enot    = Parameter(4.01,      vary=True,  _larch=self._larch),
@@ -70,7 +70,7 @@ def do_fit(self, which):
                           deltar = '(brc+brc2+cc)/2 - 3.173', _larch=self._larch))
 
 
-    trans = feffit_transform(kmin=2.5, kmax=13, kw=(2,1,3), dk=1, window='hanning', rmin=1.25, rmax=3, _larch=self._larch)
+    trans = feffit_transform(kmin=2, kmax=13, kw=(2,1,3), dk=1, window='hanning', rmin=1.25, rmax=3, _larch=self._larch)
     dset  = feffit_dataset(data=data, pathlist=paths, transform=trans, _larch=self._larch)
     fit   = feffit(gds, dset, _larch=self._larch)
 
