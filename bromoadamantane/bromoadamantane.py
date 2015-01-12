@@ -25,7 +25,7 @@ def do_fit(self, which):
         folder = realpath(join(self.folder, 'baseline', which))
     #endif
 
-    data = read_xdi(join(self.path, '1-bromoadamantane.chik'), _larch=self._larch)
+    data = read_xdi(join(self.path, 'bromoadamantane.chik'), _larch=self._larch)
 
     gds = Group(amp     = Parameter(0.9,       vary=True,  _larch=self._larch),
                 enot    = Parameter(4.01,      vary=True,  _larch=self._larch),
@@ -40,7 +40,7 @@ def do_fit(self, which):
                 drh     = Parameter(0.04,      vary=True,  _larch=self._larch),
                 ssh     = Parameter(0.005,     vary=True,  _larch=self._larch),
                 ss2     = Parameter(expr = 'ss*(brc2/brc)**2', _larch=self._larch),
-                c3      = Parameter(0.0000001, vary=True,  _larch=self._larch),
+                c3      = Parameter(1e-7,      vary=False, _larch=self._larch),
                 _larch=self._larch  )
 
     paths = list()
@@ -73,7 +73,7 @@ def do_fit(self, which):
                           deltar = '(brc+brc2+cc)/2 - 3.173', _larch=self._larch))
 
 
-    trans = feffit_transform(kmin=3, kmax=13, kw=(2,1,3), dk=1, window='hanning', rmin=1.25, rmax=3, _larch=self._larch)
+    trans = feffit_transform(kmin=3, kmax=11, kw=(2,1,3), dk=1, window='hanning', rmin=1.25, rmax=3, _larch=self._larch)
     dset  = feffit_dataset(data=data, pathlist=paths, transform=trans, _larch=self._larch)
     fit   = feffit(gds, dset, _larch=self._larch)
 
@@ -106,6 +106,7 @@ def do_fit(self, which):
                                          'kmax': 13,
                                          'rmin': 1.25,
                                          'rmax': 3,
+                                         'offset': 0.2,
                                      } ))
 
     return fit

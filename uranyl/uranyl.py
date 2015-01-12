@@ -28,9 +28,9 @@ def do_fit(self, which):
     data = read_xdi(join(self.path, 'uranyl.chik'), _larch=self._larch)
 
     gds = Group(amp    = Parameter(1,      vary=True,  _larch=self._larch),
-                enotax = Parameter(1e-7,   vary=True,  _larch=self._larch),
+                enot   = Parameter(1e-7,   vary=True,  _larch=self._larch),
                 #enot   = Parameter(1e-7,   vary=True,  _larch=self._larch, min=0, max=13),
-                enot   = Parameter(expr= 'enotax',     _larch=self._larch),
+                enoteq = Parameter(expr= 'enot',     _larch=self._larch),
                 deloax = Parameter(1e-7,   vary=True,  _larch=self._larch),
                 deloeq = Parameter(1e-7,   vary=True,  _larch=self._larch),
                 sigoax = Parameter(0.003,  vary=True,  _larch=self._larch),
@@ -43,32 +43,32 @@ def do_fit(self, which):
     paths.append(feffpath(realpath(join(folder, "feff0001.dat")), # axial oxygen
                           degen  = 1,
                           s02    = 'amp*nax',
-                          e0     = 'enotax',
+                          e0     = 'enot',
                           sigma2 = 'sigoax',
                           deltar = 'deloax', _larch=self._larch))
     paths.append(feffpath(realpath(join(folder, "feff0003.dat")), # equatorial oxygen
                           degen  = 1,
                           s02    = 'amp*neq',
-                          e0     = 'enot',
+                          e0     = 'enoteq',
                           sigma2 = 'sigoeq',
                           deltar = 'deloeq', _larch=self._larch))
 
     paths.append(feffpath(realpath(join(folder, "feff0008.dat")), # axial oxygen, rattle
                           degen  = 1,
                           s02    = 'amp*nax',
-                          e0     = 'enotax',
+                          e0     = 'enot',
                           sigma2 = 'sigoax*4',
                           deltar = 'deloax*2', _larch=self._larch))
     paths.append(feffpath(realpath(join(folder, "feff0009.dat")), # axial oxygen, non-forward
                           degen  = 1,
                           s02    = 'amp*nax',
-                          e0     = 'enotax',
+                          e0     = 'enot',
                           sigma2 = 'sigoax',
                           deltar = 'deloax*2', _larch=self._larch))
     paths.append(feffpath(realpath(join(folder, "feff0010.dat")), # axial oxygen, forward
                           degen  = 1,
                           s02    = 'amp*nax',
-                          e0     = 'enotax',
+                          e0     = 'enot',
                           sigma2 = 'sigoax',
                           deltar = 'deloax*2', _larch=self._larch))
 
@@ -108,6 +108,7 @@ def do_fit(self, which):
                                          'kmax': 11,
                                          'rmin': 1.0,
                                          'rmax': 3.2,
+                                         'offset': 1,
                                      } ))
 
     return fit

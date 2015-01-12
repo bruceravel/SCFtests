@@ -1,0 +1,69 @@
+#set terminal wx enhanced size 648,670
+set term png enhanced font 'Arial,14' size 648,670
+
+material='{{material}}'
+model='{{model}}'
+kmin={{kmin}}
+kmax={{kmax}}
+rmin={{rmin}}
+rmax={{rmax}}
+
+kfile=sprintf("%s/fit_%s.k", material, model)
+rfile=sprintf("%s/fit_%s.r", material, model)
+imagefile=sprintf("%s/fit_%s.png", material, model)
+
+set out imagefile
+
+w=2
+set style line 1  linecolor rgb "blue" linewidth w pointsize 1 pointtype 7
+set style line 2  linecolor rgb "red" linewidth w pointsize 1
+set style line 3  linecolor rgb "dark-green" linewidth w pointsize 1
+set style line 4  linecolor rgb "dark-violet" linewidth w pointsize 1
+set style line 5  linecolor rgb "dark-yellow" linewidth w pointsize 1
+set style line 6  linecolor rgb "brown" linewidth w pointsize 1
+set style line 7  linecolor rgb "dark-pink" linewidth w pointsize 1 pointtype 7
+set style line 8  linecolor rgb "gold" linewidth w pointsize 1
+set style line 9  linecolor rgb "dark-cyan" linewidth w pointsize 1
+set style line 10 linecolor rgb "spring-green" linewidth w pointsize 1
+
+set multiplot layout 2,1
+set size 1,0.67
+set origin 0.02,0
+
+
+set xrange [0:6]
+#set yrange [-12:10]
+#set ytics -3,1
+set xlabel '{Radial distance&{aa}({\305})}'
+set ylabel '{/Symbol c}(R)&{aa}({\305}^{-3})'
+
+set key top right inside spacing 1 width 2
+
+set style line 16 linecolor rgb "black" lt 3 lw 1.5
+set style arrow 1 nohead ls 16
+set arrow 1 from rmin, graph 0 to rmin, graph 1 as 1
+set arrow 2 from rmax, graph 0 to rmax, graph 1 as 1
+
+plot rfile u 1:($2+{{offset}}) with lines ls 1 title material,\
+     '' u 1:($3+{{offset}})    with lines ls 2 title 'fit',\
+     '' u 1:4         with lines ls 1 title '',\
+     '' u 1:5         with lines ls 2 title ''
+     
+
+set size 1,0.33
+set origin 0.02,0.65
+
+set xrange [0:16]
+#set yrange [-7:7]
+#set ytics -6,3
+set xlabel '{Wavenumber&{aa}({\305}^{-1})}'
+set ylabel 'k^{2} {\267} {/Symbol c}(k)&{aa}({\305}^{-2})'
+unset key
+
+set arrow 1 from kmin, graph 0 to kmin, graph 1 as 1
+set arrow 2 from kmax, graph 0 to kmax, graph 1 as 1
+
+plot kfile u 1:($2*$1*$1) with lines ls 1 title '',\
+     kfile u 1:($3*$1*$1) with lines ls 2 title ''
+
+unset multiplot

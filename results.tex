@@ -89,9 +89,9 @@ shell single scattering path.
 The sample was NiO powder prepared by my colleague Neil Hyatt
 (University of Sheffield) and checked by him for phase purity.  The
 powder was spread onto kapton tape and folded over to make a edge step
-of 0.78.  The simple fiting model included a S$_0^2$ parameter
-(\texttt{amp}), an energy shift (\texttt{enot}), and a volumetric
-lattice expansion coefficient (\texttt{alpha}).  
+of 0.78.  The simple fiting model to this rocksalt structure included
+a S$_0^2$ parameter (\texttt{amp}), an energy shift (\texttt{enot}),
+and a volumetric lattice expansion coefficient (\texttt{alpha}).
 
 The fit included 4 coordination shells, 2 with O and 2 with Ni.  There
 are several collinear multiple scattering paths at the same distance
@@ -156,7 +156,7 @@ parameter (\texttt{sso}, \texttt{ssni}, \texttt{sso2}, and
 \section{FeS$_2$}
 \normalsize
 
-This is one of my standard teaching example.  It's good for teaching
+This is one of my standard teaching examples.  It's good for teaching
 as it is fairly simple -- it's cubic -- but it has a bit of structure
 and a two kinds of scatterers.  The data are taken from Matt's online
 collection of references.
@@ -164,12 +164,12 @@ collection of references.
 The model includes a S$_0^2$ parameter (\texttt{amp}), an energy shift
 (\texttt{enot}), and a volumetric lattice expansion coefficient
 (\texttt{alpha}).  The first and second shell S scatterers each get a
-$sigma^2$ parameter (\texttt{ss} and \texttt{ss2}).  The thrid shell
+$\sigma^2$ parameter (\texttt{ss} and \texttt{ss2}).  The third shell
 of S atoms only contains 2 scatterers.  In practice, floating its
 $\sigma^2$ parameter independently does not yeild a statistical
-improvment to the fit, so the \texttt{ss2} parameter is used for its
-$\sigma^2$.  Finally a $\sigma^2$ parameter is floated for the Fe
-shell.
+improvment to the fit, so the \texttt{ss2} parameter is used for the
+third shell $\sigma^2$.  Finally a $\sigma^2$ parameter is floated for
+the Fe shell.
 
 The fitting model includes a variety of multiple scattering paths,
 including a triangle between the first shell S and the fourth shell
@@ -311,6 +311,11 @@ paper.
 \section{BaZrO$_3$}
 \normalsize
 
+
+\begin{wrapfigure}{r}{0.25\textwidth}
+  \includegraphics[width=\linewidth]{BaZrO3/perovskite.png}
+  \caption{The perovskite structure.}
+\end{wrapfigure}
 In this paper on the Zr edge of BaZrO$_3$
 \href{http://dx.doi.org/10.1016/0921-4526(94)00654-E}
 {\texttt{http://dx.doi.org/10.1016/0921-4526(94)00654-E}}, Haskel et
@@ -418,7 +423,7 @@ diamondoid, meaning that it is a strong, stiff, 3D network of covalent
 bonds.  1-bromoadamantane has one hydrogen atom replaced by a bromine
 atom.
 
-The material was supplied by my colleague Alessandra Leri of Manhatten
+The material was supplied by my colleague Alessandra Leri of Manhattan
 Marymount College in the form of a white powder.  This powder was
 spread onto kapton tape which was folded to make a sample with an edge
 step of about 1.7.
@@ -426,7 +431,7 @@ step of about 1.7.
 This is an interesting test case becasue it is a molecule (thus the
 entire molecule can be included in the self-consistency calculation)
 and because there is measureable scattering from the neighboring
-hydrogen atoms.  While the $\sigma^2$ of the hydrogen scatteres is not
+hydrogen atoms.  While the $\sigma^2$ of the hydrogen scatterers is not
 well-determined, the fit is statistically significantly worse when the
 hydrogen scatterers are excluded.
 
@@ -486,8 +491,8 @@ The data are the uranyl hydrate shown in Shelly's paper on
 This is an interesting test case because it involves very short
 ($\sim1.78$\,\AA) uranium-oxygen bonds.  The \texttt{AFOLP} card was
 used to run \textsc{feff}6.  The \texttt{FOLP} card with a value of
-0.9 for each potential was rquired to even get \textsc{feff}8.5 to run
-to completion.
+0.9 for each potential was used to get \textsc{feff}8.5 to run to
+completion.
 
 Following the lead of that paper, \textsc{feff} was run on the crystal
 sodium uranyl triacetate.  The relevant bit of the structure is shown

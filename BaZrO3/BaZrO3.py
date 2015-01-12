@@ -151,6 +151,7 @@ def do_fit(self, which):
                                          'kmax': 14.5,
                                          'rmin': 1.2,
                                          'rmax': 4.5,
+                                         'offset': 1,
                                      } ))
 
     return fit
