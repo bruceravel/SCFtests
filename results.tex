@@ -5,6 +5,11 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, linkcolor=blue}
+\usepackage{wrapfig}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2ex plus 1ex minus 1ex}
+
 
 \begin{document}
 
@@ -227,6 +232,10 @@ Fe, and four paths that bounce around among first shell S atoms.
 \section{UO$_2$}
 \normalsize
 
+\begin{wrapfigure}{r}{0.25\textwidth}
+  \includegraphics[width=\linewidth]{UO2/UO2.png}
+  \caption{Uraninite}
+\end{wrapfigure}
 The data are the UO$_2$ shown in Shelly's paper on \textit{Reduction
   of Uranium(VI) by Mixed Iron(II)/Iron(III) Hydroxide (Green Rust): 
   Formation of UO$_2$ Nanoparticles}:
@@ -249,7 +258,7 @@ paper.
 \texttt{sso}, \texttt{ssu}, and \texttt{sso2} are \AA$^2$.
 
 
-\small
+\scriptsize
 \input{UO2/UO2}
 
 \newpage
@@ -299,17 +308,17 @@ paper.
 
 \newpage
 
-\section{BaZrO$_2$}
+\section{BaZrO$_3$}
 \normalsize
 
-In this paper on the Zr edge of BaZrO$_3$ 
+In this paper on the Zr edge of BaZrO$_3$
 \href{http://dx.doi.org/10.1016/0921-4526(94)00654-E}
 {\texttt{http://dx.doi.org/10.1016/0921-4526(94)00654-E}}, Haskel et
-al. (and what a sordid all \textit{that} was) proposed that
+al. (and what a sordid ``et al.'' \textit{that} was) proposed that
 shortcomings of \textsc{feff}'s potential model could be accommodated
 by floating an energy shift parameter for each scatterer species.  The
-concept is that, this would approximate any errors in the scattering
-phase shifts.
+concept is that doing so approximates the effect if errors in the
+scattering phase shifts.
 
 The data are the same as in that paper, although the fitting model is
 slightly different.  Rather than floating $\Delta R$ parameters for
@@ -321,15 +330,16 @@ shofts for each scatterer (\texttt{enot}, \texttt{ezr}, and
 is included in the fit.  It gets a $\sigma^2$ (\texttt{sso2})but uses
 the energy shift for the O scatterer.
 
-A variety of collinear multiple scattering paths at the distance of
-the third shell Zr scatterer are included in the fit.  The energy
-shifts are parameterized as described in the paper.
+BaZrO$_3$ is a true perovskite.  Zr sites in the octahedral B site.  A
+variety of collinear multiple scattering paths at the distance of the
+third shell Zr scatterer are included in the fit.  The energy shifts
+are parameterized as described in the paper.
 
 \texttt{amp} and \texttt{alpha} are unitless.  \texttt{enot},
 \texttt{ezr}, and \texttt{eba} are eV.  \texttt{sso}, \texttt{sszr},
 \texttt{ssba}, and \texttt{sso2} are \AA$^2$.
 
-\small
+\scriptsize
 \input{BaZrO3/BaZrO3}
 
 \newpage
@@ -396,7 +406,40 @@ shifts are parameterized as described in the paper.
 \section{bromoadamantane}
 \normalsize
 
-\includegraphics[width=0.2\linewidth]{bromoadamantane/bromoadamantane.png}
+
+\begin{wrapfigure}{r}{0.25\textwidth}
+  \includegraphics[width=\linewidth]{bromoadamantane/bromoadamantane.png}
+  \caption{~\hfill\break 1-bromoadamantane}
+\end{wrapfigure}
+
+The data are 1-bromoadamantane.  Adamanatane is a cycloalkane, meaning
+that it is a hydrocarbon with rings of carbon atoms.  It is also a
+diamondoid, meaning that it is a strong, stiff, 3D network of covalent
+bonds.  1-bromoadamantane has one hydrogen atom replaced by a bromine
+atom.
+
+The material was supplied by my colleague Alessandra Leri of Manhatten
+Marymount College in the form of a white powder.  This powder was
+spread onto kapton tape which was folded to make a sample with an edge
+step of about 1.7.
+
+This is an interesting test case becasue it is a molecule (thus the
+entire molecule can be included in the self-consistency calculation)
+and because there is measureable scattering from the neighboring
+hydrogen atoms.  While the $\sigma^2$ of the hydrogen scatteres is not
+well-determined, the fit is statistically significantly worse when the
+hydrogen scatterers are excluded.
+
+The fit includes the nearest neighbor C, the next three C atoms, and
+the neighboring 6 hydrogen atoms.  The DS triangle paths involving the
+first and second neighbor C atoms are also included.  The fitting
+model assumes that the adamanatane anion is very rigid compared to the
+Br-C bond.  Thus, the formula explained in 
+\href{http://dx.doi.org/10.1088/1742-6596/190/1/012026}%
+{\texttt{http://dx.doi.org/10.1088/1742-6596/190/1/012026}} is used to
+constrain the second neighbor C distance to the first neighbor C
+$\Delta R$ parameter.
+
 
 \small
 \input{bromoadamantane/bromoadamantane}
@@ -429,6 +472,11 @@ shifts are parameterized as described in the paper.
 \section{uranyl}
 \normalsize
 
+\begin{wrapfigure}{r}{0.25\textwidth}
+  \includegraphics[width=\linewidth]{uranyl/uranyl.png}
+  \caption{The uranyl motif from sodium uranyl triacetate.}
+\end{wrapfigure}
+
 The data are the uranyl hydrate shown in Shelly's paper on
 \textit{X-ray absorption fine structure determination of pH-dependent
   U-bacterial cell wall interactions},
@@ -441,7 +489,6 @@ used to run \textsc{feff}6.  The \texttt{FOLP} card with a value of
 0.9 for each potential was rquired to even get \textsc{feff}8.5 to run
 to completion.
 
-\includegraphics[width=0.2\linewidth]{uranyl/uranyl.png}
 Following the lead of that paper, \textsc{feff} was run on the crystal
 sodium uranyl triacetate.  The relevant bit of the structure is shown
 in the figure.  For the fitting model, scattering paths related to the

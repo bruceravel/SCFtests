@@ -77,13 +77,13 @@ case $material in
         ./models.py -f methyltin -s -r 8        # feff8 SCF the whole molecule
         ;;
     "FeS2")
-        ./models.py -f FeS2 -6                  # feff6
-        ./models.py -f FeS2 -u                  # feff8 no self-consistency
-        ./models.py -f FeS2 -u -s -r 3          # feff8 SCF 1st shell
-        ./models.py -f FeS2 -u -s -r 3.6        # feff8 SCF 2nd+3rd
-        ./models.py -f FeS2 -u -s -r 4          # feff8 SCF 4th
-        ./models.py -f FeS2 -u -s -r 5.3        # feff8 SCF 5th+6th+7th
-        ./models.py -f FeS2 -u -s -r 5.5        # feff8 SCF 8th
+        ./models.py -f FeS2 -6               # feff6
+        ./models.py -f FeS2                  # feff8 no self-consistency
+        ./models.py -f FeS2 -s -r 3          # feff8 SCF 1st shell
+        ./models.py -f FeS2 -s -r 3.6        # feff8 SCF 2nd+3rd
+        ./models.py -f FeS2 -s -r 4          # feff8 SCF 4th
+        ./models.py -f FeS2 -s -r 5.3        # feff8 SCF 5th+6th+7th
+        ./models.py -f FeS2 -s -r 5.5        # feff8 SCF 8th
         ;;
     *)
         echo "$material is not a material"

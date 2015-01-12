@@ -22,9 +22,9 @@ parser.add_option("-6", "--six",
                   action="store_true", dest="six", default=False,
                   help="perform Feff 6 calculation")
 
-parser.add_option("-u", "--reuse", 
-                  action="store_true", dest="reuse", default=False,
-                  help="reuse paths.dat from feff6 run, skip pathfinder in feff85 runs")
+parser.add_option("-d", "--dopathfinder", 
+                  action="store_true", dest="dopathfinder", default=False,
+                  help="flag to not reuse paths.dat from feff6 run and skip pathfinder in feff85 runs")
 
 
 (options, args) = parser.parse_args()
@@ -53,8 +53,12 @@ target = join(options.folder, 'baseline', scf)
 
 if isdir(target): rmtree(target)
 makedirs(target)
-if options.reuse:
-    copy(join(options.folder, 'baseline', 'feff6', 'paths.dat'), target)
+if scf != 'feff6':
+    if options.dopathfinder:
+        mat_json['pathfinder'] = 1
+    else:
+        copy(join(options.folder, 'baseline', 'feff6', 'paths.dat'), target)
+        mat_json['pathfinder'] = 0
 
 if options.six:
     copy(join(options.folder, options.folder+'.feff6'), join(target, 'feff.inp'))
