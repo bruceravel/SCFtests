@@ -1,61 +1,72 @@
+
+
+\newcommand{\feffmaterial}{Copper} % material -- name of folder
+\newcommand{\feffrone}{3}          % first SCF radius
+\newcommand{\feffrtwo}{4}          % second SCF radius
+\newcommand{\feffrthree}{5}        % third SCF radius
+\newcommand{\feffrfour}{5.5}       % fourth SCF radius
+\newcommand{\feffrfive}{6}         % fifth SCF radius
+\newcommand{\fefffirst}{}       % blank for full fit, '_1st' for first
+                                % shell fits
+
+
 \newcommand\fitplots{
-\newpage
-\begin{minipage}{0.49\linewidth}
-  \large Fit to {\feffmaterial} using \textsc{feff}6\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_feff6\fefffirst}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to {\feffmaterial} using \textsc{feff}8.5, no SCF\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_noSCF\fefffirst}.png}
-\end{minipage}
+  \newpage
+  \begin{minipage}{0.49\linewidth}
+    \large Fit to {\feffmaterial} using \textsc{feff}6\\[3ex]
+    \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_feff6\fefffirst}.png}
+  \end{minipage}
+  \begin{minipage}{0.49\linewidth}
+    \large Fit to {\feffmaterial} using \textsc{feff}8.5, no SCF\\[3ex]
+    \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_noSCF\fefffirst}.png}
+  \end{minipage}
 
-\bigskip
+  \bigskip
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to {\feffmaterial} using \textsc{feff}8.5, SCF, R=\feffrone\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_withSCF_\feffrone\fefffirst}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to {\feffmaterial} using \textsc{feff}8.5, SCF, R=\feffrtwo\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_withSCF_\feffrtwo\fefffirst}.png}
-\end{minipage}
+  \begin{minipage}{0.49\linewidth}
+    \large Fit to {\feffmaterial} using \textsc{feff}8.5, SCF, R=\feffrone\,\AA\\[3ex]
+    \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_withSCF_\feffrone\fefffirst}.png}
+  \end{minipage}
+  \begin{minipage}{0.49\linewidth}
+    \large Fit to {\feffmaterial} using \textsc{feff}8.5, SCF, R=\feffrtwo\,\AA\\[3ex]
+    \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_withSCF_\feffrtwo\fefffirst}.png}
+  \end{minipage}
 
-\bigskip
+  \bigskip
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to {\feffmaterial} using \textsc{feff}8.5, SCF, R=\feffrthree\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_withSCF_\feffrthree\fefffirst}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to {\feffmaterial} using \textsc{feff}8.5, SCF, R=\feffrfour\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_withSCF_\feffrfour\fefffirst}.png}
-\end{minipage}
+  \begin{minipage}{0.49\linewidth}
+    \large Fit to {\feffmaterial} using \textsc{feff}8.5, SCF, R=\feffrthree\,\AA\\[3ex]
+    \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_withSCF_\feffrthree\fefffirst}.png}
+  \end{minipage}
+  \begin{minipage}{0.49\linewidth}
+    \large Fit to {\feffmaterial} using \textsc{feff}8.5, SCF, R=\feffrfour\,\AA\\[3ex]
+    \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_withSCF_\feffrfour\fefffirst}.png}
+  \end{minipage}
 
-\bigskip
+  \bigskip
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to {\feffmaterial} using \textsc{feff}8.5, SCF, R=\feffrfive\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_withSCF_\feffrfive\fefffirst}.png}
-\end{minipage}
-
+  \begin{minipage}{0.49\linewidth}
+    \large Fit to {\feffmaterial} using \textsc{feff}8.5, SCF, R=\feffrfive\,\AA\\[3ex]
+    \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_withSCF_\feffrfive\fefffirst}.png}
+  \end{minipage}
 }
 
 
 \newcommand\fitthreeplots{
-\newpage
-\begin{minipage}{0.49\linewidth}
-  \large Fit to {\feffmaterial} using \textsc{feff}6\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_feff6\fefffirst}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to {\feffmaterial} using \textsc{feff}8.5, no SCF\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_noSCF\fefffirst}.png}
-\end{minipage}
+  \newpage
+  \begin{minipage}{0.49\linewidth}
+    \large Fit to {\feffmaterial} using \textsc{feff}6\\[3ex]
+    \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_feff6\fefffirst}.png}
+  \end{minipage}
+  \begin{minipage}{0.49\linewidth}
+    \large Fit to {\feffmaterial} using \textsc{feff}8.5, no SCF\\[3ex]
+    \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_noSCF\fefffirst}.png}
+  \end{minipage}
 
-\bigskip
+  \bigskip
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to {\feffmaterial} using \textsc{feff}8.5, SCF, R=\feffrone\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_withSCF_\feffrone\fefffirst}.png}
-\end{minipage}
+  \begin{minipage}{0.49\linewidth}
+    \large Fit to {\feffmaterial} using \textsc{feff}8.5, SCF, R=\feffrone\,\AA\\[3ex]
+    \includegraphics[width=0.9\linewidth]{{\feffmaterial/fit_withSCF_\feffrone\fefffirst}.png}
+  \end{minipage}
 }

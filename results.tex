@@ -51,6 +51,11 @@
   we expect self-consistency to contribute rather little to the
   analysis.  The remaining materials all contribute interesting
   features for which self-consistency might play a role.
+\item In the plots, the ranges of the Fourier transform and of the fit
+  are indicated by vertical black lines.
+\item Each material is fitted using theory from \textsc{feff}6, from
+  \textsc{feff85exafs} with self-consistency turned off, and from
+  with \textsc{feff85exafs} with self-consistency.
 \item For each material that is not a molecule, the analysis is done
   with a sequence of self-consistency radii.  This is done to test the
   importance of the consideration of that parameter on the analysis.
@@ -58,18 +63,30 @@
   \textsc{feff} calculation is done of a crystalline analogue to the
   molecule.  The effect of self-consistency radius is tested in that
   case.
-\item In the plots, the ranges of the Fourier transform and of the fit
-  are indicated by vertical black lines.
+\item Where appropriate (bromoadamantane, for example), the
+  \texttt{lfms} parameter of the \texttt{SCF} card is set to 1.
+\item The uranyl calculation was a bit challenging with
+  \textsc{feff85exafs}.  To get the program to run to complation, it
+  was necessary to set the \textsc{FOLP} parameter to 0.9 for each
+  unique potential.  Given that the quality of the fit was much the
+  same as for using \textsc{feff}6, this was not examined further.
+  Still, this merits further attention for this material.
 \item We were interested to know if the effect of SCF on EXAFS fitting
   was different for a first shell fit as compared to a more extensive
   fitting model.  So fits were generated for the first shells only of
   all materials except for uranyl hydrate for which the axial and
-  equatorial scatterers cannot be isolated.
+  equatorial scatterers cannot be isolated.  Also, Matt tells me that,
+  years ago, he and John looked at some \textsc{feff}6/\textsc{feff}8
+  comparisons, but only for first shell fits.  These first shell fits
+  are intended for comparison to that older work.
+\item All fits were performed with a toolset written by Bruce which
+  uses the XAS analysis capabilities of
+  \href{https://github.com/xraypy/xraylarch/}{Larch}.
 \end{enumerate}
 
 \section{Copper}
 
-\normalsize The sample was the canonical copper foil of
+\normalsize The data is the canonical copper foil spectrum of
 \href{https://github.com/XraySpectroscopy/XAS-Data-Interchange/issues/29}{Newville,
   et al. fame}.  The fitting model is very simple.  There is an
 S$_0^2$ parameter (\texttt{amp}), an energy shift for all paths
@@ -87,13 +104,13 @@ shell single scattering path.
 \texttt{ss1} is \AA$^2$, and \texttt{thetad} is K.
 
 
-\def\feffmaterial{Copper}       % material -- name of folder
-\def\feffrone{3}                % first SCF radius
-\def\feffrtwo{4}                % second SCF radius
-\def\feffrthree{5}              % third SCF radius
-\def\feffrfour{5.5}             % fourth SCF radius
-\def\feffrfive{6}               % fifth SCF radius
-\def\fefffirst{}                % blank for full fit, '_st' for first
+\renewcommand{\feffmaterial}{Copper} % material -- name of folder
+\renewcommand{\feffrone}{3}          % first SCF radius
+\renewcommand{\feffrtwo}{4}          % second SCF radius
+\renewcommand{\feffrthree}{5}        % third SCF radius
+\renewcommand{\feffrfour}{5.5}       % fourth SCF radius
+\renewcommand{\feffrfive}{6}         % fifth SCF radius
+\renewcommand{\fefffirst}{}     % blank for full fit, '_1st' for first
                                 % shell fits
 
 \small
@@ -109,7 +126,7 @@ This fit includes only the first shell, and a standard 4-paramater
 model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
 is \AA, and \texttt{ss1} is \AA$^2$.
 
-\def\fefffirst{_1st}
+\renewcommand{\fefffirst}{_1st}
 
 \small
 \input{\feffmaterial/\feffmaterial\fefffirst}
@@ -129,9 +146,10 @@ is \AA, and \texttt{ss1} is \AA$^2$.
 The sample was NiO powder prepared by my colleague Neil Hyatt
 (University of Sheffield) and checked by him for phase purity.  The
 powder was spread onto kapton tape and folded over to make a edge step
-of 0.78.  The simple fiting model to this rocksalt structure included
-a S$_0^2$ parameter (\texttt{amp}), an energy shift (\texttt{enot}),
-and a volumetric lattice expansion coefficient (\texttt{alpha}).
+of 0.78.  The data were measured by Bruce at NSLS beamline X23A2.  The
+simple fiting model to this rocksalt structure included a S$_0^2$
+parameter (\texttt{amp}), an energy shift (\texttt{enot}), and a
+volumetric lattice expansion coefficient (\texttt{alpha}).
 
 The fit included 4 coordination shells, 2 with O and 2 with Ni.  There
 are several collinear multiple scattering paths at the same distance
@@ -144,13 +162,13 @@ parameter (\texttt{sso}, \texttt{ssni}, \texttt{sso2}, and
 \AA$^2$.
 
 
-\def\feffmaterial{NiO}
-\def\feffrone{2.5}
-\def\feffrtwo{3}
-\def\feffrthree{3.7}
-\def\feffrfour{4.2}
-\def\feffrfive{4.7}
-\def\fefffirst{}
+\renewcommand{\feffmaterial}{NiO}
+\renewcommand{\feffrone}{2.5}
+\renewcommand{\feffrtwo}{3}
+\renewcommand{\feffrthree}{3.7}
+\renewcommand{\feffrfour}{4.2}
+\renewcommand{\feffrfive}{4.7}
+\renewcommand{\fefffirst}{}
 
 \small
 \input{\feffmaterial/\feffmaterial}
@@ -167,7 +185,7 @@ model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
 is \AA, and \texttt{sso} is \AA$^2$.
 
 
-\def\fefffirst{_1st}
+\renewcommand{\fefffirst}{_1st}
 
 \small
 \input{\feffmaterial/\feffmaterial\fefffirst}
@@ -206,13 +224,13 @@ Fe, and four paths that bounce around among first shell S atoms.
 \texttt{amp} and \texttt{alpha} are unitless.  \texttt{enot} is eV.
 \texttt{ss}, \texttt{ss2}, and \texttt{ssfe} are \AA$^2$.
 
-\def\feffmaterial{FeS2}
-\def\feffrone{3}
-\def\feffrtwo{3.6}
-\def\feffrthree{4}
-\def\feffrfour{5.3}
-\def\feffrfive{5.5}
-\def\fefffirst{}
+\renewcommand{\feffmaterial}{FeS2}
+\renewcommand{\feffrone}{3}
+\renewcommand{\feffrtwo}{3.6}
+\renewcommand{\feffrthree}{4}
+\renewcommand{\feffrfour}{5.3}
+\renewcommand{\feffrfive}{5.5}
+\renewcommand{\fefffirst}{}
 
 \small
 \input{\feffmaterial/\feffmaterial}
@@ -229,7 +247,7 @@ model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
 is \AA, and \texttt{ss} is \AA$^2$.
 
 
-\def\fefffirst{_1st}
+\renewcommand{\fefffirst}{_1st}
 
 \small
 \input{\feffmaterial/\feffmaterial\fefffirst}
@@ -255,6 +273,8 @@ The data are the UO$_2$ shown in Shelly's paper on \textit{Reduction
   Formation of UO$_2$ Nanoparticles}:
 \href{http://dx.doi.org/10.1021/es0208409}{\texttt{http://dx.doi.org/10.1021/es0208409}}
 
+This is an interesting test as it is an $f$-electron system.
+
 The fitting model follows rather closely to what is described in that
 paper, particularly the content of Table 2, although I allow S$_0^2$
 to float (\texttt{amp}).  Along with an energy shift (\texttt{enot}),
@@ -272,13 +292,13 @@ paper.
 \texttt{sso}, \texttt{ssu}, and \texttt{sso2} are \AA$^2$.
 
 
-\def\feffmaterial{UO2}
-\def\feffrone{3}
-\def\feffrtwo{4}
-\def\feffrthree{5}
-\def\feffrfour{5.5}
-\def\feffrfive{6}
-\def\fefffirst{}
+\renewcommand{\feffmaterial}{UO2}
+\renewcommand{\feffrone}{3}
+\renewcommand{\feffrtwo}{4}
+\renewcommand{\feffrthree}{5}
+\renewcommand{\feffrfour}{5.5}
+\renewcommand{\feffrfive}{6}
+\renewcommand{\fefffirst}{}
 
 \scriptsize
 \input{\feffmaterial/\feffmaterial}
@@ -292,7 +312,7 @@ This fit includes only the first shell, and a standard 4-paramater
 model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{dro}
 is \AA, and \texttt{sso} is \AA$^2$.
 
-\def\fefffirst{_1st}
+\renewcommand{\fefffirst}{_1st}
 
 \small
 \input{\feffmaterial/\feffmaterial\fefffirst}
@@ -313,13 +333,13 @@ is \AA, and \texttt{sso} is \AA$^2$.
   \includegraphics[width=\linewidth]{BaZrO3/perovskite.png}
   \caption{The perovskite structure.}
 \end{wrapfigure}
-In this paper on the Zr edge of BaZrO$_3$
+In a short paper on the Zr edge of BaZrO$_3$,
 \href{http://dx.doi.org/10.1016/0921-4526(94)00654-E}
 {\texttt{http://dx.doi.org/10.1016/0921-4526(94)00654-E}}, Haskel et
 al. (and what a sordid ``et al.'' \textit{that} was) proposed that
 shortcomings of \textsc{feff}'s potential model could be accommodated
 by floating an energy shift parameter for each scatterer species.  The
-concept is that doing so approximates the effect if errors in the
+concept is that doing so approximates the effect of errors in the
 scattering phase shifts.
 
 The data are the same as in that paper, although the fitting model is
@@ -342,13 +362,13 @@ are parameterized as described in the paper.
 \texttt{ssba}, and \texttt{sso2} are \AA$^2$.
 
 
-\def\feffmaterial{BaZrO3}
-\def\feffrone{3}
-\def\feffrtwo{4}
-\def\feffrthree{5}
-\def\feffrfour{5.5}
-\def\feffrfive{6}
-\def\fefffirst{}
+\renewcommand{\feffmaterial}{BaZrO3}
+\renewcommand{\feffrone}{3}
+\renewcommand{\feffrtwo}{4}
+\renewcommand{\feffrthree}{5}
+\renewcommand{\feffrfour}{5.5}
+\renewcommand{\feffrfive}{6}
+\renewcommand{\fefffirst}{}
 
 \scriptsize
 \input{\feffmaterial/\feffmaterial}
@@ -361,7 +381,7 @@ This fit includes only the first shell, and a standard 4-paramater
 model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
 is \AA, and \texttt{sso} is \AA$^2$.
 
-\def\fefffirst{_1st}
+\renewcommand{\fefffirst}{_1st}
 
 \small
 \input{\feffmaterial/\feffmaterial\fefffirst}
@@ -405,7 +425,8 @@ atom.
 The material was supplied by my colleague Alessandra Leri of Manhattan
 Marymount College in the form of a white powder.  This powder was
 spread onto kapton tape which was folded to make a sample with an edge
-step of about 1.7.
+step of about 1.7.  The data were measured by Bruce at NSLS beamline
+X23A2.
 
 This is an interesting test case because it is a molecule (thus the
 entire molecule can be included in the self-consistency calculation)
@@ -426,9 +447,9 @@ $\Delta R$ parameter.
 
 
 
-\def\feffmaterial{bromoadamantane}
-\def\feffrone{8}
-\def\fefffirst{}
+\renewcommand{\feffmaterial}{bromoadamantane}
+\renewcommand{\feffrone}{8}
+\renewcommand{\fefffirst}{}
 
 \small
 \input{\feffmaterial/\feffmaterial}
@@ -442,7 +463,7 @@ This fit includes only the first shell, and a standard 4-paramater
 model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
 is \AA, and \texttt{ss} is \AA$^2$.
 
-\def\fefffirst{_1st}
+\renewcommand{\fefffirst}{_1st}
 
 \small
 \input{\feffmaterial/\feffmaterial\fefffirst}
@@ -465,17 +486,18 @@ is \AA, and \texttt{ss} is \AA$^2$.
   \caption{The uranyl motif from sodium uranyl triacetate.}
 \end{wrapfigure}
 
-The data are the uranyl hydrate shown in Shelly's paper on
+The data are the hydrated uranyl hydrate shown in Shelly's paper on
 \textit{X-ray absorption fine structure determination of pH-dependent
   U-bacterial cell wall interactions},
 \href{http://dx.doi.org/10.1016/S0016-7037(02)00947-X}
 {\texttt{http://dx.doi.org/10.1016/S0016-7037(02)00947-X}}
 
 This is an interesting test case because it involves very short
-($\sim1.78$\,\AA) uranium-oxygen bonds.  The \texttt{AFOLP} card was
-used to run \textsc{feff}6.  The \texttt{FOLP} card with a value of
-0.9 for each potential was used to get \textsc{feff}8.5 to run to
-completion.
+($\sim1.78$\,\AA) oxygenyl bonds in an $f$-electron system.
+
+The \texttt{AFOLP} card was used to run \textsc{feff}6.  The
+\texttt{FOLP} card with a value of 0.9 for each potential was used to
+get \textsc{feff}8.5 to run to completion.
 
 Following the lead of that paper, \textsc{feff} was run on the crystal
 sodium uranyl triacetate.  The relevant bit of the structure is shown
@@ -493,13 +515,13 @@ $\Delta R$ (\texttt{deloax} and \texttt{deloeq}) and a $\sigma^2$
 \texttt{deloax} and \texttt{deloeq} are \AA.
 \texttt{sigoax} and \texttt{sigoeq} are \AA$^2$.
 
-\def\feffmaterial{uranyl}
-\def\feffrone{2.5}
-\def\feffrtwo{2.9}
-\def\feffrthree{4.0}
-\def\feffrfour{5.2}
-\def\feffrfive{6.8}
-\def\fefffirst{}
+\renewcommand{\feffmaterial}{uranyl}
+\renewcommand{\feffrone}{2.5}
+\renewcommand{\feffrtwo}{2.9}
+\renewcommand{\feffrthree}{4.0}
+\renewcommand{\feffrfour}{5.2}
+\renewcommand{\feffrfive}{6.8}
+\renewcommand{\fefffirst}{}
 
 \small
 \input{\feffmaterial/\feffmaterial}

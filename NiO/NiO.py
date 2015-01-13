@@ -107,7 +107,7 @@ def do_fit(self, which, firstshell=False):
     rx  = 4.2
     if firstshell: rx  = 1.95
 
-    trans = feffit_transform(kmin=3, kmax=15.938, kw=(2,1,3), dk=1, window='hanning', rmin=1.5, rmax=rx, _larch=self._larch)
+    trans = feffit_transform(kmin=3, kmax=15.938, kw=(2,1,3), dk=1, window='hanning', rmin=1.0, rmax=rx, _larch=self._larch)
     dset  = feffit_dataset(data=data, pathlist=paths, transform=trans, _larch=self._larch)
     fit   = feffit(gds, dset, _larch=self._larch)
 
@@ -142,7 +142,7 @@ def do_fit(self, which, firstshell=False):
                                          'shells': shells,
                                          'kmin': 3,
                                          'kmax': 15.938,
-                                         'rmin': 1.5,
+                                         'rmin': 1.0,
                                          'rmax': rx,
                                          'offset': 1,
                                      } ))
