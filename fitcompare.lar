@@ -18,13 +18,29 @@ except NameError:
     material = 'Copper'
 #endtry
 
-
 a=ut(material)
 a.verbose=False
+
+try:
+    doplot
+except NameError:
+    doplot=True
+#endtry
+a.doplot = doplot
+
+try:
+    firstshell
+except NameError:
+    firstshell=False
+#endtry
+a.firstshell = firstshell
+
 a.fitcompare()
 
+shells = ''
+if a.firstshell: shells='_1st'
 
-f = open(join(material, material+'.tex'), 'w')
+f = open(join(material, material+shells+'.tex'), 'w')
 
 f.write('\\subsection{Best fit values}\n')
 

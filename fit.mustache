@@ -3,14 +3,15 @@ set term png enhanced font 'Arial,14' size 648,670
 
 material='{{material}}'
 model='{{model}}'
+shells='{{shells}}'
 kmin={{kmin}}
 kmax={{kmax}}
 rmin={{rmin}}
 rmax={{rmax}}
 
-kfile=sprintf("%s/fit_%s.k", material, model)
-rfile=sprintf("%s/fit_%s.r", material, model)
-imagefile=sprintf("%s/fit_%s.png", material, model)
+kfile=sprintf("%s/fit_%s%s.k", material, model, shells)
+rfile=sprintf("%s/fit_%s%s.r", material, model, shells)
+imagefile=sprintf("%s/fit_%s%s.png", material, model, shells)
 
 set out imagefile
 

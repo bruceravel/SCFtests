@@ -15,7 +15,9 @@ from plotter import (_newplot, _plot)
 
 import pystache
 
-def do_fit(self, which):
+def do_fit(self, which, firstshell=False):
+
+    firstshell = False          # no 1st shell fit for this material
 
     if which == 'testrun':
         folder = self.testrun

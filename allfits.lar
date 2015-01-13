@@ -1,0 +1,15 @@
+# -*- python -*-
+
+all = ['BaZrO3', 'Copper', 'FeS2', 'NiO', 'UO2', 'bromoadamantane', 'uranyl',]  # 'methyltin'
+
+doplot = False
+
+for m in all:
+    material = m
+    firstshell = False
+    run 'fitcompare.lar'
+    if m != 'uranyl':
+        firstshell = True
+        run 'fitcompare.lar'
+    #end if
+#endfor

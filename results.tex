@@ -7,8 +7,17 @@
 \hypersetup{colorlinks=true, linkcolor=blue}
 \usepackage{wrapfig}
 
+%\usepackage{titlesec}
+%\newcommand{\sectionbreak}{\clearpage}
+\let\stdsection\section
+\renewcommand\section{\newpage\stdsection}
+
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{2ex plus 1ex minus 1ex}
+
+\usepackage{feffitplots}        % big, icky layouts for the grids of plots
+
+
 
 
 \begin{document}
@@ -16,15 +25,59 @@
 \appendix
 
 
+\section{Background}
+
+\begin{enumerate}
+\item All XAS data were processed sensibly in \textsc{athena} with
+  $E_0$ chosen to be the first peak of the first derivative in
+  $\mu(E)$.  That may not be the best choice of $E_0$ in all cases,
+  but it is the obvious first choice and the likeliest choice to be
+  made by a novice user of the software.
+\item All EXAFS data were Fourier transformed starting at
+  3\,\AA$^{-1}$ and ending at a reasonable place where the signal was
+  still much bigger than the noise.  The choice of 3\,\AA$^{-1}$ as
+  the starting point was deliberate.  The \textsc{autobk} algorithm
+  (and most -- all? -- other algorithms) are often unreliable below
+  about 3\,\AA$^{-1}$ due to the fact that the $\mu(E)$ is changing
+  very quickly in that region.  Thus the data above 3\,\AA$^{-1}$ are
+  likely to be reliable a free of systematic error due to the details
+  of the background removal.
+\item All the materials considered have well-known structures.  For
+  these tests, we want to avoid the situation where error in a fitting
+  model could be attributed to incomplete prior knowledge about the
+  structure.  That is, we want to isolate the details of the fitting
+  model from the details of the theoretical calculation.
+\item The first three examples are dense, crystalline solids for which
+  we expect self-consistency to contribute rather little to the
+  analysis.  The remaining materials all contribute interesting
+  features for which self-consistency might play a role.
+\item For each material that is not a molecule, the analysis is done
+  with a sequence of self-consistency radii.  This is done to test the
+  importance of the consideration of that parameter on the analysis.
+  In the case of hydrated uranyl hydrate, this is a molecule, but the
+  \textsc{feff} calculation is done of a crystalline analogue to the
+  molecule.  The effect of self-consistency radius is tested in that
+  case.
+\item In the plots, the ranges of the Fourier transform and of the fit
+  are indicated by vertical black lines.
+\item We were interested to know if the effect of SCF on EXAFS fitting
+  was different for a first shell fit as compared to a more extensive
+  fitting model.  So fits were generated for the first shells only of
+  all materials except for uranyl hydrate for which the axial and
+  equatorial scatterers cannot be isolated.
+\end{enumerate}
+
 \section{Copper}
 
-The sample was the canonical copper foil of Newville, et al. fame.
-The fitting model is very simple.  There is an S$_0^2$ parameter
-(\texttt{amp}), an energy shift for all paths (\texttt{enot}), and a
-volumetric lattice expansion coefficient (\texttt{alpha}).  The
-$\sigma^2$ values for all paths were computed using the correlated
-Debye model and a temperature of 10\,K, except for the first shell,
-which has its own $\sigma^2$ variable (\texttt{ss1}).
+\normalsize The sample was the canonical copper foil of
+\href{https://github.com/XraySpectroscopy/XAS-Data-Interchange/issues/29}{Newville,
+  et al. fame}.  The fitting model is very simple.  There is an
+S$_0^2$ parameter (\texttt{amp}), an energy shift for all paths
+(\texttt{enot}), and a volumetric lattice expansion coefficient
+(\texttt{alpha}).  The $\sigma^2$ values for all paths were computed
+using the correlated Debye model and a temperature of 10\,K, except
+for the first shell, which has its own $\sigma^2$ variable
+(\texttt{ss1}).
 
 The fit included 4 coordination shells, which includes several
 collinear multiple scattering paths of the same distance as the fourth
@@ -33,54 +86,41 @@ shell single scattering path.
 \texttt{amp} and \texttt{alpha} are unitless.  \texttt{enot} is eV,
 \texttt{ss1} is \AA$^2$, and \texttt{thetad} is K.
 
+
+\def\feffmaterial{Copper}       % material -- name of folder
+\def\feffrone{3}                % first SCF radius
+\def\feffrtwo{4}                % second SCF radius
+\def\feffrthree{5}              % third SCF radius
+\def\feffrfour{5.5}             % fourth SCF radius
+\def\feffrfive{6}               % fifth SCF radius
+\def\fefffirst{}                % blank for full fit, '_st' for first
+                                % shell fits
+
 \small
-\input{Copper/Copper}
+\input{\feffmaterial/\feffmaterial}
+\fitplots
 
-\newpage
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to Copper using \textsc{feff}6\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{Copper/fit_feff6}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to Copper using \textsc{feff}8.5, no SCF\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{Copper/fit_noSCF}.png}
-\end{minipage}
 
-\bigskip
+\section{Copper, first shell}
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to Copper using \textsc{feff}8.5, SCF, R=3\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{Copper/fit_withSCF_3}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to Copper using \textsc{feff}8.5, SCF, R=4\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{Copper/fit_withSCF_4}.png}
-\end{minipage}
+\normalsize
+This fit includes only the first shell, and a standard 4-paramater
+model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
+is \AA, and \texttt{ss1} is \AA$^2$.
 
-\bigskip
+\def\fefffirst{_1st}
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to Copper using \textsc{feff}8.5, SCF, R=5\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{Copper/fit_withSCF_5}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to Copper using \textsc{feff}8.5, SCF, R=5\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{Copper/fit_withSCF_5.5}.png}
-\end{minipage}
+\small
+\input{\feffmaterial/\feffmaterial\fefffirst}
+\fitplots
 
-\bigskip
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to Copper using \textsc{feff}8.5, SCF, R=6\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{Copper/fit_withSCF_6}.png}
-\end{minipage}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newpage
 
 \section{NiO}
 
@@ -103,55 +143,43 @@ parameter (\texttt{sso}, \texttt{ssni}, \texttt{sso2}, and
 \texttt{sso}, \texttt{ssni}, \texttt{sso2}, and \texttt{ssni2} are
 \AA$^2$.
 
+
+\def\feffmaterial{NiO}
+\def\feffrone{2.5}
+\def\feffrtwo{3}
+\def\feffrthree{3.7}
+\def\feffrfour{4.2}
+\def\feffrfive{4.7}
+\def\fefffirst{}
+
 \small
-\input{NiO/NiO}
+\input{\feffmaterial/\feffmaterial}
+\fitplots
 
-\newpage
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to NiO using \textsc{feff}6\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{NiO/fit_feff6}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to NiO using \textsc{feff}8.5, no SCF\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{NiO/fit_noSCF}.png}
-\end{minipage}
 
-\bigskip
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to NiO using \textsc{feff}8.5, SCF, R=2.5\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{NiO/fit_withSCF_2.5}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to NiO using \textsc{feff}8.5, SCF, R=3\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{NiO/fit_withSCF_3}.png}
-\end{minipage}
+\section{NiO, first shell}
 
-\bigskip
+\normalsize
+This fit includes only the first shell, and a standard 4-paramater
+model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
+is \AA, and \texttt{sso} is \AA$^2$.
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to NiO using \textsc{feff}8.5, SCF, R=3.7\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{NiO/fit_withSCF_3.7}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to NiO using \textsc{feff}8.5, SCF, R=4.2\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{NiO/fit_withSCF_4.2}.png}
-\end{minipage}
 
-\bigskip
+\def\fefffirst{_1st}
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to NiO using \textsc{feff}8.5, SCF, R=4.7\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{NiO/fit_withSCF_4.7}.png}
-\end{minipage}
+\small
+\input{\feffmaterial/\feffmaterial\fefffirst}
+\fitplots
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newpage
+
 
 \section{FeS$_2$}
 \normalsize
@@ -178,56 +206,42 @@ Fe, and four paths that bounce around among first shell S atoms.
 \texttt{amp} and \texttt{alpha} are unitless.  \texttt{enot} is eV.
 \texttt{ss}, \texttt{ss2}, and \texttt{ssfe} are \AA$^2$.
 
+\def\feffmaterial{FeS2}
+\def\feffrone{3}
+\def\feffrtwo{3.6}
+\def\feffrthree{4}
+\def\feffrfour{5.3}
+\def\feffrfive{5.5}
+\def\fefffirst{}
+
 \small
-\input{FeS2/FeS2}
+\input{\feffmaterial/\feffmaterial}
+\fitplots
 
-\newpage
 
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to FeS$_2$ using \textsc{feff}6\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{FeS2/fit_feff6}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to FeS$_2$ using \textsc{feff}8.5, no SCF\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{FeS2/fit_noSCF}.png}
-\end{minipage}
 
-\bigskip
+\section{FeS$_2$, first shell}
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to FeS$_2$ using \textsc{feff}8.5, SCF, R=3\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{FeS2/fit_withSCF_3}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to FeS$_2$ using \textsc{feff}8.5, SCF, R=3.6\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{FeS2/fit_withSCF_3.6}.png}
-\end{minipage}
+\normalsize
+This fit includes only the first shell, and a standard 4-paramater
+model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
+is \AA, and \texttt{ss} is \AA$^2$.
 
-\bigskip
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to FeS$_2$ using \textsc{feff}8.5, SCF, R=4\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{FeS2/fit_withSCF_4}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to FeS$_2$ using \textsc{feff}8.5, SCF, R=5.3\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{FeS2/fit_withSCF_5.3}.png}
-\end{minipage}
+\def\fefffirst{_1st}
 
-\bigskip
+\small
+\input{\feffmaterial/\feffmaterial\fefffirst}
+\fitplots
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to FeS$_2$ using \textsc{feff}8.5, SCF, R=5.5\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{FeS2/fit_withSCF_5.5}.png}
-\end{minipage}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newpage
+
 
 \section{UO$_2$}
 \normalsize
@@ -258,55 +272,38 @@ paper.
 \texttt{sso}, \texttt{ssu}, and \texttt{sso2} are \AA$^2$.
 
 
+\def\feffmaterial{UO2}
+\def\feffrone{3}
+\def\feffrtwo{4}
+\def\feffrthree{5}
+\def\feffrfour{5.5}
+\def\feffrfive{6}
+\def\fefffirst{}
+
 \scriptsize
-\input{UO2/UO2}
+\input{\feffmaterial/\feffmaterial}
+\fitplots
 
-\newpage
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to UO$_2$ using \textsc{feff}6\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{UO2/fit_feff6}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to UO$_2$ using \textsc{feff}8.5, no SCF\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{UO2/fit_noSCF}.png}
-\end{minipage}
+\section{UO$_2$, first shell}
 
-\bigskip
+\normalsize
+This fit includes only the first shell, and a standard 4-paramater
+model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{dro}
+is \AA, and \texttt{sso} is \AA$^2$.
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to UO$_2$ using \textsc{feff}8.5, SCF, R=3\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{UO2/fit_withSCF_3}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to UOS$_2$ using \textsc{feff}8.5, SCF, R=4\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{UO2/fit_withSCF_4}.png}
-\end{minipage}
+\def\fefffirst{_1st}
 
-\bigskip
-
-\begin{minipage}{0.49\linewidth}
-  \large Fit to UO$_2$ using \textsc{feff}8.5, SCF, R=5\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{UO2/fit_withSCF_5}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to UOS$_2$ using \textsc{feff}8.5, SCF, R=5.5\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{UO2/fit_withSCF_5.5}.png}
-\end{minipage}
-
-\bigskip
-
-\begin{minipage}{0.49\linewidth}
-  \large Fit to UO$_2$ using \textsc{feff}8.5, SCF, R=6\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{UO2/fit_withSCF_6}.png}
-\end{minipage}
+\small
+\input{\feffmaterial/\feffmaterial\fefffirst}
+\fitplots
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newpage
+
 
 \section{BaZrO$_3$}
 \normalsize
@@ -344,49 +341,31 @@ are parameterized as described in the paper.
 \texttt{ezr}, and \texttt{eba} are eV.  \texttt{sso}, \texttt{sszr},
 \texttt{ssba}, and \texttt{sso2} are \AA$^2$.
 
+
+\def\feffmaterial{BaZrO3}
+\def\feffrone{3}
+\def\feffrtwo{4}
+\def\feffrthree{5}
+\def\feffrfour{5.5}
+\def\feffrfive{6}
+\def\fefffirst{}
+
 \scriptsize
-\input{BaZrO3/BaZrO3}
+\input{\feffmaterial/\feffmaterial}
+\fitplots
 
-\newpage
 
+\section{BaZrO$_3$, first shell}
+\normalsize
+This fit includes only the first shell, and a standard 4-paramater
+model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
+is \AA, and \texttt{sso} is \AA$^2$.
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to BaZrO$_3$ using \textsc{feff}6\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{BaZrO3/fit_feff6}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to BaZrO$_3$ using \textsc{feff}8.5, no SCF\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{BaZrO3/fit_noSCF}.png}
-\end{minipage}
+\def\fefffirst{_1st}
 
-\bigskip
-
-\begin{minipage}{0.49\linewidth}
-  \large Fit to BaZrO$_3$ using \textsc{feff}8.5, SCF, R=3\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{BaZrO3/fit_withSCF_3}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to BaZrO$_3$ using \textsc{feff}8.5, SCF, R=4\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{BaZrO3/fit_withSCF_4}.png}
-\end{minipage}
-
-\bigskip
-
-\begin{minipage}{0.49\linewidth}
-  \large Fit to BaZrO$_3$ using \textsc{feff}8.5, SCF, R=5\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{BaZrO3/fit_withSCF_5}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to BaZrO$_3$ using \textsc{feff}8.5, SCF, R=5.5\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{BaZrO3/fit_withSCF_5.5}.png}
-\end{minipage}
-
-\bigskip
-
-\begin{minipage}{0.49\linewidth}
-  \large Fit to BaZrO$_3$ using \textsc{feff}8.5, SCF, R=6\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{BaZrO3/fit_withSCF_6}.png}
-\end{minipage}
+\small
+\input{\feffmaterial/\feffmaterial\fefffirst}
+\fitplots
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -406,7 +385,7 @@ are parameterized as described in the paper.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newpage
+
 
 \section{bromoadamantane}
 \normalsize
@@ -417,7 +396,7 @@ are parameterized as described in the paper.
   \caption{~\hfill\break 1-bromoadamantane}
 \end{wrapfigure}
 
-The data are 1-bromoadamantane.  Adamanatane is a cycloalkane, meaning
+The data are 1-bromoadamantane.  Adamantane is a cycloalkane, meaning
 that it is a hydrocarbon with rings of carbon atoms.  It is also a
 diamondoid, meaning that it is a strong, stiff, 3D network of covalent
 bonds.  1-bromoadamantane has one hydrogen atom replaced by a bromine
@@ -428,7 +407,7 @@ Marymount College in the form of a white powder.  This powder was
 spread onto kapton tape which was folded to make a sample with an edge
 step of about 1.7.
 
-This is an interesting test case becasue it is a molecule (thus the
+This is an interesting test case because it is a molecule (thus the
 entire molecule can be included in the self-consistency calculation)
 and because there is measureable scattering from the neighboring
 hydrogen atoms.  While the $\sigma^2$ of the hydrogen scatterers is not
@@ -446,35 +425,39 @@ constrain the second neighbor C distance to the first neighbor C
 $\Delta R$ parameter.
 
 
+
+\def\feffmaterial{bromoadamantane}
+\def\feffrone{8}
+\def\fefffirst{}
+
 \small
-\input{bromoadamantane/bromoadamantane}
+\input{\feffmaterial/\feffmaterial}
+\fitthreeplots
 
-\newpage
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to bromoadamantane using \textsc{feff}6\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{bromoadamantane/fit_feff6}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to bromoadamantane using \textsc{feff}8.5, no SCF\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{bromoadamantane/fit_noSCF}.png}
-\end{minipage}
+\section{bromoadamantane, first shell}
+\normalsize
 
-\bigskip
+This fit includes only the first shell, and a standard 4-paramater
+model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
+is \AA, and \texttt{ss} is \AA$^2$.
 
-\begin{minipage}{0.49\linewidth}
-  \large Fit to bromoadamantane using \textsc{feff}8.5, SCF, R=8\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{bromoadamantane/fit_withSCF_8}.png}
-\end{minipage}
+\def\fefffirst{_1st}
+
+\small
+\input{\feffmaterial/\feffmaterial\fefffirst}
+\fitthreeplots
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newpage
 
-\section{uranyl}
+
+\section{uranyl hydrate}
 \normalsize
 
 \begin{wrapfigure}{r}{0.25\textwidth}
@@ -510,52 +493,20 @@ $\Delta R$ (\texttt{deloax} and \texttt{deloeq}) and a $\sigma^2$
 \texttt{deloax} and \texttt{deloeq} are \AA.
 \texttt{sigoax} and \texttt{sigoeq} are \AA$^2$.
 
+\def\feffmaterial{uranyl}
+\def\feffrone{2.5}
+\def\feffrtwo{2.9}
+\def\feffrthree{4.0}
+\def\feffrfour{5.2}
+\def\feffrfive{6.8}
+\def\fefffirst{}
+
 \small
-\input{uranyl/uranyl}
+\input{\feffmaterial/\feffmaterial}
+\fitplots
 
-\newpage
-
-\begin{minipage}{0.49\linewidth}
-  \large Fit to uranyl using \textsc{feff}6\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{uranyl/fit_feff6}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to uranyl using \textsc{feff}8.5, no SCF\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{uranyl/fit_noSCF}.png}
-\end{minipage}
-
-\bigskip
-
-\begin{minipage}{0.49\linewidth}
-  \large Fit to uranyl using \textsc{feff}8.5, SCF, R=2.5\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{uranyl/fit_withSCF_2.9}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to uranyl using \textsc{feff}8.5, SCF, R=4\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{uranyl/fit_withSCF_2.9}.png}
-\end{minipage}
-
-\bigskip
-
-\begin{minipage}{0.49\linewidth}
-  \large Fit to uranyl using \textsc{feff}8.5, SCF, R=4.0\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{uranyl/fit_withSCF_4.0}.png}
-\end{minipage}
-\begin{minipage}{0.49\linewidth}
-  \large Fit to uranyl using \textsc{feff}8.5, SCF, R=5.2\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{uranyl/fit_withSCF_5.2}.png}
-\end{minipage}
-
-\bigskip
-
-\begin{minipage}{0.49\linewidth}
-  \large Fit to uranyl using \textsc{feff}8.5, SCF, R=6.8\,\AA\\[3ex]
-  \includegraphics[width=0.9\linewidth]{{uranyl/fit_withSCF_6.8}.png}
-\end{minipage}
 
 \end{document}
-
-
 
 %%% Local Variables:
 %%% mode: latex
