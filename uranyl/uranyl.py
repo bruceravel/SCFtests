@@ -15,7 +15,7 @@ from plotter import (_newplot, _plot)
 
 import pystache
 
-def do_fit(self, which, firstshell=False):
+def do_fit(self, which, firstshell=False, fittest='baseline'):
 
     firstshell = False          # no 1st shell fit for this material
 
@@ -24,7 +24,7 @@ def do_fit(self, which, firstshell=False):
     elif which == 'baseline':
         folder = self.baseline
     else:
-        folder = realpath(join(self.folder, 'baseline', which))
+        folder = realpath(join(self.folder, fittest, which))
     #endif
 
     data = read_xdi(join(self.path, 'uranyl.chik'), _larch=self._larch)
@@ -96,13 +96,13 @@ def do_fit(self, which, firstshell=False):
         print feffit_report(fit, _larch=self._larch)
     #end if
 
-    write_ascii(join(self.folder, "fit_"+which+".k"), dset.data.k, dset.data.chi, dset.model.chi,
+    write_ascii(join(self.folder, fittest, "fit_"+which+".k"), dset.data.k, dset.data.chi, dset.model.chi,
                 labels="r data_mag fit_mag data_re fit_re", _larch=self._larch)
-    write_ascii(join(self.folder, "fit_"+which+".r"), dset.data.r, dset.data.chir_mag, dset.model.chir_mag,
+    write_ascii(join(self.folder, fittest, "fit_"+which+".r"), dset.data.r, dset.data.chir_mag, dset.model.chir_mag,
                 dset.data.chir_re, dset.model.chir_re, labels="r data_mag fit_mag data_re fit_re", _larch=self._larch)
 
     renderer = pystache.Renderer()
-    with open(join('uranyl','fit_'+which+'.gp'), 'w') as inp:
+    with open(join(self.folder, fittest, 'fit_'+which+'.gp'), 'w') as inp:
         inp.write(renderer.render_path( 'fit.mustache', # gnuplot mustache file
                                         {'material': 'uranyl',
                                          'model': which,

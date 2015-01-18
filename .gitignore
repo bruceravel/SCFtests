@@ -58,6 +58,8 @@ target/
 
 *~
 **/baseline
+**/scf
+**/iorder
 **/fit*.k
 **/fit*.r
 **/fit*.gp

@@ -12,6 +12,13 @@ tabulate.LATEX_ESCAPE_RULES[u'$']=u'$'
 from os.path import join
 add_plugin('f85ut')
 
+
+try:
+    fittest
+except NameError:
+    fittest = 'scf'
+#endtry
+
 try:
     material
 except NameError:
@@ -20,6 +27,7 @@ except NameError:
 
 a=ut(material)
 a.verbose=False
+a.fittest=fittest
 
 try:
     doplot
@@ -28,23 +36,48 @@ except NameError:
 #endtry
 a.doplot = doplot
 
+
+shells = ''
 try:
     firstshell
 except NameError:
     firstshell=False
 #endtry
 a.firstshell = firstshell
+if a.firstshell: shells='_1st'
+
+
+suffix = '.txt'
+try:
+    outout
+except NameError:
+    output='simple'
+if output =='latex': suffix = '.tex'
+#endtry
+
+
+#show a
+
+
+
+
+
+
 
 a.fitcompare()
 
-shells = ''
-if a.firstshell: shells='_1st'
 
-f = open(join(material, material+shells+'.tex'), 'w')
+
+
+
+
+
+f = open(join(material, fittest, material+shells+suffix), 'w')
 
 f.write('\\subsection{Best fit values}\n')
 
-variables = a.noSCF.params.covar_vars
+variables = getattr(getattr(getattr(a, a.models[0]), 'params'), 'covar_vars')
+
 table = []
 for d in a.models:
     dd=d
@@ -72,7 +105,7 @@ for d in a.models:
     table.append(inner)
 #endfor
 
-f.write(tabulate.tabulate(table, headers=['model']+variables, tablefmt="latex"))
+f.write(tabulate.tabulate(table, headers=['model',]+variables, tablefmt=output))
 
 
 f.write('\n\n\subsection{Statistics}\n')
@@ -88,7 +121,7 @@ for d in a.models:
     table.append(inner)
 #endfor
 
-f.write(tabulate.tabulate(table, headers=['model','$\chi^2$', '$\chi^2_\\nu$', '$\mathcal{R}$'], tablefmt="latex", floatfmt=".4f"))
+f.write(tabulate.tabulate(table, headers=['model','$\chi^2$', '$\chi^2_\\nu$', '$\mathcal{R}$'], floatfmt=".4f", tablefmt=output)) 
 f.write('\n')
 
 f.close

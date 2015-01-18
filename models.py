@@ -6,58 +6,83 @@ from   os.path import isdir,  realpath, join
 from   shutil  import rmtree, copy
 import pystache, json
 
-from optparse import OptionParser
-parser = OptionParser()
-parser.add_option("-f", "--folder", dest="folder",
-                  help="perform test for FOLDER", metavar="FOLDER")
+import argparse
+parser = argparse.ArgumentParser(description="Organize Feff calculations for testing")
+parser.add_argument("-f", "--folder", dest="folder", required=True,
+                    help="perform test for FOLDER", metavar="FOLDER")
 
-parser.add_option("-s", "--scf",
-                  action="store_true", dest="doscf", default=False,
-                  help="perform Feff calculation with SCF (default is no SCF)")
+parser.add_argument("-t", "--test", dest="fittest",
+                    choices = ['scf', 'iorder'], default =  'scf',
+                    help="name of fit test (scf|iorder)", metavar="FOLDER")
 
-parser.add_option("-r", "--rsfc", dest="rscf", default=0,
-                  help="set the SCF radius")
+parser.add_argument("-s", "--scf",
+                    action="store_true", dest="doscf", default=False,
+                    help="perform Feff calculation with SCF (default is no SCF)")
 
-parser.add_option("-6", "--six", 
-                  action="store_true", dest="six", default=False,
-                  help="perform Feff 6 calculation")
+parser.add_argument("-r", "--rsfc", dest="rscf", default=0,
+                    help="set the SCF radius")
 
-parser.add_option("-d", "--dopathfinder", 
-                  action="store_true", dest="dopathfinder", default=False,
-                  help="flag to not reuse paths.dat from feff6 run and skip pathfinder in feff85 runs")
+parser.add_argument("-6", "--six", 
+                    action="store_true", dest="six", default=False,
+                    help="perform Feff 6 calculation")
+
+parser.add_argument("-d", "--dopathfinder", 
+                    action="store_true", dest="dopathfinder", default=False,
+                    help="flag to not reuse paths.dat from feff6 run and skip pathfinder in feff85 runs")
+
+parser.add_argument("-i", "--iorder", dest="iorder", default=2, type=int,
+                    help="set the iorder parameter")
+
+parser.add_argument("-n", "--dryrun", 
+                    action="store_true", dest="dryrun", default=False,
+                    help="make workspace, write feff.inp, but don't run feff")
 
 
-(options, args) = parser.parse_args()
-
-scf = 'noSCF'
-if options.doscf: scf = 'withSCF'
+options = parser.parse_args()
 
 repotop = '/home/bruce/git/feff85exafs'  # realpath(join('..','..'))
 if options.folder[-1] == '/': options.folder = options.folder[:-1]
 
 mat_json = json.load(open(join(options.folder, options.folder + '.json')))
+mat_json['iorder'] = options.iorder
 
 mat_json['doscf']='* '
 if options.doscf: mat_json['doscf']=''
 
+## workspace logic:
+##  workspace name is determined sequentially based on flags provided
+##    1. scf is the default (specified as '-t scf')
+##    2. workspace is "noSCF" without '-r' flag
+##    3. workspace is "withSCF_XX" with '-r XX'
+##    4. workspace is "iorder_N" with '-t iorder' and '-i N'
+##    5. workspace is "feff6" with -6
+
+workspace = 'noSCF'
+if options.doscf: workspace = 'withSCF'
+
 if options.rscf and options.doscf:
     mat_json['scf'] = options.rscf
-    scf = scf+'_'+str(options.rscf)
+    workspace = workspace+'_'+str(mat_json['scf'])
+
+if options.fittest == 'iorder':
+    workspace = 'iorder_%2.2d' % mat_json['iorder']
 
 if options.six:
-    scf = 'feff6'
+    workspace = 'feff6'
+    options.fittest = 'scf'
+    mat_json['iorder'] = 2
 
 ## write the feff.inp file
-target = join(options.folder, 'baseline', scf)
+target = join(options.folder, options.fittest, workspace)
 
 
 if isdir(target): rmtree(target)
 makedirs(target)
-if scf != 'feff6':
+if workspace != 'feff6':
     if options.dopathfinder:
         mat_json['pathfinder'] = 1
     else:
-        copy(join(options.folder, 'baseline', 'feff6', 'paths.dat'), target)
+        copy(join(options.folder, 'scf', 'feff6', 'paths.dat'), target)
         mat_json['pathfinder'] = 0
 
 if options.six:
@@ -68,6 +93,8 @@ else:
         inp.write(renderer.render_path( join(options.folder, options.folder + '.mustache'), # material/material.mustache
                                         mat_json ))                                         # material/material.json
 
+
+if options.dryrun: sys.exit(1)
 
 chdir(target)
 

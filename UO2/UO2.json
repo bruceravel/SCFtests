@@ -1,5 +1,8 @@
 {
     "scf": 4,
+    "doscf": false,
     "rpath": 5.5,
-    "s02": 0
+    "s02": 0,
+    "iorder": 2,
+    "pathfinder": 1
 }

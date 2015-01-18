@@ -15,14 +15,14 @@ from plotter import (_newplot, _plot)
 
 import pystache
 
-def do_fit(self, which, firstshell=False):
+def do_fit(self, which, firstshell=False, fittest='baseline'):
 
     if which == 'testrun':
         folder = self.testrun
     elif which == 'baseline':
         folder = self.baseline
     else:
-        folder = realpath(join(self.folder, 'baseline', which))
+        folder = realpath(join(self.folder, fittest, which))
     #endif
 
     dmt = read_xdi(join(self.path, 'dmt.chik'), _larch=self._larch)
@@ -89,13 +89,13 @@ def do_fit(self, which, firstshell=False):
         print feffit_report(fit, _larch=self._larch)
     #end if
 
-    write_ascii(join(self.folder, "fit_"+which+".k"), dset.data[0].k, dset.data[0].chi, dset.model[0].chi,
+    write_ascii(join(self.folder, fittest, "fit_"+which+".k"), dset.data[0].k, dset.data[0].chi, dset.model[0].chi,
                 labels="r data_mag fit_mag data_re fit_re", _larch=self._larch)
-    write_ascii(join(self.folder, "fit_"+which+".r"), dset.data[0].r, dset.data[0].chir_mag, dset.model[0].chir_mag,
+    write_ascii(join(self.folder, fittest, "fit_"+which+".r"), dset.data[0].r, dset.data[0].chir_mag, dset.model[0].chir_mag,
                 dset.data[0].chir_re, dset.model[0].chir_re, labels="r data_mag fit_mag data_re fit_re", _larch=self._larch)
 
     renderer = pystache.Renderer()
-    with open(join('methyltin','fit_'+which+'.gp'), 'w') as inp:
+    with open(join(self.folder, fittest, 'fit_'+which+'.gp'), 'w') as inp:
         inp.write(renderer.render_path( 'fit.mustache', # gnuplot mustache file
                                         {'material': 'methyltin',
                                          'model': which,

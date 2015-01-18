@@ -15,14 +15,14 @@ from plotter import (_newplot, _plot)
 
 import pystache
 
-def do_fit(self, which, firstshell=False):
+def do_fit(self, which, firstshell=False, fittest='baseline'):
 
     if which == 'testrun':
         folder = self.testrun
     elif which == 'baseline':
         folder = self.baseline
     else:
-        folder = realpath(join(self.folder, 'baseline', which))
+        folder = realpath(join(self.folder, fittest, which))
     #endif
 
     data = read_xdi(join(self.path, 'Copper.chik'), _larch=self._larch)
@@ -85,13 +85,13 @@ def do_fit(self, which, firstshell=False):
     shells = ''
     if firstshell: shells='_1st'
 
-    write_ascii(join(self.folder, "fit_"+which+shells+".k"), dset.data.k, dset.data.chi, dset.model.chi,
+    write_ascii(join(self.folder, fittest, "fit_"+which+shells+".k"), dset.data.k, dset.data.chi, dset.model.chi,
                 labels="r data_mag fit_mag data_re fit_re", _larch=self._larch)
-    write_ascii(join(self.folder, "fit_"+which+shells+".r"), dset.data.r, dset.data.chir_mag, dset.model.chir_mag,
+    write_ascii(join(self.folder, fittest, "fit_"+which+shells+".r"), dset.data.r, dset.data.chir_mag, dset.model.chir_mag,
                 dset.data.chir_re, dset.model.chir_re, labels="r data_mag fit_mag data_re fit_re", _larch=self._larch)
 
     renderer = pystache.Renderer()
-    with open(join('Copper','fit_'+which+shells+'.gp'), 'w') as inp:
+    with open(join(self.folder, fittest, 'fit_'+which+shells+'.gp'), 'w') as inp:
         inp.write(renderer.render_path( 'fit.mustache', # gnuplot mustache file
                                         {'material': 'Copper',
                                          'model': which,

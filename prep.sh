@@ -26,9 +26,9 @@ case $material in
         ./models.py -f Copper           # feff8 no self-consistency
         ./models.py -f Copper -s -r 3   # feff8 SCF 1 shell
         ./models.py -f Copper -s -r 4   # feff8 SCF 2 shell
-        ./models.py -f Copper -s -r 5   # feff8 SCF 3 shell
-        ./models.py -f Copper -s -r 5.5 # feff8 SCF 4 shell
-        ./models.py -f Copper -s -r 6   # feff8 SCF 5 shell
+        #./models.py -f Copper -s -r 5   # feff8 SCF 3 shell
+        #./models.py -f Copper -s -r 5.5 # feff8 SCF 4 shell
+        #./models.py -f Copper -s -r 6   # feff8 SCF 5 shell
         ;;
     "NiO")
         ./models.py -f NiO -6           # feff6
@@ -36,8 +36,8 @@ case $material in
         ./models.py -f NiO -s -r 2.5    # feff8 SCF 1 shell
         ./models.py -f NiO -s -r 3      # feff8 SCF 2 shell
         ./models.py -f NiO -s -r 3.7    # feff8 SCF 3 shell
-        ./models.py -f NiO -s -r 4.2    # feff8 SCF 4 shell
-        ./models.py -f NiO -s -r 4.7    # feff8 SCF 5 shell
+        #./models.py -f NiO -s -r 4.2    # feff8 SCF 4 shell
+        #./models.py -f NiO -s -r 4.7    # feff8 SCF 5 shell
         ;;
     "UO2")
         ./models.py -f UO2 -6           # feff6
@@ -56,6 +56,13 @@ case $material in
         ./models.py -f uranyl -s -r 4.0 # feff8 SCF 3 shell
         ./models.py -f uranyl -s -r 5.2 # feff8 SCF more shells
         ./models.py -f uranyl -s -r 6.8 # feff8 SCF all the way to the U neighbor
+
+        ./models.py -f uranyl -s -r 2.9 -t iorder -i 1  # iorder 1
+        ./models.py -f uranyl -s -r 2.9 -t iorder -i 2  # iorder 2
+        ./models.py -f uranyl -s -r 2.9 -t iorder -i 3  # iorder 3
+        ./models.py -f uranyl -s -r 2.9 -t iorder -i 4  # iorder 4
+        ./models.py -f uranyl -s -r 2.9 -t iorder -i 10 # iorder 10
+
         ;;
     "BaZrO3")
         ./models.py -f BaZrO3 -6        # feff6
@@ -81,9 +88,9 @@ case $material in
         ./models.py -f FeS2                  # feff8 no self-consistency
         ./models.py -f FeS2 -s -r 3          # feff8 SCF 1st shell
         ./models.py -f FeS2 -s -r 3.6        # feff8 SCF 2nd+3rd
-        ./models.py -f FeS2 -s -r 4          # feff8 SCF 4th
-        ./models.py -f FeS2 -s -r 5.3        # feff8 SCF 5th+6th+7th
-        ./models.py -f FeS2 -s -r 5.5        # feff8 SCF 8th
+        #./models.py -f FeS2 -s -r 4          # feff8 SCF 4th
+        #./models.py -f FeS2 -s -r 5.3        # feff8 SCF 5th+6th+7th
+        #./models.py -f FeS2 -s -r 5.5        # feff8 SCF 8th
         ;;
     *)
         echo "$material is not a material"
