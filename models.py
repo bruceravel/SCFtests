@@ -28,7 +28,7 @@ parser.add_argument("-6", "--six",
 
 parser.add_argument("-d", "--dopathfinder", 
                     action="store_true", dest="dopathfinder", default=False,
-                    help="flag to not reuse paths.dat from feff6 run and skip pathfinder in feff85 runs")
+                    help="flag to run pathfinder during Feff run")
 
 parser.add_argument("-i", "--iorder", dest="iorder", default=2, type=int,
                     help="set the iorder parameter")
@@ -36,12 +36,13 @@ parser.add_argument("-i", "--iorder", dest="iorder", default=2, type=int,
 parser.add_argument("-n", "--dryrun", 
                     action="store_true", dest="dryrun", default=False,
                     help="make workspace, write feff.inp, but don't run feff")
-
-
 options = parser.parse_args()
+
+
 
 repotop = '/home/bruce/git/feff85exafs'  # realpath(join('..','..'))
 if options.folder[-1] == '/': options.folder = options.folder[:-1]
+
 
 mat_json = json.load(open(join(options.folder, options.folder + '.json')))
 mat_json['iorder'] = options.iorder
@@ -72,32 +73,32 @@ if options.six:
     options.fittest = 'scf'
     mat_json['iorder'] = 2
 
-## write the feff.inp file
 target = join(options.folder, options.fittest, workspace)
-
-
 if isdir(target): rmtree(target)
 makedirs(target)
+
+## copy over the paths.dat file -- this guarantees that each calculation uses the same path list 
 if workspace != 'feff6':
     if options.dopathfinder:
         mat_json['pathfinder'] = 1
     else:
-        copy(join(options.folder, 'scf', 'feff6', 'paths.dat'), target)
+        copy(join(options.folder, options.folder+'.paths'), join(target, 'paths.dat'))
         mat_json['pathfinder'] = 0
 
+## write the feff.inp file
 if options.six:
     copy(join(options.folder, options.folder+'.feff6'), join(target, 'feff.inp'))
 else:
     renderer = pystache.Renderer()
     with open(join(target,'feff.inp'), 'w') as inp:
-        inp.write(renderer.render_path( join(options.folder, options.folder + '.mustache'), # material/material.mustache
-                                        mat_json ))                                         # material/material.json
+        inp.write(renderer.render_path( join(options.folder, options.folder + '.mustache'), # mat/mat.mustache
+                                        mat_json ))                                         # mat/mat.json
 
 
+## stop here with -n flag
 if options.dryrun: sys.exit(1)
 
 chdir(target)
-
 
 if options.six:
     subprocess.call('feff6');

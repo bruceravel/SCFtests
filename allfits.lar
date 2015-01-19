@@ -1,14 +1,21 @@
 # -*- python -*-
 
 all = ['BaZrO3', 'Copper', 'FeS2', 'NiO', 'UO2', 'bromoadamantane', 'uranyl',]  # 'methyltin'
+#all = ['uranyl',]
 
-doplot = False
+doplot  = False
+output  = 'latex'
 
 for m in all:
-    material = m
+    material   = m
     firstshell = False
+    fittest    = 'scf'
     run 'fitcompare.lar'
+    fittest    = 'iorder'
+    run 'fitcompare.lar'
+
     if m != 'uranyl':
+        fittest    = 'scf'
         firstshell = True
         run 'fitcompare.lar'
     #end if

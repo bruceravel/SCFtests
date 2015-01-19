@@ -95,6 +95,7 @@ def do_fit(self, which, firstshell=False, fittest='baseline'):
         inp.write(renderer.render_path( 'fit.mustache', # gnuplot mustache file
                                         {'material': 'Copper',
                                          'model': which,
+                                         'fittest': fittest,
                                          'shells': shells,
                                          'kmin': 3,
                                          'kmax': 15,

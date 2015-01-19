@@ -104,18 +104,18 @@ shell single scattering path.
 \texttt{ss1} is \AA$^2$, and \texttt{thetad} is K.
 
 
-\renewcommand{\feffmaterial}{Copper} % material -- name of folder
-\renewcommand{\feffrone}{3}          % first SCF radius
-\renewcommand{\feffrtwo}{4}          % second SCF radius
-\renewcommand{\feffrthree}{5}        % third SCF radius
-\renewcommand{\feffrfour}{5.5}       % fourth SCF radius
-\renewcommand{\feffrfive}{6}         % fifth SCF radius
-\renewcommand{\fefffirst}{}     % blank for full fit, '_1st' for first
+\renewcommand{\feffMaterial}{Copper} % material -- name of folder
+\renewcommand{\feffRone}{3}          % first SCF radius
+\renewcommand{\feffRtwo}{4}          % second SCF radius
+\renewcommand{\feffRthree}{5}        % third SCF radius
+\renewcommand{\feffRfour}{5.5}       % fourth SCF radius
+\renewcommand{\feffRfive}{6}         % fifth SCF radius
+\renewcommand{\feffFirst}{}     % blank for full fit, '_1st' for first
                                 % shell fits
 
 \small
-\input{\feffmaterial/\feffmaterial}
-\fitplots
+\input{\feffMaterial/scf/\feffMaterial}
+\scfsevenplots
 
 
 
@@ -126,11 +126,11 @@ This fit includes only the first shell, and a standard 4-paramater
 model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
 is \AA, and \texttt{ss1} is \AA$^2$.
 
-\renewcommand{\fefffirst}{_1st}
+\renewcommand{\feffFirst}{_1st}
 
 \small
-\input{\feffmaterial/\feffmaterial\fefffirst}
-\fitplots
+\input{\feffMaterial/scf/\feffMaterial\feffFirst}
+\scfsevenplots
 
 
 
@@ -162,17 +162,17 @@ parameter (\texttt{sso}, \texttt{ssni}, \texttt{sso2}, and
 \AA$^2$.
 
 
-\renewcommand{\feffmaterial}{NiO}
-\renewcommand{\feffrone}{2.5}
-\renewcommand{\feffrtwo}{3}
-\renewcommand{\feffrthree}{3.7}
-\renewcommand{\feffrfour}{4.2}
-\renewcommand{\feffrfive}{4.7}
-\renewcommand{\fefffirst}{}
+\renewcommand{\feffMaterial}{NiO}
+\renewcommand{\feffRone}{2.5}
+\renewcommand{\feffRtwo}{3}
+\renewcommand{\feffRthree}{3.7}
+\renewcommand{\feffRfour}{4.2}
+\renewcommand{\feffRfive}{4.7}
+\renewcommand{\feffFirst}{}
 
 \small
-\input{\feffmaterial/\feffmaterial}
-\fitplots
+\input{\feffMaterial/scf/\feffMaterial}
+\scfsevenplots
 
 
 
@@ -185,11 +185,11 @@ model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
 is \AA, and \texttt{sso} is \AA$^2$.
 
 
-\renewcommand{\fefffirst}{_1st}
+\renewcommand{\feffFirst}{_1st}
 
 \small
-\input{\feffmaterial/\feffmaterial\fefffirst}
-\fitplots
+\input{\feffMaterial/scf/\feffMaterial\feffFirst}
+\scfsevenplots
 
 
 
@@ -224,17 +224,17 @@ Fe, and four paths that bounce around among first shell S atoms.
 \texttt{amp} and \texttt{alpha} are unitless.  \texttt{enot} is eV.
 \texttt{ss}, \texttt{ss2}, and \texttt{ssfe} are \AA$^2$.
 
-\renewcommand{\feffmaterial}{FeS2}
-\renewcommand{\feffrone}{3}
-\renewcommand{\feffrtwo}{3.6}
-\renewcommand{\feffrthree}{4}
-\renewcommand{\feffrfour}{5.3}
-\renewcommand{\feffrfive}{5.5}
-\renewcommand{\fefffirst}{}
+\renewcommand{\feffMaterial}{FeS2}
+\renewcommand{\feffRone}{3}
+\renewcommand{\feffRtwo}{3.6}
+\renewcommand{\feffRthree}{4}
+\renewcommand{\feffRfour}{5.3}
+\renewcommand{\feffRfive}{5.5}
+\renewcommand{\feffFirst}{}
 
 \small
-\input{\feffmaterial/\feffmaterial}
-\fitplots
+\input{\feffMaterial/scf/\feffMaterial}
+\scfsevenplots
 
 
 
@@ -247,11 +247,11 @@ model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
 is \AA, and \texttt{ss} is \AA$^2$.
 
 
-\renewcommand{\fefffirst}{_1st}
+\renewcommand{\feffFirst}{_1st}
 
 \small
-\input{\feffmaterial/\feffmaterial\fefffirst}
-\fitplots
+\input{\feffMaterial/scf/\feffMaterial\feffFirst}
+\scfsevenplots
 
 
 
@@ -292,17 +292,17 @@ paper.
 \texttt{sso}, \texttt{ssu}, and \texttt{sso2} are \AA$^2$.
 
 
-\renewcommand{\feffmaterial}{UO2}
-\renewcommand{\feffrone}{3}
-\renewcommand{\feffrtwo}{4}
-\renewcommand{\feffrthree}{5}
-\renewcommand{\feffrfour}{5.5}
-\renewcommand{\feffrfive}{6}
-\renewcommand{\fefffirst}{}
+\renewcommand{\feffMaterial}{UO2}
+\renewcommand{\feffRone}{3}
+\renewcommand{\feffRtwo}{4}
+\renewcommand{\feffRthree}{5}
+\renewcommand{\feffRfour}{5.5}
+\renewcommand{\feffRfive}{6}
+\renewcommand{\feffFirst}{}
 
 \scriptsize
-\input{\feffmaterial/\feffmaterial}
-\fitplots
+\input{\feffMaterial/scf/\feffMaterial}
+\scfsevenplots
 
 
 \section{UO$_2$, first shell}
@@ -312,11 +312,11 @@ This fit includes only the first shell, and a standard 4-paramater
 model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{dro}
 is \AA, and \texttt{sso} is \AA$^2$.
 
-\renewcommand{\fefffirst}{_1st}
+\renewcommand{\feffFirst}{_1st}
 
 \small
-\input{\feffmaterial/\feffmaterial\fefffirst}
-\fitplots
+\input{\feffMaterial/scf/\feffMaterial\feffFirst}
+\scfsevenplots
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -362,17 +362,17 @@ are parameterized as described in the paper.
 \texttt{ssba}, and \texttt{sso2} are \AA$^2$.
 
 
-\renewcommand{\feffmaterial}{BaZrO3}
-\renewcommand{\feffrone}{3}
-\renewcommand{\feffrtwo}{4}
-\renewcommand{\feffrthree}{5}
-\renewcommand{\feffrfour}{5.5}
-\renewcommand{\feffrfive}{6}
-\renewcommand{\fefffirst}{}
+\renewcommand{\feffMaterial}{BaZrO3}
+\renewcommand{\feffRone}{3}
+\renewcommand{\feffRtwo}{4}
+\renewcommand{\feffRthree}{5}
+\renewcommand{\feffRfour}{5.5}
+\renewcommand{\feffRfive}{6}
+\renewcommand{\feffFirst}{}
 
 \scriptsize
-\input{\feffmaterial/\feffmaterial}
-\fitplots
+\input{\feffMaterial/scf/\feffMaterial}
+\scfsevenplots
 
 
 \section{BaZrO$_3$, first shell}
@@ -381,11 +381,11 @@ This fit includes only the first shell, and a standard 4-paramater
 model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
 is \AA, and \texttt{sso} is \AA$^2$.
 
-\renewcommand{\fefffirst}{_1st}
+\renewcommand{\feffFirst}{_1st}
 
 \small
-\input{\feffmaterial/\feffmaterial\fefffirst}
-\fitplots
+\input{\feffMaterial/scf/\feffMaterial\feffFirst}
+\scfsevenplots
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -447,13 +447,13 @@ $\Delta R$ parameter.
 
 
 
-\renewcommand{\feffmaterial}{bromoadamantane}
-\renewcommand{\feffrone}{8}
-\renewcommand{\fefffirst}{}
+\renewcommand{\feffMaterial}{bromoadamantane}
+\renewcommand{\feffRone}{8}
+\renewcommand{\feffFirst}{}
 
 \small
-\input{\feffmaterial/\feffmaterial}
-\fitthreeplots
+\input{\feffMaterial/scf/\feffMaterial}
+\scfthreeplots
 
 
 \section{bromoadamantane, first shell}
@@ -463,11 +463,11 @@ This fit includes only the first shell, and a standard 4-paramater
 model.  \texttt{amp} is unitless.  \texttt{enot} is eV, \texttt{delr}
 is \AA, and \texttt{ss} is \AA$^2$.
 
-\renewcommand{\fefffirst}{_1st}
+\renewcommand{\feffFirst}{_1st}
 
 \small
-\input{\feffmaterial/\feffmaterial\fefffirst}
-\fitthreeplots
+\input{\feffMaterial/scf/\feffMaterial\feffFirst}
+\scfthreeplots
 
 
 
@@ -515,17 +515,17 @@ $\Delta R$ (\texttt{deloax} and \texttt{deloeq}) and a $\sigma^2$
 \texttt{deloax} and \texttt{deloeq} are \AA.
 \texttt{sigoax} and \texttt{sigoeq} are \AA$^2$.
 
-\renewcommand{\feffmaterial}{uranyl}
-\renewcommand{\feffrone}{2.5}
-\renewcommand{\feffrtwo}{2.9}
-\renewcommand{\feffrthree}{4.0}
-\renewcommand{\feffrfour}{5.2}
-\renewcommand{\feffrfive}{6.8}
-\renewcommand{\fefffirst}{}
+\renewcommand{\feffMaterial}{uranyl}
+\renewcommand{\feffRone}{2.5}
+\renewcommand{\feffRtwo}{2.9}
+\renewcommand{\feffRthree}{4.0}
+\renewcommand{\feffRfour}{5.2}
+\renewcommand{\feffRfive}{6.8}
+\renewcommand{\feffFirst}{}
 
 \small
-\input{\feffmaterial/\feffmaterial}
-\fitplots
+\input{\feffMaterial/scf/\feffMaterial}
+\scfsevenplots
 
 
 \end{document}

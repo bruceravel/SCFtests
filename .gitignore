@@ -53,6 +53,18 @@ docs/_build/
 # PyBuilder
 target/
 
+############################################################
+
+## Core latex/pdflatex auxiliary files:
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.dvi
+results.pdf
 
 ############################################################
 

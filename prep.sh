@@ -26,9 +26,15 @@ case $material in
         ./models.py -f Copper           # feff8 no self-consistency
         ./models.py -f Copper -s -r 3   # feff8 SCF 1 shell
         ./models.py -f Copper -s -r 4   # feff8 SCF 2 shell
-        #./models.py -f Copper -s -r 5   # feff8 SCF 3 shell
-        #./models.py -f Copper -s -r 5.5 # feff8 SCF 4 shell
-        #./models.py -f Copper -s -r 6   # feff8 SCF 5 shell
+        ./models.py -f Copper -s -r 5   # feff8 SCF 3 shell
+        ./models.py -f Copper -s -r 5.5 # feff8 SCF 4 shell
+        ./models.py -f Copper -s -r 6   # feff8 SCF 5 shell
+
+        ./models.py -f Copper -s -r 4 -t iorder -i 1  # iorder 1
+        ./models.py -f Copper -s -r 4 -t iorder -i 2  # iorder 2
+        ./models.py -f Copper -s -r 4 -t iorder -i 3  # iorder 3
+        ./models.py -f Copper -s -r 4 -t iorder -i 4  # iorder 4
+        ./models.py -f Copper -s -r 4 -t iorder -i 10 # iorder 10
         ;;
     "NiO")
         ./models.py -f NiO -6           # feff6
@@ -36,8 +42,14 @@ case $material in
         ./models.py -f NiO -s -r 2.5    # feff8 SCF 1 shell
         ./models.py -f NiO -s -r 3      # feff8 SCF 2 shell
         ./models.py -f NiO -s -r 3.7    # feff8 SCF 3 shell
-        #./models.py -f NiO -s -r 4.2    # feff8 SCF 4 shell
-        #./models.py -f NiO -s -r 4.7    # feff8 SCF 5 shell
+        ./models.py -f NiO -s -r 4.2    # feff8 SCF 4 shell
+        ./models.py -f NiO -s -r 4.7    # feff8 SCF 5 shell
+
+        ./models.py -f NiO -s -r 3 -t iorder -i 1  # iorder 1
+        ./models.py -f NiO -s -r 3 -t iorder -i 2  # iorder 2
+        ./models.py -f NiO -s -r 3 -t iorder -i 3  # iorder 3
+        ./models.py -f NiO -s -r 3 -t iorder -i 4  # iorder 4
+        ./models.py -f NiO -s -r 3 -t iorder -i 10 # iorder 10
         ;;
     "UO2")
         ./models.py -f UO2 -6           # feff6
@@ -47,6 +59,12 @@ case $material in
         ./models.py -f UO2 -s -r 5      # feff8 SCF 3 shell
         ./models.py -f UO2 -s -r 5.5    # feff8 SCF 4 shell
         ./models.py -f UO2 -s -r 6      # feff8 SCF 5 shell
+
+        ./models.py -f UO2 -s -r 4 -t iorder -i 1  # iorder 1
+        ./models.py -f UO2 -s -r 4 -t iorder -i 2  # iorder 2
+        ./models.py -f UO2 -s -r 4 -t iorder -i 3  # iorder 3
+        ./models.py -f UO2 -s -r 4 -t iorder -i 4  # iorder 4
+        ./models.py -f UO2 -s -r 4 -t iorder -i 10 # iorder 10
         ;;
     "uranyl")
         ./models.py -f uranyl -6        # feff6
@@ -72,25 +90,49 @@ case $material in
         ./models.py -f BaZrO3 -s -r 5.5 # feff8 SCF 3 shell
         ./models.py -f BaZrO3 -s -r 5   # feff8 SCF 4 shell
         ./models.py -f BaZrO3 -s -r 6   # feff8 SCF 5 shell
+
+        ./models.py -f BaZrO3 -s -r 4 -t iorder -i 1  # iorder = 1
+        ./models.py -f BaZrO3 -s -r 4 -t iorder -i 2  # iorder = 2
+        ./models.py -f BaZrO3 -s -r 4 -t iorder -i 3  # iorder = 3
+        ./models.py -f BaZrO3 -s -r 4 -t iorder -i 4  # iorder = 4
+        ./models.py -f BaZrO3 -s -r 4 -t iorder -i 10 # iorder = 10
         ;;
     "bromoadamantane")
         ./models.py -f bromoadamantane -6       # feff6
         ./models.py -f bromoadamantane          # feff8 no self-consistency
         ./models.py -f bromoadamantane -s -r 8  # feff8 SCF the whole molecule
+
+        ./models.py -f bromoadamantane -s -r 8 -t iorder -i 1  # iorder = 1
+        ./models.py -f bromoadamantane -s -r 8 -t iorder -i 2  # iorder = 2
+        ./models.py -f bromoadamantane -s -r 8 -t iorder -i 3  # iorder = 3
+        ./models.py -f bromoadamantane -s -r 8 -t iorder -i 4  # iorder = 4
+        ./models.py -f bromoadamantane -s -r 8 -t iorder -i 10 # iorder = 10
         ;;
     "methyltin")
         ./models.py -f methyltin -6             # feff6
         ./models.py -f methyltin                # feff8 no self-consistency
         ./models.py -f methyltin -s -r 8        # feff8 SCF the whole molecule
+
+        ./models.py -f methyltin -s -r 8 -t iorder -i 1  # iorder = 1
+        ./models.py -f methyltin -s -r 8 -t iorder -i 2  # iorder = 2
+        ./models.py -f methyltin -s -r 8 -t iorder -i 3  # iorder = 3
+        ./models.py -f methyltin -s -r 8 -t iorder -i 4  # iorder = 4
+        ./models.py -f methyltin -s -r 8 -t iorder -i 10 # iorder = 10
         ;;
     "FeS2")
         ./models.py -f FeS2 -6               # feff6
         ./models.py -f FeS2                  # feff8 no self-consistency
         ./models.py -f FeS2 -s -r 3          # feff8 SCF 1st shell
         ./models.py -f FeS2 -s -r 3.6        # feff8 SCF 2nd+3rd
-        #./models.py -f FeS2 -s -r 4          # feff8 SCF 4th
-        #./models.py -f FeS2 -s -r 5.3        # feff8 SCF 5th+6th+7th
-        #./models.py -f FeS2 -s -r 5.5        # feff8 SCF 8th
+        ./models.py -f FeS2 -s -r 4          # feff8 SCF 4th
+        ./models.py -f FeS2 -s -r 5.3        # feff8 SCF 5th+6th+7th
+        ./models.py -f FeS2 -s -r 5.5        # feff8 SCF 8th
+
+        ./models.py -f FeS2 -s -r 4 -t iorder -i 1  # iorder = 1
+        ./models.py -f FeS2 -s -r 4 -t iorder -i 2  # iorder = 2
+        ./models.py -f FeS2 -s -r 4 -t iorder -i 3  # iorder = 3
+        ./models.py -f FeS2 -s -r 4 -t iorder -i 4  # iorder = 4
+        ./models.py -f FeS2 -s -r 4 -t iorder -i 10 # iorder = 10
         ;;
     *)
         echo "$material is not a material"

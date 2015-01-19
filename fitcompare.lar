@@ -44,17 +44,20 @@ except NameError:
     firstshell=False
 #endtry
 a.firstshell = firstshell
-if a.firstshell: shells='_1st'
+if a.firstshell:
+    shells='_1st'
+#endif
 
 
 suffix = '.txt'
 try:
-    outout
+    output
 except NameError:
     output='simple'
-if output =='latex': suffix = '.tex'
 #endtry
-
+if output == 'latex': 
+    suffix = '.tex'
+#endif
 
 #show a
 

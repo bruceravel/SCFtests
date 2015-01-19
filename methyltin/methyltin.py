@@ -89,6 +89,9 @@ def do_fit(self, which, firstshell=False, fittest='baseline'):
         print feffit_report(fit, _larch=self._larch)
     #end if
 
+    shells = ''
+    if firstshell: shells='_1st'
+
     write_ascii(join(self.folder, fittest, "fit_"+which+".k"), dset.data[0].k, dset.data[0].chi, dset.model[0].chi,
                 labels="r data_mag fit_mag data_re fit_re", _larch=self._larch)
     write_ascii(join(self.folder, fittest, "fit_"+which+".r"), dset.data[0].r, dset.data[0].chir_mag, dset.model[0].chir_mag,
@@ -99,6 +102,8 @@ def do_fit(self, which, firstshell=False, fittest='baseline'):
         inp.write(renderer.render_path( 'fit.mustache', # gnuplot mustache file
                                         {'material': 'methyltin',
                                          'model': which,
+                                         'fittest': fittest,
+                                         'shells': shells,
                                          'kmin': 3,
                                          'kmax': 13,
                                          'rmin': 1.25,

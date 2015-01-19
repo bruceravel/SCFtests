@@ -2,6 +2,7 @@
 set term png enhanced font 'Arial,14' size 648,670
 
 material='{{material}}'
+test='{{fittest}}'
 model='{{model}}'
 shells='{{shells}}'
 kmin={{kmin}}
@@ -9,22 +10,22 @@ kmax={{kmax}}
 rmin={{rmin}}
 rmax={{rmax}}
 
-kfile=sprintf("%s/fit_%s%s.k", material, model, shells)
-rfile=sprintf("%s/fit_%s%s.r", material, model, shells)
-imagefile=sprintf("%s/fit_%s%s.png", material, model, shells)
+kfile=sprintf("%s/%s/fit_%s%s.k", material, test, model, shells)
+rfile=sprintf("%s/%s/fit_%s%s.r", material, test, model, shells)
+imagefile=sprintf("%s/%s/fit_%s%s.png", material, test, model, shells)
 
 set out imagefile
 
 w=2
-set style line 1  linecolor rgb "blue" linewidth w pointsize 1 pointtype 7
-set style line 2  linecolor rgb "red" linewidth w pointsize 1
-set style line 3  linecolor rgb "dark-green" linewidth w pointsize 1
-set style line 4  linecolor rgb "dark-violet" linewidth w pointsize 1
-set style line 5  linecolor rgb "dark-yellow" linewidth w pointsize 1
-set style line 6  linecolor rgb "brown" linewidth w pointsize 1
-set style line 7  linecolor rgb "dark-pink" linewidth w pointsize 1 pointtype 7
-set style line 8  linecolor rgb "gold" linewidth w pointsize 1
-set style line 9  linecolor rgb "dark-cyan" linewidth w pointsize 1
+set style line 1  linecolor rgb "blue"         linewidth w pointsize 1 pointtype 7
+set style line 2  linecolor rgb "red"          linewidth w pointsize 1
+set style line 3  linecolor rgb "dark-green"   linewidth w pointsize 1
+set style line 4  linecolor rgb "dark-violet"  linewidth w pointsize 1
+set style line 5  linecolor rgb "dark-yellow"  linewidth w pointsize 1
+set style line 6  linecolor rgb "brown"        linewidth w pointsize 1
+set style line 7  linecolor rgb "dark-pink"    linewidth w pointsize 1 pointtype 7
+set style line 8  linecolor rgb "gold"         linewidth w pointsize 1
+set style line 9  linecolor rgb "dark-cyan"    linewidth w pointsize 1
 set style line 10 linecolor rgb "spring-green" linewidth w pointsize 1
 
 set multiplot layout 2,1
@@ -46,9 +47,9 @@ set arrow 1 from rmin, graph 0 to rmin, graph 1 as 1
 set arrow 2 from rmax, graph 0 to rmax, graph 1 as 1
 
 plot rfile u 1:($2+{{offset}}) with lines ls 1 title material,\
-     '' u 1:($3+{{offset}})    with lines ls 2 title 'fit',\
-     '' u 1:4         with lines ls 1 title '',\
-     '' u 1:5         with lines ls 2 title ''
+     ''    u 1:($3+{{offset}}) with lines ls 2 title 'fit',\
+     ''    u 1:4               with lines ls 1 title '',\
+     ''    u 1:5               with lines ls 2 title ''
      
 
 set size 1,0.33
@@ -65,6 +66,6 @@ set arrow 1 from kmin, graph 0 to kmin, graph 1 as 1
 set arrow 2 from kmax, graph 0 to kmax, graph 1 as 1
 
 plot kfile u 1:($2*$1*$1) with lines ls 1 title '',\
-     kfile u 1:($3*$1*$1) with lines ls 2 title ''
+     ''    u 1:($3*$1*$1) with lines ls 2 title ''
 
 unset multiplot
