@@ -64,7 +64,9 @@ target/
 *.out
 *.toc
 *.dvi
+*.synctex.gz
 results.pdf
+iord.pdf
 
 ############################################################
 
