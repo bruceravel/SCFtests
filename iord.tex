@@ -63,7 +63,11 @@ To test the effect of changing the \texttt{iord} parameter on EXAFS
 analysis, I compiled up a copy of the \textsc{genfmt} program with 
 \href{https://github.com/xraypy/feff85exafs/blob/master/src/HEADERS/dim.h}%
 {\texttt{/src/HEADERS/dim.h}} modified with \texttt{lamtot=35},
-\texttt{mtot=6}, and \texttt{ntot=4}.
+\texttt{mtot=6}, and \texttt{ntot=4}.  (I am a bit skeptical that I
+have done this correctly.  I can run \textsc{genfmt} to completion
+with the default values (15,4,2) and get the same results.  Either the
+advice to modify the code for higher order is nonsense, or it is not
+explained clearly enough for me to follow.)
 
 \textit{Caveat:} I selected those values based on my understanding of
 \href{https://github.com/xraypy/feff85exafs/blob/master/src/GENFMT/setlam.f}%
