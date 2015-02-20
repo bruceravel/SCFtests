@@ -80,3 +80,4 @@ iord.pdf
 **/fit*.png
 **/*.aux
 auto/*
+**/_save_scf_save/*

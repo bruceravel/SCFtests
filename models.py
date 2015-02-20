@@ -6,6 +6,11 @@ from   os.path import isdir,  realpath, join
 from   shutil  import rmtree, copy
 import pystache, json
 
+from larch import (Group, Parameter, isParameter, param_value, use_plugin_path, isNamedClass, Interpreter)
+use_plugin_path('xafs')
+from monolithicfeff import monolithicfeff
+
+
 import argparse
 parser = argparse.ArgumentParser(description="Organize Feff calculations for testing")
 parser.add_argument("-f", "--folder", dest="folder", required=True,
@@ -98,19 +103,28 @@ else:
 ## stop here with -n flag
 if options.dryrun: sys.exit(1)
 
-chdir(target)
+#chdir(target)
 
+module=''
 if options.six:
-    subprocess.call('feff6');
+    #subprocess.call('feff6');
+    module='feff6'
+    a=monolithicfeff(feffinp=join(target, 'feff.inp'))
+    a.run(module='feff6')
 else:
+    a=monolithicfeff(feffinp=join(target, 'feff.inp'))
+    a.run()
+
+
     ## location of script for running a version of feff85exafs from the
     ## beginning of unit test developments,
     ## https://github.com/xraypy/feff85exafs/commit/cac0f8c90749ce52581a658c5a6c8ae144cc2211
-    f85escript = join(repotop, 'bin', 'f85e')
+    #f85escript = join(repotop, 'bin', 'f85e')
     ## run the f85e shell script, which emulates the behavior of the monolithic Feff application
-    subprocess.call(f85escript);
+    #subprocess.call(f85escript);
 
 ## cull the files we don't need for testing
+chdir(target)
 feffoutput = glob.glob("*")
 for f in sorted(feffoutput):
     tosave = re.compile("feff(\d+\.dat|\.inp)|(chi|files|paths|xmu)\.dat|f85e.log")
