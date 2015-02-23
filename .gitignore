@@ -81,3 +81,9 @@ iord.pdf
 **/*.aux
 auto/*
 **/_save_scf_save/*
+
+## prep and output for fitting models
+*.prj
+*.fpj
+*.xyz
+**/*.tex
