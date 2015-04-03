@@ -8,7 +8,7 @@ import pystache, json
 
 from larch import (Group, Parameter, isParameter, param_value, use_plugin_path, isNamedClass, Interpreter)
 use_plugin_path('xafs')
-from monolithicfeff import monolithicfeff
+from feffrunner import feffrunner
 
 
 import argparse
@@ -109,10 +109,10 @@ module=''
 if options.six:
     #subprocess.call('feff6');
     module='feff6'
-    a=monolithicfeff(feffinp=join(target, 'feff.inp'))
-    a.run(module='feff6')
+    a=feffrunner(feffinp=join(target, 'feff.inp'))
+    a.run(exe='feff6')
 else:
-    a=monolithicfeff(feffinp=join(target, 'feff.inp'))
+    a=feffrunner(feffinp=join(target, 'feff.inp'))
     a.run()
 
 
