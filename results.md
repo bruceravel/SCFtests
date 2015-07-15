@@ -101,7 +101,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;^2|&chi^2_&nu;|R|
+|model|&chi;^2|&chi;^2_&nu;|R|
 |:----|---------:|-------------:|--------------:|
 |feff6|1444.2957|54.3832|0.0145|
 |noSCF|1414.0154|53.2430|0.0142|
@@ -113,14 +113,18 @@ Statistics
 
 
 
+| feff6 | no SCF | SCR, R=3 |
+|-------|--------|----------|
+|![fit with feff6](Copper/scf/fit_feff6.png) | ![fit with feff8 no SCF](Copper/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](Copper/scf/fit_wuthSCF_3.png)|
+
 
 
 Copper, first shell
 ===================
 
 This fit includes only the first shell, and a standard 4-paramater
-model. `amp` is unitless. `enot` is eV, `delr` is Å, and `ss1` is
-&Aring;^2.
+model. `amp` is unitless. `enot` is eV, `delr` is &Aring;, and `ss1`
+is &Aring;^2.
 
 NiO
 ===
@@ -158,7 +162,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;^2|&chi^2_&nu;|R|
+|model|&chi;^2|&chi;^2_&nu;|R|
 |:----|---------:|-------------:|--------------:|
 |feff6|27430.3658|1347.4609|0.0215|
 |noSCF|29860.6446|1466.8434|0.0234|
@@ -174,23 +178,69 @@ Statistics
 NiO, first shell
 ================
 
-This fit includes only the first shell, and a standard 4-paramater model. `amp` is unitless. `enot` is eV, `delr` is Å, and `sso` is Å\(^2\).
+This fit includes only the first shell, and a standard 4-paramater
+model. `amp` is unitless. `enot` is eV, `delr` is &Aring;, and `sso`
+is &Aring;^2.
 
-FeS\(_2\)
+FeS2
 =========
 
-This is one of my standard teaching examples. It’s good for teaching as it is fairly simple – it’s cubic – but it has a bit of structure and a two kinds of scatterers. The data are taken from Matt’s online collection of references.
+This is one of my standard teaching examples. It’s good for teaching
+as it is fairly simple – it’s cubic – but it has a bit of structure
+and a two kinds of scatterers. The data are taken from Matt’s online
+collection of references.
 
-The model includes a S\(_0^2\) parameter (`amp`), an energy shift (`enot`), and a volumetric lattice expansion coefficient (`alpha`). The first and second shell S scatterers each get a \(\sigma^2\) parameter (`ss` and `ss2`). The third shell of S atoms only contains 2 scatterers. In practice, floating its \(\sigma^2\) parameter independently does not yeild a statistical improvment to the fit, so the `ss2` parameter is used for the third shell \(\sigma^2\). Finally a \(\sigma^2\) parameter is floated for the Fe shell.
+The model includes a S0^2 parameter (`amp`), an energy shift (`enot`),
+and a volumetric lattice expansion coefficient (`alpha`). The first
+and second shell S scatterers each get a &sigma;^2 parameter (`ss` and
+`ss2`). The third shell of S atoms only contains 2 scatterers. In
+practice, floating its &sigma;^2 parameter independently does not
+yeild a statistical improvment to the fit, so the `ss2` parameter is
+used for the third shell &sigma;^2. Finally a &sigma;^2 parameter is
+floated for the Fe shell.
 
-The fitting model includes a variety of multiple scattering paths, including a triangle between the first shell S and the fourth shell Fe, and four paths that bounce around among first shell S atoms.
+The fitting model includes a variety of multiple scattering paths,
+including a triangle between the first shell S and the fourth shell
+Fe, and four paths that bounce around among first shell S atoms.
 
-`amp` and `alpha` are unitless. `enot` is eV. `ss`, `ss2`, and `ssfe` are Å\(^2\).
+`amp` and `alpha` are unitless. `enot` is eV. `ss`, `ss2`, and `ssfe`
+are &Aring;^2.
 
-FeS\(_2\), first shell
+Best fit values
+---------------
+
+|model|alpha|amp|enot|ss|ss2|ssfe|
+|:----|:----|:--|:---|:--|:--|:---|
+|feff6|0.00092(126)|0.69(2)|2.77(42)|0.00296(41)|0.00366(106)|0.00484(50)|
+|noSCF|0.00183(171)|0.65(3)|7.01(57)|0.00294(57)|0.00386(151)|0.00471(68)|
+|withSCF(3)|0.00219(191)|0.68(3)|-2.01(63)|0.00311(63)|0.00422(172)|0.00495(77)|
+|withSCF(3.6)|0.00212(188)|0.68(3)|-2.15(62)|0.00311(62)|0.00423(170)|0.00495(76)|
+|withSCF(4)|0.00212(191)|0.68(3)|-2.17(63)|0.00311(63)|0.00423(172)|0.00494(77)|
+|withSCF(5.3)|0.00216(194)|0.68(4)|-1.92(64)|0.00310(64)|0.00421(175)|0.00493(78)|
+|withSCF(5.5)|0.00216(194)|0.68(4)|-1.88(64)|0.00310(64)|0.00421(175)|0.00493(78)|
+
+Statistics
+----------
+
+|model|&chi;^2|&chi;^2_&nu;|R|
+|:----|---------:|-------------:|--------------:|
+|feff6|2052.3016|146.4407|0.0064|
+|noSCF|3783.2180|269.9491|0.0119|
+|withSCF(3)|4639.2799|331.0329|0.0146|
+|withSCF(3.6)|4502.7226|321.2889|0.0141|
+|withSCF(4)|4634.9046|330.7207|0.0145|
+|withSCF(5.3)|4778.2793|340.9511|0.0150|
+|withSCF(5.5)|4798.0987|342.3653|0.0151|
+
+
+
+
+FeS2, first shell
 ======================
 
-This fit includes only the first shell, and a standard 4-paramater model. `amp` is unitless. `enot` is eV, `delr` is Å, and `ss` is Å\(^2\).
+This fit includes only the first shell, and a standard 4-paramater
+model. `amp` is unitless. `enot` is eV, `delr` is &Aring;, and `ss` is
+&Aring;^2.
 
 UO\(_2\)
 ========
