@@ -31,8 +31,8 @@ Background
 5.  In the plots, the ranges of the Fourier transform and of the fit
     are indicated by vertical black lines.
 
-6.  Each material is fitted using theory from feff6, from feff85exafs
-    with self-consistency turned off, and from with feff85exafs with
+6.  Each material is fitted using theory from _feff6_, from _feff85exafs_
+    with self-consistency turned off, and from with _feff85exafs_ with
     self-consistency.
 
 7.  For each material that is not a molecule, the analysis is done
@@ -46,10 +46,10 @@ Background
 8.  Where appropriate (bromoadamantane, for example), the `lfms`
     parameter of the `SCF` card is set to 1.
 
-9.  The uranyl calculation was a bit challenging with feff85exafs. To
+9.  The uranyl calculation was a bit challenging with _feff85exafs_. To
     get the program to run to complation, it was necessary to set the
     FOLP parameter to 0.9 for each unique potential. Given that the
-    quality of the fit was much the same as for using feff6, this was
+    quality of the fit was much the same as for using _feff6_, this was
     not examined further. Still, this merits further attention for
     this material.
 
@@ -58,9 +58,12 @@ Background
     extensive fitting model. So fits were generated for the first
     shells only of all materials except for uranyl hydrate for which
     the axial and equatorial scatterers cannot be isolated. Also, Matt
-    tells me that, years ago, he and John looked at some feff6/feff8
+    tells me that, years ago, he and John looked at some _feff6_/_feff8_
     comparisons, but only for first shell fits. These first shell fits
-    are intended for comparison to that older work.
+    are intended for comparison to that older work.  _The results of
+    the first shell fits are included in the repository, but not on
+    this page as they do not tell a different story from the more
+    complete fits presented here._
 
 11. All fits were performed with a toolset written by Bruce which uses
     the XAS analysis capabilities of
@@ -121,12 +124,6 @@ Fits
 
 
 
-Copper, first shell
-===================
-
-This fit includes only the first shell, and a standard 4-paramater
-model. `amp` is unitless. `enot` is eV, `delr` is &Aring;, and `ss1`
-is &Aring;^2.
 
 NiO
 ===
@@ -183,12 +180,6 @@ Fits
 
 
 
-NiO, first shell
-================
-
-This fit includes only the first shell, and a standard 4-paramater
-model. `amp` is unitless. `enot` is eV, `delr` is &Aring;, and `sso`
-is &Aring;^2.
 
 FeS2
 =========
@@ -241,14 +232,13 @@ Statistics
 |withSCF(5.5)|4798.0987|342.3653|0.0151|
 
 
+Fits
+----
 
+| feff6 | no SCF | SCF, R=3 | SCF, R=3.6 | SCF, R=4 | SCF, R=5.3 | SCF, R=5.5 |
+|-------|--------|----------|----------|----------|----------|----------|
+|![fit with feff6](FeS2/scf/fit_feff6.png) | ![fit with feff8 no SCF](FeS2/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](FeS2/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3.6](FeS2/scf/fit_withSCF_3.6.png)| ![fit with feff8, SCF, R=4](FeS2/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5.3](FeS2/scf/fit_withSCF_5.3.png)| ![fit with feff8, SCF, R=5.5](FeS2/scf/fit_withSCF_5.5.png)|
 
-FeS2, first shell
-======================
-
-This fit includes only the first shell, and a standard 4-paramater
-model. `amp` is unitless. `enot` is eV, `delr` is &Aring;, and `ss` is
-&Aring;^2.
 
 UO\(_2\)
 ========
@@ -309,15 +299,26 @@ This fit includes only the first shell, and a standard 4-paramater model. `amp` 
 uranyl hydrate
 ==============
 
-<span>r</span><span>0.25</span> ![The uranyl motif from sodium uranyl triacetate.](uranyl/uranyl.png "fig:")
+![The uranyl motif from sodium uranyl triacetate.](uranyl/uranyl.png "fig:")
 
-The data are the hydrated uranyl hydrate shown in Shelly’s paper on *X-ray absorption fine structure determination of pH-dependent U-bacterial cell wall interactions*, [`http://dx.doi.org/10.1016/S0016-7037(02)00947-X`](http://dx.doi.org/10.1016/S0016-7037(02)00947-X)
+The data are the hydrated uranyl hydrate shown in Shelly’s paper on
+*X-ray absorption fine structure determination of pH-dependent
+U-bacterial cell wall interactions*,
+[`http://dx.doi.org/10.1016/S0016-7037(02)00947-X`](http://dx.doi.org/10.1016/S0016-7037(02)00947-X)
 
-This is an interesting test case because it involves very short (\(\sim1.78\)Å) oxygenyl bonds in an \(f\)-electron system.
+This is an interesting test case because it involves very short
+(\(\sim1.78\)Å) oxygenyl bonds in an \(f\)-electron system.
 
-The `AFOLP` card was used to run feff6. The `FOLP` card with a value of 0.9 for each potential was used to get feff8.5 to run to completion.
+The `AFOLP` card was used to run _feff6_. The `FOLP` card with a value
+of 0.9 for each potential was used to get _feff8.5_ to run to
+completion.
 
-Following the lead of that paper, feff was run on the crystal sodium uranyl triacetate. The relevant bit of the structure is shown in the figure. For the fitting model, scattering paths related to the axial and equatorial O atoms (red balls) are used in the fit. Other paths are unused. The parameterization given in Tables 2 and 5 is used in this fit.
+Following the lead of that paper, feff was run on the crystal sodium
+uranyl triacetate. The relevant bit of the structure is shown in the
+figure. For the fitting model, scattering paths related to the axial
+and equatorial O atoms (red balls) are used in the fit. Other paths
+are unused. The parameterization given in Tables 2 and 5 is used in
+this fit.
 
 There is an S\(_0^2\) (`amp`) and an energy shift (`enot`). The axial and equatorial oxyegn atoms each get a \(\Delta R\) (`deloax` and `deloeq`) and a \(\sigma^2\) (`sigoax` and `sigoeq`).
 
