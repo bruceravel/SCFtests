@@ -72,12 +72,18 @@ iord.pdf
 
 *~
 **/baseline
-**/scf
+#**/scf
+**/fit_*
+**/noSCF*
+**/withSCF*
 **/iorder
 **/fit*.k
 **/fit*.r
 **/fit*.gp
-**/fit*.png
+**/feff*.dat
+**/files.dat
+**/paths.dat
+!**/fit*.png
 **/*.aux
 auto/*
 **/_save_scf_save/*
