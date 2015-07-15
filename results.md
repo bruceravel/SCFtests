@@ -4,6 +4,9 @@
 * [NiO, nickel (II) oxide](#nio)
 * [FeS2, pyrite](#fes2)
 * [UO2, uraninite](#uo2)
+* [BaZrO3, barium zirconate](#bazro3)
+* [C10H15Br, bromoadamantane](#bromoadamantane)
+* [uranyl hydrate](#uranyl)
 
 Background
 ==========
@@ -317,20 +320,68 @@ Fits
 BaZrO\(_3\)
 ===========
 
-<span>r</span><span>0.25</span> ![The perovskite structure.](BaZrO3/perovskite.png "fig:")
+![The perovskite structure.](BaZrO3/perovskite.png "fig:")
 
-In a short paper on the Zr edge of BaZrO\(_3\), [`http://dx.doi.org/10.1016/0921-4526(94)00654-E`](http://dx.doi.org/10.1016/0921-4526(94)00654-E), Haskel et al. (and what a sordid “et al.” *that* was) proposed that shortcomings of feff’s potential model could be accommodated by floating an energy shift parameter for each scatterer species. The concept is that doing so approximates the effect of errors in the scattering phase shifts.
+In a short paper on the Zr edge of BaZrO3,
+[`http://dx.doi.org/10.1016/0921-4526(94)00654-E`](http://dx.doi.org/10.1016/0921-4526(94)00654-E),
+Haskel et al.  proposed that shortcomings of _feff_’s potential model
+could be accommodated by floating an energy shift parameter for each
+scatterer species. The concept is that doing so approximates the
+effect of errors in the scattering phase shifts.
 
-The data are the same as in that paper, although the fitting model is slightly different. Rather than floating \(\Delta R\) parameters for each shell, I used a volumetric expansion coefficient (`alpha`). Along with S\(_0^2\) (`amp`), there are energy shifts for each scatterer (`enot`, `ezr`, and `eba`) and \(\sigma^2\) parameters for each scatterer (`sso`, `sszr`, and `ssba`. The fourth shell O is included in the fit. It gets a \(\sigma^2\) (`sso2`)but uses the energy shift for the O scatterer.
+The data are the same as in that paper, although the fitting model is
+slightly different. Rather than floating &Delta;R parameters for each
+shell, I used a volumetric expansion coefficient (`alpha`). Along with
+S0^2 (`amp`), there are energy shifts for each scatterer (`enot`,
+`ezr`, and `eba`) and &sigma;^2 parameters for each scatterer (`sso`,
+`sszr`, and `ssba`. The fourth shell O is included in the fit. It gets
+a &sigma;^2 (`sso2`) but uses the energy shift for the O scatterer.
 
-BaZrO\(_3\) is a true perovskite. Zr sites in the octahedral B site. A variety of collinear multiple scattering paths at the distance of the third shell Zr scatterer are included in the fit. The energy shifts are parameterized as described in the paper.
+BaZrO3 is a true perovskite. Zr sites in the octahedral B site. A
+variety of collinear multiple scattering paths at the distance of the
+third shell Zr scatterer are included in the fit. The energy shifts
+are parameterized as described in the paper.
 
-`amp` and `alpha` are unitless. `enot`, `ezr`, and `eba` are eV. `sso`, `sszr`, `ssba`, and `sso2` are Å\(^2\).
+`amp` and `alpha` are unitless. `enot`, `ezr`, and `eba` are
+eV. `sso`, `sszr`, `ssba`, and `sso2` are &Aring;^2.
 
-BaZrO\(_3\), first shell
-========================
+Best fit values
+---------------
 
-This fit includes only the first shell, and a standard 4-paramater model. `amp` is unitless. `enot` is eV, `delr` is Å, and `sso` is Å\(^2\).
+|model|alpha|amp|eba|enot|ezr|ssba|sso|sso2|sszr|
+|:----|:----|:--|:--|:---|:--|:---|:--|:---|:---|
+|feff6|-0.00032(85)|1.22(7)|-9.906(567)|-8.55(57)|-5.597(1717)|0.00561(37)|0.00403(70)|0.00908(253)|0.00413(33)|
+|noSCF|0.00044(86)|1.07(6)|-3.901(589)|-2.32(58)|0.946(1886)|0.00530(38)|0.00361(70)|0.00791(242)|0.00369(34)|
+|withSCF(3)|-0.00007(72)|1.13(5)|-10.768(469)|-10.52(47)|-6.682(1580)|0.00561(32)|0.00382(58)|0.00855(208)|0.00362(28)|
+|withSCF(4)|-0.00007(74)|1.13(5)|-11.026(482)|-10.60(48)|-6.794(1618)|0.00559(33)|0.00380(59)|0.00850(213)|0.00362(28)|
+|withSCF(5)|-0.00007(73)|1.13(5)|-11.094(479)|-10.81(48)|-7.057(1604)|0.00561(33)|0.00381(59)|0.00850(211)|0.00363(28)|
+|withSCF(5.5)|-0.00007(73)|1.13(5)|-10.950(477)|-10.77(48)|-7.050(1594)|0.00562(33)|0.00382(59)|0.00850(210)|0.00364(28)|
+|withSCF(6)|-0.00005(73)|1.13(5)|-10.705(474)|-10.49(48)|-6.726(1590)|0.00562(33)|0.00382(59)|0.00851(208)|0.00364(28)|
+
+Statistics
+----------
+
+|model|&chi;^2|&chi;^2_&nu;|R|
+|:----|---------:|-------------:|--------------:|
+|feff6|8979.2479|555.6561|0.0108|
+|noSCF|9536.0604|590.1130|0.0114|
+|withSCF(3)|6579.0004|407.1234|0.0079|
+|withSCF(4)|6898.9084|426.9200|0.0083|
+|withSCF(5)|6837.1517|423.0984|0.0082|
+|withSCF(5.5)|6790.5892|420.2170|0.0081|
+|withSCF(6)|6690.0972|413.9983|0.0080|
+
+
+
+Fits
+----
+
+| feff6 | no SCF | SCF, R=3 | SCF, R=4 | SCF, R=5 | SCF, R=5.5 | SCF, R=6 |
+|-------|--------|----------|----------|----------|----------|----------|
+|![fit with feff6](BaZrO3/scf/fit_feff6.png) | ![fit with feff8 no SCF](BaZrO3/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](BaZrO3/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](BaZrO3/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](BaZrO3/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](BaZrO3/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](BaZrO3/scf/fit_withSCF_6.png)|
+
+
+
 
 bromoadamantane
 ===============
@@ -345,10 +396,6 @@ This is an interesting test case because it is a molecule (thus the entire molec
 
 The fit includes the nearest neighbor C, the next three C atoms, and the neighboring 6 hydrogen atoms. The DS triangle paths involving the first and second neighbor C atoms are also included. The fitting model assumes that the adamanatane anion is very rigid compared to the Br-C bond. Thus, the formula explained in [`http://dx.doi.org/10.1088/1742-6596/190/1/012026`](http://dx.doi.org/10.1088/1742-6596/190/1/012026) is used to constrain the second neighbor C distance to the first neighbor C \(\Delta R\) parameter.
 
-bromoadamantane, first shell
-============================
-
-This fit includes only the first shell, and a standard 4-paramater model. `amp` is unitless. `enot` is eV, `delr` is Å, and `ss` is Å\(^2\).
 
 uranyl hydrate
 ==============
