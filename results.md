@@ -84,18 +84,18 @@ Copper
 
 The data is the canonical copper foil spectrum of
 [Newville, et al. fame](https://github.com/XraySpectroscopy/XAS-Data-Interchange/issues/29). The
-fitting model is very simple. There is an S\(_0^2\) parameter (`amp`),
+fitting model is very simple. There is an S0&sup2; parameter (`amp`),
 an energy shift for all paths (`enot`), and a volumetric lattice
-expansion coefficient (`alpha`). The \(\sigma^2\) values for all paths
+expansion coefficient (`alpha`). The &sigma;&sup2; values for all paths
 were computed using the correlated Debye model and a temperature of
-10K, except for the first shell, which has its own \(\sigma^2\)
+10K, except for the first shell, which has its own &sigma;&sup2;
 variable (`ss1`).
 
 The fit included 4 coordination shells, which includes several
 collinear multiple scattering paths of the same distance as the fourth
 shell single scattering path.
 
-`amp` and `alpha` are unitless. `enot` is eV, `ss1` is &Aring^2, and
+`amp` and `alpha` are unitless. `enot` is eV, `ss1` is &Aring&sup2;, and
 `thetad` is K.
 
 Best fit values
@@ -114,7 +114,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;^2|&chi;^2_&nu;|R|
+|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
 |:----|---------:|-------------:|--------------:|
 |feff6|1444.2957|54.3832|0.0145|
 |noSCF|1414.0154|53.2430|0.0142|
@@ -143,16 +143,16 @@ The sample was NiO powder prepared by my colleague Neil Hyatt
 powder was mixed with polyethylene glycol and pressed into a pellet to
 make a edge step of 0.78. The data were measured by Bruce at NSLS
 beamline X23A2. The simple fiting model to this rocksalt structure
-included a S0^2 parameter (`amp`), an energy shift (`enot`), and a
+included a S0&sup2; parameter (`amp`), an energy shift (`enot`), and a
 volumetric lattice expansion coefficient (`alpha`).
 
 The fit included 4 coordination shells, 2 with O and 2 with Ni. There
 are several collinear multiple scattering paths at the same distance
-as the fourth shell Ni scatterer. Each shell has its own &sigma;^2
+as the fourth shell Ni scatterer. Each shell has its own &sigma;&sup2;
 parameter (`sso`, `ssni`, `sso2`, and `ssni2`, respectively.).
 
 `amp` and `alpha` are unitless. `enot` is eV. `sso`, `ssni`, `sso2`,
-and `ssni2` are &Aring;^2.
+and `ssni2` are &Aring;&sup2;.
 
 
 Best fit values
@@ -171,7 +171,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;^2|&chi;^2_&nu;|R|
+|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
 |:----|---------:|-------------:|--------------:|
 |feff6|27430.3658|1347.4609|0.0215|
 |noSCF|29860.6446|1466.8434|0.0234|
@@ -201,13 +201,13 @@ has a bit of structure and two kinds of scatterers. The data are taken
 from
 [Matt’s online collection of references](http://cars.uchicago.edu/~newville/ModelLib/search.html).
 
-The model includes a S0^2 parameter (`amp`), an energy shift (`enot`),
+The model includes a S0&sup2; parameter (`amp`), an energy shift (`enot`),
 and a volumetric lattice expansion coefficient (`alpha`). The first
-and second shell S scatterers each get a &sigma;^2 parameter (`ss` and
+and second shell S scatterers each get a &sigma;&sup2; parameter (`ss` and
 `ss2`). The third shell of S atoms only contains 2 scatterers. In
-practice, floating its &sigma;^2 parameter independently does not
+practice, floating its &sigma;&sup2; parameter independently does not
 yeild a statistical improvment to the fit, so the `ss2` parameter is
-used for the third shell &sigma;^2. Finally a &sigma;^2 parameter is
+used for the third shell &sigma;&sup2;. Finally a &sigma;&sup2; parameter is
 floated for the Fe shell.
 
 The fitting model includes a variety of multiple scattering paths,
@@ -215,7 +215,7 @@ including a triangle between the first shell S and the fourth shell
 Fe, and four paths that bounce around among first shell S atoms.
 
 `amp` and `alpha` are unitless. `enot` is eV. `ss`, `ss2`, and `ssfe`
-are &Aring;^2.
+are &Aring;&sup2;.
 
 Best fit values
 ---------------
@@ -233,7 +233,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;^2|&chi;^2_&nu;|R|
+|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
 |:----|---------:|-------------:|--------------:|
 |feff6|2052.3016|146.4407|0.0064|
 |noSCF|3783.2180|269.9491|0.0119|
@@ -265,11 +265,11 @@ Formation of UO2 Nanoparticles*:
 This is an interesting test as it is an f-electron system.
 
 The fitting model follows rather closely to what is described in that
-paper, particularly the content of Table 2, although I allow S0^2 to
+paper, particularly the content of Table 2, although I allow S0&sup2; to
 float (`amp`). Along with an energy shift (`enot`), a &Delta;R and
-&sigma;^2 for the first shell O (`dro` and `sso`), a &Delta;R and
-&sigma;^2 for the second shell U (`dru` and `ssu`), and a &Delta;R and
-&sigma;^2 for the third shell O (`dro2` and `sso2`), there is a
+&sigma;&sup2; for the first shell O (`dro` and `sso`), a &Delta;R and
+&sigma;&sup2; for the second shell U (`dru` and `ssu`), and a &Delta;R and
+&sigma;&sup2; for the third shell O (`dro2` and `sso2`), there is a
 parameter for the number of U scatterers (`nu`).
 
 The model includes the same 6 paths given in Table 2 of Shelly’s
@@ -295,7 +295,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;^2|&chi;^2_&nu;|R|
+|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
 |:----|---------:|-------------:|--------------:|
 |feff6|166.2736|22.0712|0.0160|
 |noSCF|188.4320|25.0125|0.0181|
@@ -332,10 +332,10 @@ effect of errors in the scattering phase shifts.
 The data are the same as in that paper, although the fitting model is
 slightly different. Rather than floating &Delta;R parameters for each
 shell, I used a volumetric expansion coefficient (`alpha`). Along with
-S0^2 (`amp`), there are energy shifts for each scatterer (`enot`,
-`ezr`, and `eba`) and &sigma;^2 parameters for each scatterer (`sso`,
+S0&sup2; (`amp`), there are energy shifts for each scatterer (`enot`,
+`ezr`, and `eba`) and &sigma;&sup2; parameters for each scatterer (`sso`,
 `sszr`, and `ssba`. The fourth shell O is included in the fit. It gets
-a &sigma;^2 (`sso2`) but uses the energy shift for the O scatterer.
+a &sigma;&sup2; (`sso2`) but uses the energy shift for the O scatterer.
 
 BaZrO3 is a true perovskite. Zr sites in the octahedral B site. A
 variety of collinear multiple scattering paths at the distance of the
@@ -343,7 +343,7 @@ third shell Zr scatterer are included in the fit. The energy shifts
 are parameterized as described in the paper.
 
 `amp` and `alpha` are unitless. `enot`, `ezr`, and `eba` are
-eV. `sso`, `sszr`, `ssba`, and `sso2` are &Aring;^2.
+eV. `sso`, `sszr`, `ssba`, and `sso2` are &Aring;&sup2;.
 
 Best fit values
 ---------------
@@ -361,7 +361,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;^2|&chi;^2_&nu;|R|
+|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
 |:----|---------:|-------------:|--------------:|
 |feff6|8979.2479|555.6561|0.0108|
 |noSCF|9536.0604|590.1130|0.0114|
@@ -403,7 +403,7 @@ X23A2.
 This is an interesting test case because it is a molecule (thus the
 entire molecule can be included in the self-consistency calculation)
 and because there is measureable scattering from the neighboring
-hydrogen atoms. While the &sigma;^2 of the hydrogen scatterers is
+hydrogen atoms. While the &sigma;&sup2; of the hydrogen scatterers is
 not well-determined, the fit is statistically significantly worse when
 the hydrogen scatterers are excluded.
 
@@ -429,7 +429,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;^2|&chi;^2_&nu;|R|
+|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
 |:----|---------:|-------------:|--------------:|
 |feff6|7743.8859|1493.2531|0.0207|
 |noSCF|10540.8219|2032.5862|0.0281|
@@ -471,12 +471,12 @@ and equatorial O atoms (red balls) are used in the fit. Other paths
 are unused. The parameterization given in Tables 2 and 5 is used in
 this fit.
 
-There is an S0^2 (`amp`) and an energy shift (`enot`). The axial
+There is an S0&sup2; (`amp`) and an energy shift (`enot`). The axial
 and equatorial oxyegn atoms each get a &Delta;R (`deloax` and
-`deloeq`) and a &sigma;^2 (`sigoax` and `sigoeq`).
+`deloeq`) and a &sigma;&sup2; (`sigoax` and `sigoeq`).
 
 `amp` is unitless. `enot` is eV. `deloax` and `deloeq` are
-&Aring;. `sigoax` and `sigoeq` are &Aring;^2.
+&Aring;. `sigoax` and `sigoeq` are &Aring;&sup2;.
 
 Best fit values
 ---------------
@@ -494,7 +494,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;^2|&chi;^2_&nu;|R|
+|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
 |:----|---------:|-------------:|--------------:|
 |feff6|37.6972|6.0758|0.0027|
 |noSCF|69.0909|11.1356|0.0049|
