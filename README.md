@@ -205,7 +205,7 @@ Fits
 
 | feff6 | no SCF | SCF, R=2.5 | SCF, R=3 | SCF, R=3.7 | SCF, R=4.2 | SCF, R=4.7 |
 |-------|--------|----------|----------|----------|----------|----------|
-|![fit with feff6](NiO/scf/fit_feff6.png) | ![fit with feff8 no SCF](NiO/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=2.5](NiO/scf/fit_withSCF_2.5.png)| ![fit with feff8, SCF, R=3](NiO/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3.7](NiO/scf/fit_withSCF_3.7.png)| ![fit with feff8, SCF, R=4.2](NiO/scf/fit_withSCF_4.2.png)| ![fit with feff8, SCF, R=4.7](NiO/scf/fit_withSCF_4.7.png)|
+|![fit with feff6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_feff6.png) | ![fit with feff8 no SCF](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=2.5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_2.5.png)| ![fit with feff8, SCF, R=3](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3.7](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_3.7.png)| ![fit with feff8, SCF, R=4.2](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_4.2.png)| ![fit with feff8, SCF, R=4.7](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_4.7.png)|
 
 
 _____
@@ -269,7 +269,7 @@ Fits
 
 | feff6 | no SCF | SCF, R=3 | SCF, R=3.6 | SCF, R=4 | SCF, R=5.3 | SCF, R=5.5 |
 |-------|--------|----------|----------|----------|----------|----------|
-|![fit with feff6](FeS2/scf/fit_feff6.png) | ![fit with feff8 no SCF](FeS2/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](FeS2/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3.6](FeS2/scf/fit_withSCF_3.6.png)| ![fit with feff8, SCF, R=4](FeS2/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5.3](FeS2/scf/fit_withSCF_5.3.png)| ![fit with feff8, SCF, R=5.5](FeS2/scf/fit_withSCF_5.5.png)|
+|![fit with feff6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_feff6.png) | ![fit with feff8 no SCF](https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3.6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_withSCF_3.6.png)| ![fit with feff8, SCF, R=4](https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5.3](https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_withSCF_5.3.png)| ![fit with feff8, SCF, R=5.5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_withSCF_5.5.png)|
 
 
 _____
@@ -334,7 +334,7 @@ Fits
 
 | feff6 | no SCF | SCF, R=3 | SCF, R=4 | SCF, R=5 | SCF, R=5.5 | SCF, R=6 |
 |-------|--------|----------|----------|----------|----------|----------|
-|![fit with feff6](UO2/scf/fit_feff6.png) | ![fit with feff8 no SCF](UO2/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](UO2/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](UO2/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](UO2/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](UO2/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](UO2/scf/fit_withSCF_6.png)|
+|![fit with feff6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fit_feff6.png) | ![fit with feff8 no SCF](https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fitUO2/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fit_withSCF_6.png)|
 
 
 _____
@@ -401,7 +401,7 @@ Fits
 
 | feff6 | no SCF | SCF, R=3 | SCF, R=4 | SCF, R=5 | SCF, R=5.5 | SCF, R=6 |
 |-------|--------|----------|----------|----------|----------|----------|
-|![fit with feff6](BaZrO3/scf/fit_feff6.png) | ![fit with feff8 no SCF](BaZrO3/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](BaZrO3/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](BaZrO3/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](BaZrO3/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](BaZrO3/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](BaZrO3/scf/fit_withSCF_6.png)|
+|![fit with feff6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_feff6.png) | ![fit with feff8 no SCF](https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_withSCF_6.png)|
 
 
 _____
@@ -466,7 +466,7 @@ Fits
 
 | feff6 | no SCF | SCF, R=8 |
 |-------|--------|----------|
-|![fit with feff6](bromoadamantane/scf/fit_feff6.png) | ![fit with feff8 no SCF](bromoadamantane/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=8](bromoadamantane/scf/fit_withSCF_8.png)|
+|![fit with feff6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/scf/fit_feff6.png) | ![fit with feff8 no SCF](https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=8](https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/scf/fit_withSCF_8.png)|
 
 
 _____
@@ -536,4 +536,4 @@ Fits
 
 | feff6 | no SCF | SCF, R=2.5 | SCF, R=2.9 | SCF, R=4 | SCF, R=5.2 | SCF, R=6.8 |
 |-------|--------|----------|----------|----------|----------|----------|
-|![fit with feff6](uranyl/scf/fit_feff6.png) | ![fit with feff8 no SCF](uranyl/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=2.5](uranyl/scf/fit_withSCF_2.5.png)| ![fit with feff8, SCF, R=2.9](uranyl/scf/fit_withSCF_2.9.png)| ![fit with feff8, SCF, R=4](uranyl/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5.2](uranyl/scf/fit_withSCF_5.2.png)| ![fit with feff8, SCF, R=6.8](uranyl/scf/fit_withSCF_6.8.png)|
+|![fit with feff6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_feff6.png) | ![fit with feff8 no SCF](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=2.5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_2.5.png)| ![fit with feff8, SCF, R=2.9](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_2.9.png)| ![fit with feff8, SCF, R=4](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5.2](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_5.2.png)| ![fit with feff8, SCF, R=6.8](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_6.8.png)|
