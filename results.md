@@ -112,10 +112,12 @@ Statistics
 |withSCF(6)|1819.3955|68.5071|0.0182|
 
 
+Fits
+----
 
-| feff6 | no SCF | SCR, R=3 | SCR, R=4 | SCR, R=5 | SCR, R=5.5 | SCR, R=6 |
+| feff6 | no SCF | SCF, R=3 | SCF, R=4 | SCF, R=5 | SCF, R=5.5 | SCF, R=6 |
 |-------|--------|----------|----------|----------|----------|----------|
-|![fit with feff6](Copper/scf/fit_feff6.png) | ![fit with feff8 no SCF](Copper/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](Copper/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3](Copper/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](Copper/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5.5](Copper/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](Copper/scf/fit_withSCF_6.png)|
+|![fit with feff6](Copper/scf/fit_feff6.png) | ![fit with feff8 no SCF](Copper/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](Copper/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](Copper/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](Copper/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](Copper/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](Copper/scf/fit_withSCF_6.png)|
 
 
 
@@ -172,6 +174,12 @@ Statistics
 |withSCF(4.2)|28301.4677|1390.2520|0.0222|
 |withSCF(4.7)|28050.1096|1377.9046|0.0220|
 
+Fits
+----
+
+| feff6 | no SCF | SCF, R=2.5 | SCF, R=3 | SCF, R=3.7 | SCF, R=4.2 | SCF, R=4.7 |
+|-------|--------|----------|----------|----------|----------|----------|
+|![fit with feff6](Copper/scf/fit_feff6.png) | ![fit with feff8 no SCF](Copper/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=2.5](Copper/scf/fit_withSCF_2.5.png)| ![fit with feff8, SCF, R=3](Copper/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3.7](Copper/scf/fit_withSCF_3.7.png)| ![fit with feff8, SCF, R=4.2](Copper/scf/fit_withSCF_4.2.png)| ![fit with feff8, SCF, R=4.7](Copper/scf/fit_withSCF_4.7.png)|
 
 
 
