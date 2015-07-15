@@ -1,3 +1,10 @@
+
+* [Background](#background)
+* [Copper](#copper)
+* [NiO, nickel (II) oxide](#nio)
+* [FeS2, pyrite](#fes2)
+* [UO2, uraninite](#uo2)
+
 Background
 ==========
 
@@ -249,7 +256,7 @@ UO2
 
 The data are the UO2 shown in Shelly’s paper on *Reduction of
 Uranium(VI) by Mixed Iron(II)/Iron(III) Hydroxide (Green Rust): 
-Formation of UO\(_2\) Nanoparticles*:
+Formation of UO2 Nanoparticles*:
 [`http://dx.doi.org/10.1021/es0208409`](http://dx.doi.org/10.1021/es0208409)
 
 This is an interesting test as it is an f-electron system.
