@@ -113,9 +113,9 @@ Statistics
 
 
 
-| feff6 | no SCF | SCR, R=3 |
-|-------|--------|----------|
-|![fit with feff6](Copper/scf/fit_feff6.png) | ![fit with feff8 no SCF](Copper/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](Copper/scf/fit_wuthSCF_3.png)|
+| feff6 | no SCF | SCR, R=3 | SCR, R=4 | SCR, R=5 | SCR, R=5.5 | SCR, R=6 |
+|-------|--------|----------|----------|----------|----------|----------|
+|![fit with feff6](Copper/scf/fit_feff6.png) | ![fit with feff8 no SCF](Copper/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](Copper/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3](Copper/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](Copper/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5.5](Copper/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](Copper/scf/fit_withSCF_6.png)|
 
 
 
