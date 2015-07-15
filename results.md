@@ -8,6 +8,9 @@
 * [C10H15Br, bromoadamantane](#bromoadamantane)
 * [uranyl hydrate](#uranyl-hydrate)
 
+_____
+
+
 Background
 ==========
 
@@ -17,15 +20,16 @@ Background
     obvious first choice and the likeliest choice to be made by a
     novice user of the software.
 
-2.  All EXAFS data were Fourier transformed starting at 3/&Aring;
-    and ending at a reasonable place where the signal was still much
+2.  All EXAFS data were Fourier transformed starting at 3/&Aring; and
+    ending at a reasonable place where the signal was still much
     bigger than the noise. The choice of 3/&Aring; as the starting
-    point was deliberate. The autobk algorithm (and most – all? –
-    other algorithms) are often unreliable below about 3/&Aring; due
-    to the fact that the &mu;(E) is changing very quickly in that
-    region. Thus the data above 3/&Aring; are likely to be reliable
-    a free of systematic error due to the details of the background
-    removal.
+    point was deliberate. The
+    [autobk algorithm](http://dx.doi.org/10.1103/PhysRevB.47.14126)
+    (and most – if not all – other algorithms) are often unreliable
+    below about 3/&Aring; due to the fact that the &mu;(E) is changing
+    very quickly in that region. Thus the data above 3/&Aring; are
+    likely to be reliable a free of systematic error due to the
+    details of the background removal.
 
 3.  All the materials considered have well-known structures. For these
     tests, we want to avoid the situation where error in a fitting
@@ -41,9 +45,10 @@ Background
 5.  In the plots, the ranges of the Fourier transform and of the fit
     are indicated by vertical black lines.
 
-6.  Each material is fitted using theory from _feff6_, from _feff85exafs_
-    with self-consistency turned off, and from with _feff85exafs_ with
-    self-consistency.
+6.  Each material is fitted using theory from _feff6_, from
+    _feff85exafs_ with self-consistency turned off, and from with
+    _feff85exafs_ with self-consistency.  In each case, the default
+    self-energy model (Hedin-Lundqvist) was used.
 
 7.  For each material that is not a molecule, the analysis is done
     with a sequence of self-consistency radii. This is done to test
@@ -75,9 +80,22 @@ Background
     this page as they do not tell a different story from the more
     complete fits presented here._
 
-11. All fits were performed with a toolset written by Bruce which uses
-    the XAS analysis capabilities of
-    [Larch](https://github.com/xraypy/xraylarch/).
+11. All fits were performed with a toolset written by Bruce and
+    included here in this repository using the XAS analysis
+    capabilities of [Larch](https://github.com/xraypy/xraylarch/).
+
+12. All uncertainties are 1&sigma; error bars determined from the
+    diagonal elements of the covarience matrix evaluated during the
+    Levenberg-Marquardt minimizations.
+
+13. The plots shown below for each material were generated using the
+    tools in this repository.  You will notice that they appear to be
+    highly repetitive.  For each material it is the case that the fits
+    using the different theoretical models are nearly
+    indistinguishable by eye.  The full complement of fits are shown
+    for the sake of completeness.
+
+_____
 
 Copper
 ======
@@ -133,6 +151,7 @@ Fits
 |![fit with feff6](Copper/scf/fit_feff6.png) | ![fit with feff8 no SCF](Copper/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](Copper/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](Copper/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](Copper/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](Copper/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](Copper/scf/fit_withSCF_6.png)|
 
 
+_____
 
 
 NiO
@@ -189,6 +208,7 @@ Fits
 |![fit with feff6](NiO/scf/fit_feff6.png) | ![fit with feff8 no SCF](NiO/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=2.5](NiO/scf/fit_withSCF_2.5.png)| ![fit with feff8, SCF, R=3](NiO/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3.7](NiO/scf/fit_withSCF_3.7.png)| ![fit with feff8, SCF, R=4.2](NiO/scf/fit_withSCF_4.2.png)| ![fit with feff8, SCF, R=4.7](NiO/scf/fit_withSCF_4.7.png)|
 
 
+_____
 
 
 FeS2
@@ -251,6 +271,8 @@ Fits
 |-------|--------|----------|----------|----------|----------|----------|
 |![fit with feff6](FeS2/scf/fit_feff6.png) | ![fit with feff8 no SCF](FeS2/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](FeS2/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3.6](FeS2/scf/fit_withSCF_3.6.png)| ![fit with feff8, SCF, R=4](FeS2/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5.3](FeS2/scf/fit_withSCF_5.3.png)| ![fit with feff8, SCF, R=5.5](FeS2/scf/fit_withSCF_5.5.png)|
 
+
+_____
 
 UO2
 ===
@@ -315,6 +337,7 @@ Fits
 |![fit with feff6](UO2/scf/fit_feff6.png) | ![fit with feff8 no SCF](UO2/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](UO2/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](UO2/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](UO2/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](UO2/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](UO2/scf/fit_withSCF_6.png)|
 
 
+_____
 
 
 BaZrO3
@@ -381,6 +404,7 @@ Fits
 |![fit with feff6](BaZrO3/scf/fit_feff6.png) | ![fit with feff8 no SCF](BaZrO3/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](BaZrO3/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](BaZrO3/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](BaZrO3/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](BaZrO3/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](BaZrO3/scf/fit_withSCF_6.png)|
 
 
+_____
 
 
 bromoadamantane
@@ -445,6 +469,7 @@ Fits
 |![fit with feff6](bromoadamantane/scf/fit_feff6.png) | ![fit with feff8 no SCF](bromoadamantane/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=8](bromoadamantane/scf/fit_withSCF_8.png)|
 
 
+_____
 
 
 uranyl hydrate
