@@ -1,0 +1,9 @@
+#!/bin/bash
+
+## convert the latex fit summaries to a pandoc output format, likely
+## markdown_github
+
+## in emacs: C-u M-! ./l2m <material>
+
+format='markdown_github'
+sed 's/\\num{\([^}]*\)}/\1/g' $1/$1.tex | pandoc -f latex -t $format
