@@ -179,7 +179,7 @@ Fits
 
 | feff6 | no SCF | SCF, R=2.5 | SCF, R=3 | SCF, R=3.7 | SCF, R=4.2 | SCF, R=4.7 |
 |-------|--------|----------|----------|----------|----------|----------|
-|![fit with feff6](Copper/scf/fit_feff6.png) | ![fit with feff8 no SCF](Copper/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=2.5](Copper/scf/fit_withSCF_2.5.png)| ![fit with feff8, SCF, R=3](Copper/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3.7](Copper/scf/fit_withSCF_3.7.png)| ![fit with feff8, SCF, R=4.2](Copper/scf/fit_withSCF_4.2.png)| ![fit with feff8, SCF, R=4.7](Copper/scf/fit_withSCF_4.7.png)|
+|![fit with feff6](NiO/scf/fit_feff6.png) | ![fit with feff8 no SCF](NiO/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=2.5](NiO/scf/fit_withSCF_2.5.png)| ![fit with feff8, SCF, R=3](NiO/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3.7](NiO/scf/fit_withSCF_3.7.png)| ![fit with feff8, SCF, R=4.2](NiO/scf/fit_withSCF_4.2.png)| ![fit with feff8, SCF, R=4.7](NiO/scf/fit_withSCF_4.7.png)|
 
 
 
