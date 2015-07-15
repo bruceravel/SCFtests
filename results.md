@@ -6,7 +6,7 @@
 * [UO2, uraninite](#uo2)
 * [BaZrO3, barium zirconate](#bazro3)
 * [C10H15Br, bromoadamantane](#bromoadamantane)
-* [uranyl hydrate](#uranyl)
+* [uranyl hydrate](#uranyl-hydrate)
 
 Background
 ==========
@@ -317,8 +317,8 @@ Fits
 
 
 
-BaZrO\(_3\)
-===========
+BaZrO3
+======
 
 ![The perovskite structure.](BaZrO3/perovskite.png "fig:")
 
@@ -386,15 +386,65 @@ Fits
 bromoadamantane
 ===============
 
-<span>r</span><span>0.25</span> ![ 1-bromoadamantane](bromoadamantane/bromoadamantane.png "fig:")
+![ 1-bromoadamantane](bromoadamantane/bromoadamantane.png "fig:")
 
-The data are 1-bromoadamantane. Adamantane is a cycloalkane, meaning that it is a hydrocarbon with rings of carbon atoms. It is also a diamondoid, meaning that it is a strong, stiff, 3D network of covalent bonds. 1-bromoadamantane has one hydrogen atom replaced by a bromine atom.
+The data are 1-bromoadamantane. Adamantane is a cycloalkane, meaning
+that it is a hydrocarbon with rings of carbon atoms. It is also a
+diamondoid, meaning that it is a strong, stiff, 3D network of covalent
+bonds. 1-bromoadamantane has one hydrogen atom replaced by a bromine
+atom.
 
-The material was supplied by my colleague Alessandra Leri of Manhattan Marymount College in the form of a white powder. This powder was spread onto kapton tape which was folded to make a sample with an edge step of about 1.7. The data were measured by Bruce at NSLS beamline X23A2.
+The material was supplied by my colleague Alessandra Leri of Manhattan
+Marymount College in the form of a white powder. This powder was
+spread onto kapton tape which was folded to make a sample with an edge
+step of about 1.7. The data were measured by Bruce at NSLS beamline
+X23A2.
 
-This is an interesting test case because it is a molecule (thus the entire molecule can be included in the self-consistency calculation) and because there is measureable scattering from the neighboring hydrogen atoms. While the \(\sigma^2\) of the hydrogen scatterers is not well-determined, the fit is statistically significantly worse when the hydrogen scatterers are excluded.
+This is an interesting test case because it is a molecule (thus the
+entire molecule can be included in the self-consistency calculation)
+and because there is measureable scattering from the neighboring
+hydrogen atoms. While the &sigma;^2 of the hydrogen scatterers is
+not well-determined, the fit is statistically significantly worse when
+the hydrogen scatterers are excluded.
 
-The fit includes the nearest neighbor C, the next three C atoms, and the neighboring 6 hydrogen atoms. The DS triangle paths involving the first and second neighbor C atoms are also included. The fitting model assumes that the adamanatane anion is very rigid compared to the Br-C bond. Thus, the formula explained in [`http://dx.doi.org/10.1088/1742-6596/190/1/012026`](http://dx.doi.org/10.1088/1742-6596/190/1/012026) is used to constrain the second neighbor C distance to the first neighbor C \(\Delta R\) parameter.
+The fit includes the nearest neighbor C, the next three C atoms, and
+the neighboring 6 hydrogen atoms. The DS triangle paths involving the
+first and second neighbor C atoms are also included. The fitting model
+assumes that the adamanatane anion is very rigid compared to the Br-C
+bond. Thus, the formula explained in
+[`http://dx.doi.org/10.1088/1742-6596/190/1/012026`](http://dx.doi.org/10.1088/1742-6596/190/1/012026)
+is used to constrain the second neighbor C distance to the first
+neighbor C &Delta;R parameter.
+
+
+Best fit values
+---------------
+
+|model|amp|delr|drh|enot|ss|ssh|
+|:----|:--|:---|:--|:---|:--|:--|
+|feff6|1.57(24)|0.01826(1456)|0.041(20)|5.95(181)|0.00659(183)|0.00159(266)|
+|noSCF|1.24(22)|0.01682(1608)|0.079(24)|12.03(169)|0.00554(206)|0.00008(310)|
+|withSCF(8)|1.33(20)|0.01762(1408)|0.073(25)|1.54(156)|0.00560(180)|0.00143(319)|
+
+Statistics
+----------
+
+|model|&chi;^2|&chi;^2_&nu;|R|
+|:----|---------:|-------------:|--------------:|
+|feff6|7743.8859|1493.2531|0.0207|
+|noSCF|10540.8219|2032.5862|0.0281|
+|withSCF(8)|8632.0582|1664.5194|0.0230|
+
+
+Fits
+----
+
+
+| feff6 | no SCF | SCF, R=8 |
+|-------|--------|----------|
+|![fit with feff6](bromoadamantane/scf/fit_feff6.png) | ![fit with feff8 no SCF](bromoadamantane/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=8](bromoadamantane/scf/fit_withSCF_8.png)|
+
+
 
 
 uranyl hydrate
@@ -408,7 +458,7 @@ U-bacterial cell wall interactions*,
 [`http://dx.doi.org/10.1016/S0016-7037(02)00947-X`](http://dx.doi.org/10.1016/S0016-7037(02)00947-X)
 
 This is an interesting test case because it involves very short
-(\(\sim1.78\)Å) oxygenyl bonds in an \(f\)-electron system.
+~1.78&Aring; oxygenyl bonds in an f-electron system.
 
 The `AFOLP` card was used to run _feff6_. The `FOLP` card with a value
 of 0.9 for each potential was used to get _feff8.5_ to run to
@@ -421,6 +471,44 @@ and equatorial O atoms (red balls) are used in the fit. Other paths
 are unused. The parameterization given in Tables 2 and 5 is used in
 this fit.
 
-There is an S\(_0^2\) (`amp`) and an energy shift (`enot`). The axial and equatorial oxyegn atoms each get a \(\Delta R\) (`deloax` and `deloeq`) and a \(\sigma^2\) (`sigoax` and `sigoeq`).
+There is an S0^2 (`amp`) and an energy shift (`enot`). The axial
+and equatorial oxyegn atoms each get a &Delta;R (`deloax` and
+`deloeq`) and a &sigma;^2 (`sigoax` and `sigoeq`).
 
-`amp` is unitless. `enot` is eV. `deloax` and `deloeq` are Å. `sigoax` and `sigoeq` are Å\(^2\).
+`amp` is unitless. `enot` is eV. `deloax` and `deloeq` are
+&Aring;. `sigoax` and `sigoeq` are &Aring;^2.
+
+Best fit values
+---------------
+
+|model|amp|deloax|deloeq|enot|sigoax|sigoeq|
+|:----|:--|:-----|:-----|:---|:-----|:-----|
+|feff6|0.93(4)|0.03504(396)|-0.04278(770)|10.63(60)|-0.00007(53)|0.00726(94)|
+|noSCF|1.04(6)|0.03684(523)|-0.05319(975)|11.32(78)|0.00032(72)|0.00699(118)|
+|withSCF(2.5)|1.08(6)|0.04165(548)|-0.04475(972)|3.45(81)|0.00074(73)|0.00692(115)|
+|withSCF(2.9)|1.08(6)|0.04172(547)|-0.04485(971)|3.50(81)|0.00074(73)|0.00691(115)|
+|withSCF(4.0)|1.08(6)|0.04144(545)|-0.04455(969)|3.59(81)|0.00075(73)|0.00694(115)|
+|withSCF(5.2)|1.08(6)|0.04154(545)|-0.04473(967)|3.66(81)|0.00074(72)|0.00693(114)|
+|withSCF(6.8)|1.08(6)|0.04163(545)|-0.04478(968)|3.63(81)|0.00074(72)|0.00693(114)|
+
+Statistics
+----------
+
+|model|&chi;^2|&chi;^2_&nu;|R|
+|:----|---------:|-------------:|--------------:|
+|feff6|37.6972|6.0758|0.0027|
+|noSCF|69.0909|11.1356|0.0049|
+|withSCF(2.5)|71.0295|11.4480|0.0050|
+|withSCF(2.9)|70.8922|11.4259|0.0050|
+|withSCF(4.0)|70.4038|11.3472|0.0050|
+|withSCF(5.2)|70.2351|11.3200|0.0050|
+|withSCF(6.8)|70.3644|11.3408|0.0050|
+
+
+
+Fits
+----
+
+| feff6 | no SCF | SCF, R=2.5 | SCF, R=2.9 | SCF, R=4 | SCF, R=5.2 | SCF, R=6.8 |
+|-------|--------|----------|----------|----------|----------|----------|
+|![fit with feff6](uranyl/scf/fit_feff6.png) | ![fit with feff8 no SCF](uranyl/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=2.5](uranyl/scf/fit_withSCF_2.5.png)| ![fit with feff8, SCF, R=2.9](uranyl/scf/fit_withSCF_2.9.png)| ![fit with feff8, SCF, R=4](uranyl/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5.2](uranyl/scf/fit_withSCF_5.2.png)| ![fit with feff8, SCF, R=6.8](uranyl/scf/fit_withSCF_6.8.png)|
