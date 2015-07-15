@@ -184,10 +184,12 @@ Fits
 FeS2
 =========
 
-This is one of my standard teaching examples. It’s good for teaching
-as it is fairly simple – it’s cubic – but it has a bit of structure
-and a two kinds of scatterers. The data are taken from Matt’s online
-collection of references.
+This is one of
+[my standard teaching examples](https://github.com/bruceravel/XAS-Education/tree/master/Examples/FeS2).
+It’s good for teaching as it is fairly simple – it’s cubic – but it
+has a bit of structure and two kinds of scatterers. The data are taken
+from
+[Matt’s online collection of references](http://cars.uchicago.edu/~newville/ModelLib/search.html).
 
 The model includes a S0^2 parameter (`amp`), an energy shift (`enot`),
 and a volumetric lattice expansion coefficient (`alpha`). The first
@@ -240,25 +242,70 @@ Fits
 |![fit with feff6](FeS2/scf/fit_feff6.png) | ![fit with feff8 no SCF](FeS2/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](FeS2/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3.6](FeS2/scf/fit_withSCF_3.6.png)| ![fit with feff8, SCF, R=4](FeS2/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5.3](FeS2/scf/fit_withSCF_5.3.png)| ![fit with feff8, SCF, R=5.5](FeS2/scf/fit_withSCF_5.5.png)|
 
 
-UO\(_2\)
-========
+UO2
+===
 
-<span>r</span><span>0.25</span> ![Uraninite](UO2/UO2.png "fig:")
+![Uraninite](UO2/UO2.png "fig:")
 
-The data are the UO\(_2\) shown in Shelly’s paper on *Reduction of Uranium(VI) by Mixed Iron(II)/Iron(III) Hydroxide (Green Rust):  Formation of UO\(_2\) Nanoparticles*: [`http://dx.doi.org/10.1021/es0208409`](http://dx.doi.org/10.1021/es0208409)
+The data are the UO2 shown in Shelly’s paper on *Reduction of
+Uranium(VI) by Mixed Iron(II)/Iron(III) Hydroxide (Green Rust): 
+Formation of UO\(_2\) Nanoparticles*:
+[`http://dx.doi.org/10.1021/es0208409`](http://dx.doi.org/10.1021/es0208409)
 
-This is an interesting test as it is an \(f\)-electron system.
+This is an interesting test as it is an f-electron system.
 
-The fitting model follows rather closely to what is described in that paper, particularly the content of Table 2, although I allow S\(_0^2\) to float (`amp`). Along with an energy shift (`enot`), a \(\Delta R\) and \(\sigma^2\) for the first shell O (`dro` and `sso`), a \(\Delta R\) and \(\sigma^2\) for the second shell U (`dru` and `ssu`), and a \(\Delta R\) and \(\sigma^2\) for the third shell O (`dro2` and `sso2`), there is a parameter for the number of U scatterers (`nu`).
+The fitting model follows rather closely to what is described in that
+paper, particularly the content of Table 2, although I allow S0^2 to
+float (`amp`). Along with an energy shift (`enot`), a &Delta;R and
+&sigma;^2 for the first shell O (`dro` and `sso`), a &Delta;R and
+&sigma;^2 for the second shell U (`dru` and `ssu`), and a &Delta;R and
+&sigma;^2 for the third shell O (`dro2` and `sso2`), there is a
+parameter for the number of U scatterers (`nu`).
 
-The model includes the same 6 paths given in Table 2 of Shelly’s paper.
+The model includes the same 6 paths given in Table 2 of Shelly’s
+paper.
 
-`amp` is unitless. `enot` is eV. `dro`, `dru`, and `dro2` are Å. `sso`, `ssu`, and `sso2` are Å\(^2\).
+`amp` is unitless. `enot` is eV. `dro`, `dru`, and `dro2` are
+&Aring;. `sso`, `ssu`, and `sso2` are &Aring;2.
 
-UO\(_2\), first shell
-=====================
 
-This fit includes only the first shell, and a standard 4-paramater model. `amp` is unitless. `enot` is eV, `dro` is Å, and `sso` is Å\(^2\).
+Best fit values
+---------------
+
+|model|amp|dro|dro2|dru|enot|nu|sso|sso2|ssu|
+|:----|:--|:--|:---|:--|:---|:--|:--|:---|:--|
+|feff6|0.87(11)|-0.022(14)|-0.055(24)|0.005(11)|4.87(136)|11.43(481)|0.00939(213)|0.01060(440)|0.00488(247)|
+|noSCF|0.84(11)|-0.023(15)|-0.024(32)|0.001(12)|8.15(146)|9.27(416)|0.00872(221)|0.01061(618)|0.00382(273)|
+|withSCF(3)|0.84(10)|-0.026(13)|-0.013(28)|-0.002(11)|1.63(129)|9.21(376)|0.00894(209)|0.00976(511)|0.00393(250)|
+|withSCF(4)|0.84(10)|-0.026(13)|-0.013(29)|-0.003(11)|2.08(130)|9.16(373)|0.00892(209)|0.00972(513)|0.00389(250)|
+|withSCF(5)|0.84(10)|-0.026(13)|-0.012(28)|-0.003(11)|1.72(129)|9.18(373)|0.00893(208)|0.00969(508)|0.00391(249)|
+|withSCF(5.5)|0.84(10)|-0.026(13)|-0.012(28)|-0.003(11)|1.62(129)|9.17(372)|0.00894(208)|0.00970(509)|0.00391(249)|
+|withSCF(6)|0.84(10)|-0.026(13)|-0.012(29)|-0.003(11)|1.71(129)|9.16(372)|0.00893(208)|0.00971(510)|0.00390(249)|
+
+Statistics
+----------
+
+|model|&chi;^2|&chi;^2_&nu;|R|
+|:----|---------:|-------------:|--------------:|
+|feff6|166.2736|22.0712|0.0160|
+|noSCF|188.4320|25.0125|0.0181|
+|withSCF(3)|169.5918|22.5116|0.0163|
+|withSCF(4)|169.9560|22.5600|0.0163|
+|withSCF(5)|169.1192|22.4489|0.0163|
+|withSCF(5.5)|169.1306|22.4504|0.0163|
+|withSCF(6)|169.2412|22.4651|0.0163|
+
+
+
+Fits
+----
+
+| feff6 | no SCF | SCF, R=3 | SCF, R=4 | SCF, R=5 | SCF, R=5.5 | SCF, R=6 |
+|-------|--------|----------|----------|----------|----------|----------|
+|![fit with feff6](UO2/scf/fit_feff6.png) | ![fit with feff8 no SCF](UO2/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](UO2/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](UO2/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](UO2/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](UO2/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](UO2/scf/fit_withSCF_6.png)|
+
+
+
 
 BaZrO\(_3\)
 ===========
