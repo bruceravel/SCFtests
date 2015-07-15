@@ -148,7 +148,7 @@ Fits
 
 | feff6 | no SCF | SCF, R=3 | SCF, R=4 | SCF, R=5 | SCF, R=5.5 | SCF, R=6 |
 |-------|--------|----------|----------|----------|----------|----------|
-|![fit with feff6](https://github.com/bruceravel/SCFtests/blob/master/Copper/scf/fit_feff6.png) | ![fit with feff8 no SCF](https://github.com/bruceravel/SCFtests/blob/master/Copper/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](https://github.com/bruceravel/SCFtests/blob/master/Copper/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](https://github.com/bruceravel/SCFtests/blob/master/Copper/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](https://github.com/bruceravel/SCFtests/blob/master/Copper/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](https://github.com/bruceravel/SCFtests/blob/master/Copper/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](https://github.com/bruceravel/SCFtests/blob/master/Copper/scf/fit_withSCF_6.png)|
+|![fit with feff6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_feff6.png) | ![fit with feff8 no SCF](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_6.png)|
 
 
 _____
