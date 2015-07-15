@@ -7,13 +7,13 @@ Background
     obvious first choice and the likeliest choice to be made by a
     novice user of the software.
 
-2.  All EXAFS data were Fourier transformed starting at 3&Aring;^{-1}
+2.  All EXAFS data were Fourier transformed starting at 3/&Aring;
     and ending at a reasonable place where the signal was still much
-    bigger than the noise. The choice of 3&Aring;^{-1} as the starting
+    bigger than the noise. The choice of 3/&Aring; as the starting
     point was deliberate. The autobk algorithm (and most – all? –
-    other algorithms) are often unreliable below about 3&Aring;^{-1} due
+    other algorithms) are often unreliable below about 3/&Aring; due
     to the fact that the &mu;(E) is changing very quickly in that
-    region. Thus the data above 3&Aring;^{-1} are likely to be reliable
+    region. Thus the data above 3/&Aring; are likely to be reliable
     a free of systematic error due to the details of the background
     removal.
 
@@ -82,7 +82,7 @@ The fit included 4 coordination shells, which includes several
 collinear multiple scattering paths of the same distance as the fourth
 shell single scattering path.
 
-`amp` and `alpha` are unitless. `enot` is eV, `ss1` is Å\(^2\), and
+`amp` and `alpha` are unitless. `enot` is eV, `ss1` is &Aring^2, and
 `thetad` is K.
 
 Best fit values
@@ -101,7 +101,7 @@ Best fit values
 Statistics
 ----------
 
-|model|\(\chi^2\)|\(\chi^2_\nu\)|\(\mathcal{R}\)|
+|model|&chi;^2|&chi^2_&nu;|R|
 |:----|---------:|-------------:|--------------:|
 |feff6|1444.2957|54.3832|0.0145|
 |noSCF|1414.0154|53.2430|0.0142|
@@ -118,16 +118,58 @@ Statistics
 Copper, first shell
 ===================
 
-This fit includes only the first shell, and a standard 4-paramater model. `amp` is unitless. `enot` is eV, `delr` is Å, and `ss1` is Å\(^2\).
+This fit includes only the first shell, and a standard 4-paramater
+model. `amp` is unitless. `enot` is eV, `delr` is Å, and `ss1` is
+&Aring;^2.
 
 NiO
 ===
 
-The sample was NiO powder prepared by my colleague Neil Hyatt (University of Sheffield) and checked by him for phase purity. The powder was mixed with polyethylene glycol and pressed into a pellet to make a edge step of 0.78. The data were measured by Bruce at NSLS beamline X23A2. The simple fiting model to this rocksalt structure included a S\(_0^2\) parameter (`amp`), an energy shift (`enot`), and a volumetric lattice expansion coefficient (`alpha`).
+The sample was NiO powder prepared by my colleague Neil Hyatt
+(University of Sheffield) and checked by him for phase purity. The
+powder was mixed with polyethylene glycol and pressed into a pellet to
+make a edge step of 0.78. The data were measured by Bruce at NSLS
+beamline X23A2. The simple fiting model to this rocksalt structure
+included a S0^2 parameter (`amp`), an energy shift (`enot`), and a
+volumetric lattice expansion coefficient (`alpha`).
 
-The fit included 4 coordination shells, 2 with O and 2 with Ni. There are several collinear multiple scattering paths at the same distance as the fourth shell Ni scatterer. Each shell has its own \(\sigma^2\) parameter (`sso`, `ssni`, `sso2`, and `ssni2`, respectively.).
+The fit included 4 coordination shells, 2 with O and 2 with Ni. There
+are several collinear multiple scattering paths at the same distance
+as the fourth shell Ni scatterer. Each shell has its own &sigma;^2
+parameter (`sso`, `ssni`, `sso2`, and `ssni2`, respectively.).
 
-`amp` and `alpha` are unitless. `enot` is eV. `sso`, `ssni`, `sso2`, and `ssni2` are Å\(^2\).
+`amp` and `alpha` are unitless. `enot` is eV. `sso`, `ssni`, `sso2`,
+and `ssni2` are &Aring;^2.
+
+
+Best fit values
+---------------
+
+|model|alpha|amp|enot|ssni|ssni2|sso|sso2|
+|:----|:----|:--|:---|:---|:----|:--|:---|
+|feff6|0.00062(146)|0.71(5)|-1.22(54)|0.00546(56)|0.00714(95)|0.00437(120)|0.04205(3218)|
+|noSCF|0.00050(152)|0.68(5)|2.49(56)|0.00534(58)|0.00715(101)|0.00468(131)|0.03946(2918)|
+|withSCF(2.5)|-0.00021(148)|0.71(4)|-7.34(54)|0.00554(56)|0.00726(97)|0.00468(123)|0.03146(2038)|
+|withSCF(3)|-0.00073(145)|0.71(4)|-7.95(53)|0.00555(55)|0.00715(95)|0.00456(119)|0.03368(2237)|
+|withSCF(3.7)|-0.00068(145)|0.71(4)|-7.94(53)|0.00555(55)|0.00716(95)|0.00457(119)|0.03344(2213)|
+|withSCF(4.2)|-0.00010(149)|0.71(4)|-7.29(55)|0.00554(56)|0.00727(98)|0.00470(124)|0.03099(1996)|
+|withSCF(4.7)|-0.00023(148)|0.71(4)|-7.31(54)|0.00554(56)|0.00725(97)|0.00466(123)|0.03167(2060)|
+
+Statistics
+----------
+
+|model|&chi;^2|&chi^2_&nu;|R|
+|:----|---------:|-------------:|--------------:|
+|feff6|27430.3658|1347.4609|0.0215|
+|noSCF|29860.6446|1466.8434|0.0234|
+|withSCF(2.5)|28069.2786|1378.8462|0.0220|
+|withSCF(3)|26875.8980|1320.2238|0.0211|
+|withSCF(3.7)|26950.4623|1323.8866|0.0211|
+|withSCF(4.2)|28301.4677|1390.2520|0.0222|
+|withSCF(4.7)|28050.1096|1377.9046|0.0220|
+
+
+
 
 NiO, first shell
 ================
