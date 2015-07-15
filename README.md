@@ -14,18 +14,19 @@ _____
 Background
 ==========
 
-1.  All XAS data were processed sensibly in athena with E0 chosen
-    to be the first peak of the first derivative in &mu;(E). That
-    may not be the best choice of E0 in all cases, but it is the
-    obvious first choice and the likeliest choice to be made by a
-    novice user of the software.
+1.  All XAS data were processed sensibly in
+    [Athena](http://bruceravel.github.io/demeter/) with E0 chosen to
+    be the first peak of the first derivative in &mu;(E). That may not
+    be the best choice of E0 in all cases, but it is the obvious first
+    choice and the likeliest choice to be made by a novice user of the
+    software.
 
 2.  All EXAFS data were Fourier transformed starting at 3/&Aring; and
     ending at a reasonable place where the signal was still much
     bigger than the noise. The choice of 3/&Aring; as the starting
     point was deliberate. The
-    [autobk algorithm](http://dx.doi.org/10.1103/PhysRevB.47.14126)
-    (and most – if not all – other algorithms) are often unreliable
+    [Autobk algorithm](http://dx.doi.org/10.1103/PhysRevB.47.14126)
+    (and most – if not all – other algorithms) is often unreliable
     below about 3/&Aring; due to the fact that the &mu;(E) is changing
     very quickly in that region. Thus the data above 3/&Aring; are
     likely to be reliable a free of systematic error due to the
@@ -113,7 +114,7 @@ The fit included 4 coordination shells, which includes several
 collinear multiple scattering paths of the same distance as the fourth
 shell single scattering path.
 
-`amp` and `alpha` are unitless. `enot` is eV, `ss1` is &Aring&sup2;, and
+`amp` and `alpha` are unitless. `enot` is eV, `ss1` is &Aring;&sup2;, and
 `thetad` is K.
 
 Best fit values
@@ -132,7 +133,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
+|model|&chi;&sup2;|reduced &chi;&sup2;| R-factor |
 |:----|---------:|-------------:|--------------:|
 |feff6|1444.2957|54.3832|0.0145|
 |noSCF|1414.0154|53.2430|0.0142|
@@ -190,7 +191,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
+|model|&chi;&sup2;|reduced &chi;&sup2;| R-factor |
 |:----|---------:|-------------:|--------------:|
 |feff6|27430.3658|1347.4609|0.0215|
 |noSCF|29860.6446|1466.8434|0.0234|
@@ -253,7 +254,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
+|model|&chi;&sup2;|reduced &chi;&sup2;| R-factor |
 |:----|---------:|-------------:|--------------:|
 |feff6|2052.3016|146.4407|0.0064|
 |noSCF|3783.2180|269.9491|0.0119|
@@ -277,7 +278,7 @@ _____
 UO2
 ===
 
-![Uraninite](UO2/UO2.png "fig:")
+![Uraninite](https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/UO2.png "fig:")
 
 The data are the UO2 shown in Shelly’s paper on *Reduction of
 Uranium(VI) by Mixed Iron(II)/Iron(III) Hydroxide (Green Rust): 
@@ -317,7 +318,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
+|model|&chi;&sup2;|reduced &chi;&sup2;| R-factor |
 |:----|---------:|-------------:|--------------:|
 |feff6|166.2736|22.0712|0.0160|
 |noSCF|188.4320|25.0125|0.0181|
@@ -343,7 +344,7 @@ _____
 BaZrO3
 ======
 
-![The perovskite structure.](BaZrO3/perovskite.png "fig:")
+![The perovskite structure.](https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/perovskite.png "fig:")
 
 In a short paper on the Zr edge of BaZrO3,
 [`http://dx.doi.org/10.1016/0921-4526(94)00654-E`](http://dx.doi.org/10.1016/0921-4526(94)00654-E),
@@ -384,7 +385,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
+|model|&chi;&sup2;|reduced &chi;&sup2;| R-factor |
 |:----|---------:|-------------:|--------------:|
 |feff6|8979.2479|555.6561|0.0108|
 |noSCF|9536.0604|590.1130|0.0114|
@@ -410,7 +411,7 @@ _____
 bromoadamantane
 ===============
 
-![ 1-bromoadamantane](bromoadamantane/bromoadamantane.png "fig:")
+![ 1-bromoadamantane](https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/bromoadamantane.png "fig:")
 
 The data are 1-bromoadamantane. Adamantane is a cycloalkane, meaning
 that it is a hydrocarbon with rings of carbon atoms. It is also a
@@ -453,7 +454,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
+|model|&chi;&sup2;|reduced &chi;&sup2;| R-factor |
 |:----|---------:|-------------:|--------------:|
 |feff6|7743.8859|1493.2531|0.0207|
 |noSCF|10540.8219|2032.5862|0.0281|
@@ -475,7 +476,7 @@ _____
 uranyl hydrate
 ==============
 
-![The uranyl motif from sodium uranyl triacetate.](uranyl/uranyl.png "fig:")
+![The uranyl motif from sodium uranyl triacetate.](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/uranyl.png "fig:")
 
 The data are the hydrated uranyl hydrate shown in Shelly’s paper on
 *X-ray absorption fine structure determination of pH-dependent
@@ -519,7 +520,7 @@ Best fit values
 Statistics
 ----------
 
-|model|&chi;&sup2;|&chi;&sup2;_&nu;|R|
+|model|&chi;&sup2;|reduced &chi;&sup2;| R-factor |
 |:----|---------:|-------------:|--------------:|
 |feff6|37.6972|6.0758|0.0027|
 |noSCF|69.0909|11.1356|0.0049|
