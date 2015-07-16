@@ -28,6 +28,7 @@
 <li><a href="#bazro3">BaZrO3, barium zirconate</a></li>
 <li><a href="#bromoadamantane">C10H15Br, bromoadamantane</a></li>
 <li><a href="#uranyl-hydrate">uranyl hydrate</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
 </ul>
 
 <hr>
@@ -63,31 +64,35 @@ analysis. The remaining materials all contribute interesting
 features for which self-consistency might play a role.</p></li>
 <li><p>In the plots, the ranges of the Fourier transform and of the fit
 are indicated by vertical black lines.</p></li>
-<li><p>Each material is fitted using theory from <em>feff6</em>, from
-<em>feff85exafs</em> with self-consistency turned off, and from with
-<em>feff85exafs</em> with self-consistency.  In each case, the default
-self-energy model (Hedin-Lundqvist) was used.</p></li>
+<li><p>Each material is fitted using theory from the version of <em>Feff6</em>
+that ships with <a href="https://github.com/newville/ifeffit">Ifeffit</a>,
+from <a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a> with
+self-consistency turned off, and from with
+<a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a> with
+self-consistency.  In each case, the default self-energy model
+(Hedin-Lundqvist) was used.</p></li>
 <li><p>For each material that is not a molecule, the analysis is done
 with a sequence of self-consistency radii. This is done to test
 the importance of the consideration of that parameter on the
 analysis. In the case of hydrated uranyl hydrate, this is a
-molecule, but the feff calculation is done of a crystalline
+molecule, but the Feff calculation is done of a crystalline
 analogue to the molecule. The effect of self-consistency radius is
 tested in that case.</p></li>
 <li><p>Where appropriate (bromoadamantane, for example), the <code>lfms</code>
 parameter of the <code>SCF</code> card is set to 1.</p></li>
-<li><p>The uranyl calculation was a bit challenging with <em>feff85exafs</em>. To
-get the program to run to complation, it was necessary to set the
-FOLP parameter to 0.9 for each unique potential. Given that the
-quality of the fit was much the same as for using <em>feff6</em>, this was
-not examined further. Still, this merits further attention for
-this material.</p></li>
+<li><p>The uranyl calculation was a bit challenging with
+<a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a>. To get the
+program to run to complation, it was necessary to set the FOLP
+parameter to 0.9 for each unique potential. Given that the quality
+of the fit was much the same as for using <em>Feff6</em>, this was not
+examined further. Still, this merits further attention for this
+material.</p></li>
 <li><p>We were interested to know if the effect of SCF on EXAFS fitting
 was different for a first shell fit as compared to a more
 extensive fitting model. So fits were generated for the first
 shells only of all materials except for uranyl hydrate for which
 the axial and equatorial scatterers cannot be isolated. Also, Matt
-tells me that, years ago, he and John looked at some <em>feff6</em>/<em>feff8</em>
+tells me that, years ago, he and John looked at some <em>Feff6</em>/<em>Feff8</em>
 comparisons, but only for first shell fits. These first shell fits
 are intended for comparison to that older work.  <em>The results of
 the first shell fits are included in the repository, but not on
@@ -104,7 +109,25 @@ tools in this repository.  You will notice that they appear to be
 highly repetitive.  For each material it is the case that the fits
 using the different theoretical models are nearly
 indistinguishable by eye.  The full complement of fits are shown
-for the sake of completeness.</p></li>
+for the sake of completeness.  As you scroll through the plots of
+the fit results, you may be tempted to think that the same image
+has been replicated several times.  I assure you that each plot is
+actual plot made using the actual fit to the different theory
+models!</p></li>
+<li><p>The very astute Feff user might point out that the path indexing
+is not guaranteed to be consistent across versions.  That is, a
+small MS path may barely exceed the heap criterion in one version
+of Feff, but not in another.  That would change the indexing for
+all paths with longer half-path-lengths, thus confounding the use
+of single Larch fitting script with the different version of the
+theory.  To avoid this problem, the pathfinder in <em>Feff6</em> was run,
+generating a <code>files.dat</code> file.  This <code>files.dat</code> was then copied
+into the folders where the various
+<a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a>
+calculations were run.  The pathfinder was then skipped in each of
+the <em>Feff8</em> runs.  This guaranteed that each theory calculation
+generated the same list of <code>feffNNNN.dat</code> files with the same
+indexing.</p></li>
 </ol>
 
 <hr>
@@ -288,6 +311,21 @@ shell single scattering path.</p>
 </tbody>
 </table>
 
+<h2>
+<a id="discussion" class="anchor" href="#discussion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discussion</h2>
+
+<p>We start with copper because, well, it's copper.  Any discussion of
+XAS theory starts with copper.  It's a tradition!</p>
+
+<p>In fact, we expect copper to be a null result.  There is no reason to
+expect that charge transfer and self-cosistency would have much effect
+on a monoatomic material.  That expectation is borne out.</p>
+
+<p>The fitting parameters are constant well within their uncertainties
+and across all theory models.  The statistical parameters also do not
+change much across the models.  Amusingly, reduced χ² and
+R-factor are a bit smaller <em>without</em> the use of self-consistency.</p>
+
 <hr>
 
 <h1>
@@ -297,9 +335,10 @@ shell single scattering path.</p>
 (University of Sheffield) and checked by him for phase purity. The
 powder was mixed with polyethylene glycol and pressed into a pellet to
 make a edge step of 0.78. The data were measured by Bruce at NSLS
-beamline X23A2. The simple fiting model to this rocksalt structure
-included a S0² parameter (<code>amp</code>), an energy shift (<code>enot</code>), and a
-volumetric lattice expansion coefficient (<code>alpha</code>).</p>
+beamline X23A2 and will be appearing in an upcoming article in Journal
+of Synchrotron Radiation. The simple fiting model to this rocksalt
+structure included a S0² parameter (<code>amp</code>), an energy shift
+(<code>enot</code>), and a volumetric lattice expansion coefficient (<code>alpha</code>).</p>
 
 <p>The fit included 4 coordination shells, 2 with O and 2 with Ni. There
 are several collinear multiple scattering paths at the same distance
@@ -484,6 +523,39 @@ and <code>ssni2</code> are Å².</p>
 </tr>
 </tbody>
 </table>
+
+<h2>
+<a id="discussion-1" class="anchor" href="#discussion-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discussion</h2>
+
+<p>NiO was chosen as the second example because it constitutes the
+smallest added complexity compared to copper.  NiO is a rocksalt
+structure, so it is highly ordered and the local configuration around
+the Ni atom is very well known.  With an oxygen ligand, there should
+be some charge transfer.</p>
+
+<p>With the exception of the E0 parameter, all of the parameters are
+constant well within their error bars.  The statistical parameters are
+unchanged from model to model.</p>
+
+<p>This is the first example of dependence of the E0 parameter on
+theoretical model.  The ultimate value of Feff's threshold energy
+depends the model.  The starting condition is not the same in <em>Feff6</em>
+as in <em>Feff8</em> without self-consistency.  This is seen by the 3.3 eV
+shift in fitted E0 value.  Furthermore, the threshold changes as
+charge is transfered and self-consistency is reached.  This results in
+a -6 eV shift relative to <em>Feff6</em>.</p>
+
+<p>My standard explanation of the E0 fitting parameter when I am teaching
+EXAFS is that it is the parameter that lines up the zero of wavenumber
+in the data with the zero of wavenumber in the theory.  As such, it is
+hard to say that one of these E0 results is “better” than
+the others.</p>
+
+<p>One might hope that improvements in theory would lead to a fitted E0
+parameter of 0 when the edge is chosen at the inflection point of the
+rising edge of the XAS data.  While that might be true, we aren't
+there yet with <em>Feff8</em>.  See <a href="#conclusion">the conclusion</a> for more
+discussion.</p>
 
 <hr>
 
@@ -686,7 +758,7 @@ are Å².</p>
 <h1>
 <a id="uo2" class="anchor" href="#uo2" aria-hidden="true"><span class="octicon octicon-link"></span></a>UO2</h1>
 
-<p><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/UO2.png" alt="Uraninite" title="fig:"></p>
+<p><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/UO2.png" alt="Uraninite"></p>
 
 <p>The data are the UO2 shown in Shelly’s paper on <em>Reduction of
 Uranium(VI) by Mixed Iron(II)/Iron(III) Hydroxide (Green Rust): 
@@ -906,7 +978,7 @@ paper.</p>
 <h1>
 <a id="bazro3" class="anchor" href="#bazro3" aria-hidden="true"><span class="octicon octicon-link"></span></a>BaZrO3</h1>
 
-<p><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/perovskite.png" alt="The perovskite structure." title="fig:"></p>
+<p><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/perovskite.png" alt="The perovskite structure."></p>
 
 <p>In a short paper on the Zr edge of BaZrO3,
 <a href="http://dx.doi.org/10.1016/0921-4526(94)00654-E"><code>http://dx.doi.org/10.1016/0921-4526(94)00654-E</code></a>,
@@ -1128,7 +1200,7 @@ eV. <code>sso</code>, <code>sszr</code>, <code>ssba</code>, and <code>sso2</code
 <h1>
 <a id="bromoadamantane" class="anchor" href="#bromoadamantane" aria-hidden="true"><span class="octicon octicon-link"></span></a>bromoadamantane</h1>
 
-<p><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/bromoadamantane.png" alt=" 1-bromoadamantane" title="fig:"></p>
+<p><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/bromoadamantane.png" alt=" 1-bromoadamantane"></p>
 
 <p>The data are 1-bromoadamantane. Adamantane is a cycloalkane, meaning
 that it is a hydrocarbon with rings of carbon atoms. It is also a
@@ -1263,7 +1335,7 @@ neighbor C ΔR parameter.</p>
 <h1>
 <a id="uranyl-hydrate" class="anchor" href="#uranyl-hydrate" aria-hidden="true"><span class="octicon octicon-link"></span></a>uranyl hydrate</h1>
 
-<p><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/uranyl.png" alt="The uranyl motif from sodium uranyl triacetate." title="fig:"></p>
+<p><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/uranyl.png" alt="The uranyl motif from sodium uranyl triacetate."></p>
 
 <p>The data are the hydrated uranyl hydrate shown in Shelly’s paper on
 <em>X-ray absorption fine structure determination of pH-dependent
@@ -1458,6 +1530,13 @@ and equatorial oxyegn atoms each get a ΔR (<code>deloax</code> and
 </tr>
 </tbody>
 </table>
+
+<hr>
+
+<h1>
+<a id="conclusion" class="anchor" href="#conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion</h1>
+
+<p>Blah blah</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/bruceravel/SCFtests">SCFtests</a> is maintained by <a href="https://github.com/bruceravel">bruceravel</a>.</span>
