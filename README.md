@@ -9,7 +9,7 @@ Table of Contents
 * [UO2, uraninite](#uo2)
 * [BaZrO3, barium zirconate](#bazro3)
 * [C10H15Br, bromoadamantane](#bromoadamantane)
-* [uranyl hydrate](#uranyl-hydrate)
+* [Uranyl hydrate](#uranyl-hydrate)
 * [Conclusion](#conclusion)
 
 _____
@@ -35,13 +35,13 @@ This is a topic that comes up regularly on the mailing list.  I have,
 on occasion, joked that _Feff9_ must be 50% better than _Feff6_
 because 9 is 50% bigger than 6.
 
-Sadly for me, my _extraordinary_ wit doesn't win a science argument.
-Since actual _science_ wins science arguments, I thought it would be
-prudent to actually investigate the effect of different theory models
-on EXAFS analysis.  I am doing so in the form of a set of tools
-published in the form of a GitHub repository.  In this way, _anyone_
-can download the tools and rerun the tests.  Even better, anyone can
-apply the tools to new materials or new ways of computing the theory.
+Sadly for me, my oh-so-extraordinary wit doesn't win a science
+argument.  Since actual _science_ wins science arguments, I thought it
+would be prudent to actually investigate the effect of different
+theory models on EXAFS analysis.  I am doing so in the form of a set
+of tools published as a GitHub repository.  In this way, _anyone_ can
+download the tools and rerun the tests.  Even better, anyone can apply
+the tools to new materials or new ways of computing the theory.
 
 Because _Feff9_ is not freely available and redistributable, it is
 hard to make use of it in the manner of this exercise.  Consequently,
@@ -608,7 +608,7 @@ reductions on the same scale as the increases in FeS2 and NiO.
 _____
 
 
-bromoadamantane
+Bromoadamantane
 ===============
 
 ![ 1-bromoadamantane](https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/bromoadamantane.png)
@@ -715,7 +715,7 @@ _Feff8_.
 _____
 
 
-uranyl hydrate
+Uranyl hydrate
 ==============
 
 ![The uranyl motif from sodium uranyl triacetate.](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/uranyl.png)
