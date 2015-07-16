@@ -1,4 +1,7 @@
 
+Table of Contents
+=================
+
 * [Background](#background)
 * [Copper](#copper)
 * [NiO, nickel (II) oxide](#nio)
@@ -17,7 +20,9 @@ Background
 
 In a
 [recent post](http://www.mail-archive.com/ifeffit%40millenia.cars.aps.anl.gov/msg05038.html)
-to the Ifefit mailing list, a poor soul asked this question:
+to the
+[Ifefit mailing list](http://cars9.uchicago.edu/mailman/listinfo/ifeffit/),
+a poor soul made this comment:
 
      I wondering about the availability to use a newer FEFF version in
      Demeter. Since my knowledge only I can run FEFF6. In my case I
@@ -31,19 +36,18 @@ on occasion, joked that _Feff9_ must be 50% better than _Feff6_
 because 9 is 50% bigger than 6.
 
 Sadly for me, my _extraordinary_ wit doesn't win a science argument.
-Since, _science_ wins science arguments, I thought it would be prudent
-to actually investigate the effect of different theory models on EXAFS
-analysis.  I am doing so in the form of a set of tools published in
-the form of a GitHub repository.  In this way, _anyone_ can download
-the tools and rerun the tests.  Even better, anyone can apply the
-tools to new materials or new ways of computing the theory.
+Since actual _science_ wins science arguments, I thought it would be
+prudent to actually investigate the effect of different theory models
+on EXAFS analysis.  I am doing so in the form of a set of tools
+published in the form of a GitHub repository.  In this way, _anyone_
+can download the tools and rerun the tests.  Even better, anyone can
+apply the tools to new materials or new ways of computing the theory.
 
 Because _Feff9_ is not freely available and redistributable, it is
 hard to make use of it in the manner of this exercise.  Consequently,
-the forms of the Feff used here are the two redistributable versions:
-the _Feff6_ that comes with
-[Ifeffit](https://github.com/newville/ifeffit) and 
-[_feff85exafs_](https://github.com/xraypy/feff85exafs).
+the forms of Feff used here are the two redistributable versions: the
+_Feff6_ that comes with [Ifeffit](https://github.com/newville/ifeffit)
+and [_feff85exafs_](https://github.com/xraypy/feff85exafs).
 
 I presented these results at a
 [recent symposium on theoretical spectroscopy](http://feffproject.org/SpecialSymposium-JJR/as-program.html).
@@ -56,7 +60,16 @@ to the code would not be expected to have much impact for
 photoelectrons of high kinetic energy, i.e. far from the absorption
 edge.
 
-Be that as it may, the &ldquo;_Feff8_/_Feff9_ **must** be
+This page is about _EXAFS_ analysis, not XANES calculations or
+calculations of other spectroscopies.  Obviously, any calculation of a
+spectroscopy for which the photoelectron has low kinetic energy will
+be extremely sensitive to the details of the potential surface.
+Self-consistency and charge transfer are
+[unambiguously important](http://dx.doi.org/10.1103/PhysRevB.58.7565)
+for such calculations.  The question here is about the impact on the
+analysis of the EXAFS spectrum.
+
+Be all that as it may, the &ldquo;_Feff8_/_Feff9_ **must** be
 better&ldquo; comment is perennial.  This is my attempt to address
 that question with some kind of rigorous effort.
 
@@ -662,7 +675,8 @@ Discussion
 
 In June 2015, the
 [following quote](http://www.mail-archive.com/ifeffit@millenia.cars.aps.anl.gov/msg05040.html)
-appeared on the Ifeffit mailing list:
+appeared on the
+[Ifeffit mailing list](http://cars9.uchicago.edu/mailman/listinfo/ifeffit/):
 
       There are some demonstrated cases where Feff8 is slightly
       better than Feff6 at modeling EXAFS. The most notable cases
@@ -799,11 +813,10 @@ _____
 Conclusion
 ==========
 
-Sometimes &ndash; FeS2, uranyl &ndash; the statistical parameters
-suggest best fit was found using _Feff6_.  Sometimes &ndash; BaZrO3
-&ndash; _Feff8_ with self-consistency gave the smalled reduced
-&chi;&sup2; and R-factor.  And sometimes &ndash; UO2 &ndash; it made
-no difference.
+Sometimes (FeS2, uranyl) the statistical parameters suggest best fit
+was found using _Feff6_.  Sometimes (BaZrO3) _Feff8_ with
+self-consistency gave the smalled reduced &chi;&sup2; and R-factor.
+And sometimes (UO2) it made no difference.
 
 Excepting E0 parameters, the fits presented here yielded equivalent
 values for fitting paremeters using _Feff6_ and _Feff8_ with
@@ -817,25 +830,60 @@ self-consistency.
 [Artemis](http://bruceravel.github.io/demeter/) has used _Feff6_ for
 years.  Nothing presented here suggests that was a bad idea.
 
-In the future, [Artemis](http://bruceravel.github.io/demeter/)
-will likely use
-[_feff85exafs_](https://github.com/xraypy/feff85exafs).  It seems that
-the most sensible default behavior would be to run
+In the future, [Artemis](http://bruceravel.github.io/demeter/) will
+likely use [_feff85exafs_](https://github.com/xraypy/feff85exafs).  It
+seems that the most sensible default behavior for
+[Artemis](http://bruceravel.github.io/demeter/) would be to run
 [_feff85exafs_](https://github.com/xraypy/feff85exafs) using a very
 short self-consistency radius.
 
 Is a reviewer justified in demanding that an author use a more recent
-version of Feff than _Feff6_?  These results suggest not.
+version of Feff than _Feff6_?  On the basis of what I have presented
+here, I think not.
 
-I think the most valuable result of this effort &ndash; beyond the
-immediate question of the impact of self-consistent potentials on
-EXAFS analysis &ndash; is that these results provide a sense of what
-level of uncertainty is introduced to the application of Gaussian
-statistics to EXASF analysis by uncertainties in the theory model used
-as the basis of the fitting.
+The most valuable result of this effort &ndash; beyond the immediate
+question of the impact of self-consistent potentials on EXAFS analysis
+&ndash; is that these results provide a sense of what level of
+uncertainty is introduced to the application of Gaussian statistics to
+EXASF analysis by uncertainties in the theory model used as the basis
+of the fitting.
 
 [This paper](http://dx.doi.org/10.1107/S0909049512039544) attempts to
 quantify many of the sources of uncertainty in an EXAFS measurement.
 The sort of comparison presented here offers hope of quantifying the
 contribution to the uncertainty budget of the measurement due to the
 approximations that enter into the theory.
+
+
+Interpreting the E0 shift parameter
+-----------------------------------
+
+Way back in the early 1990s, in the days of
+[_Feff3_](http://dx.doi.org/10.1103/PhysRevB.44.4146), the theory was
+already good enough to get calculated, relative peak positions very
+consistent with experimental data in the EXAFS region.  That is, the
+phase part of the calculation was already highly reliable for large
+photoelectron kinetic energies in the very earliest days of XAS
+theory.
+
+Consider [this paper](http://dx.doi.org/10.1103/PhysRevB.83.115106) on
+a leading contender for the best theoretical approach to XANES and
+XES, the Bethe-Salpeter equation of motion of the electron-hole pair.
+This is an impressive and successful approach to core-shell theory,
+however the positions of peaks in the density of states near the edge,
+both above and below, are clearly lacking.  Consider the MgO
+calculation in Fig. 5 of that paper.  It's a great result, but the
+peaks are demonstrably shifted relative to experiment.
+
+In the context of finding the threshold energy and the zero of
+photoelectron wavenumber, a misplacement of peaks in the DOS will
+result in a misplacement of the threshold.  From the _Feff3_ results
+we know that a E0 shift is adequate to position the high kinetic
+energy peaks well with respct to the data.  Given the shortcomings
+even of the current most advanced theory with respect to finding the
+absolute energy threshold, it is clear that a parameter for an overall
+E0 shift remains necessary to line up the EXAFS data with the EXAFS
+theory.  While we must remain mindful that fitted E0 shifts **can** be
+[too large](http://dx.doi.org/10.1107/S0909049598002970), thus
+confounding the measurement of other parameters, EXAFS analysis
+continues to require E0 shift parameters.
