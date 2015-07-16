@@ -36,6 +36,54 @@
 <h1>
 <a id="background" class="anchor" href="#background" aria-hidden="true"><span class="octicon octicon-link"></span></a>Background</h1>
 
+<p>In a
+<a href="http://www.mail-archive.com/ifeffit%40millenia.cars.aps.anl.gov/msg05038.html">recent post</a>
+to the Ifefit mailing list, a poor soul asked this question:</p>
+
+<pre><code> I wondering about the availability to use a newer FEFF version in
+ Demeter. Since my knowledge only I can run FEFF6. In my case I
+ found different discrepancies using FEFF6 and FEFF9 in the
+ determination of bond length distances for instance. In terms of
+ review of papers, reviewers ask to use a newer version instead
+ FEFF6.
+</code></pre>
+
+<p>This is a topic that comes up regularly on the mailing list.  I have,
+on occasion, joked that <em>Feff9</em> must be 50% better than <em>Feff6</em>
+because 9 is 50% bigger than 6.</p>
+
+<p>Sadly for me, my <em>extraordinary</em> wit doesn't win a science argument.
+Since, <em>science</em> wins science arguments, I thought it would be prudent
+to actually investigate the effect of different theory models on EXAFS
+analysis.  I am doing so in the form of a set of tools published in
+the form of a GitHub repository.  In this way, <em>anyone</em> can download
+the tools and rerun the tests.  Even better, anyone can apply the
+tools to new materials or new ways of computing the theory.</p>
+
+<p>Because <em>Feff9</em> is not freely available and redistributable, it is
+hard to make use of it in the manner of this exercise.  Consequently,
+the forms of the Feff used here are the two redistributable versions:
+the <em>Feff6</em> that comes with
+<a href="https://github.com/newville/ifeffit">Ifeffit</a> and 
+<a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a>.</p>
+
+<p>I presented these results at a
+<a href="http://feffproject.org/SpecialSymposium-JJR/as-program.html">recent symposium on theoretical spectroscopy</a>.
+By far, the most illuminating comment was from Alexei Ankudinov, the
+prinicple author of <em>Feff8</em>.  Alex was surprised that anyone expected
+<em>Feff8</em> or <em>Feff9</em> to make a difference for EXAFS analysis.  Most of
+the features in those later versions, and particularly in <em>Feff9</em>,
+pertain to calculations of other spectroscopies.  Other new additions
+to the code would not be expected to have much impact for
+photoelectrons of high kinetic energy, i.e. far from the absorption
+edge.</p>
+
+<p>Be that as it may, the “<em>Feff8</em>/<em>Feff9</em> <strong>must</strong> be
+better“ comment is perennial.  This is my attempt to address
+that question with some kind of rigorous effort.</p>
+
+<p>Here are the conditions of the tests:</p>
+
 <ol>
 <li><p>All XAS data were processed sensibly in
 <a href="http://bruceravel.github.io/demeter/">Athena</a> with E0 chosen to
@@ -1402,9 +1450,9 @@ neighbor C ΔR parameter.</p>
 <a href="http://www.mail-archive.com/ifeffit@millenia.cars.aps.anl.gov/msg05040.html">following quote</a>
 appeared on the Ifeffit mailing list:</p>
 
-<pre><code>  There are some demonstrated cases where _Feff8_ is slightly
-  better than _Feff6_ at modeling EXAFS. The most notable cases
-  are when H is in the input file -- _Feff6_ is terrible at this.
+<pre><code>  There are some demonstrated cases where Feff8 is slightly
+  better than Feff6 at modeling EXAFS. The most notable cases
+  are when H is in the input file -- Feff6 is terrible at this.
 </code></pre>
 
 <p>Bromoadamantane is a case where scattering from H atoms can be seen
@@ -1667,7 +1715,46 @@ interpretation of the data.  It is, however, correlated with the axial
 <h1>
 <a id="conclusion" class="anchor" href="#conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion</h1>
 
-<p>Blah blah</p>
+<p>Sometimes – FeS2, uranyl – the statistical parameters
+suggest best fit was found using <em>Feff6</em>.  Sometimes – BaZrO3
+– <em>Feff8</em> with self-consistency gave the smalled reduced
+χ² and R-factor.  And sometimes – UO2 – it made
+no difference.</p>
+
+<p>Excepting E0 parameters, the fits presented here yielded equivalent
+values for fitting paremeters using <em>Feff6</em> and <em>Feff8</em> with
+self-consistency.  Only in the case of f-electron systems – UO2
+and uranyl – were the fitting results for E0 parameters more
+sensible with <em>Feff8</em> and self-consistency.</p>
+
+<p>In most cases, the worst fitting result was with <em>Feff8</em> without
+self-consistency.</p>
+
+<p><a href="http://bruceravel.github.io/demeter/">Artemis</a> has used <em>Feff6</em> for
+years.  Nothing presented here suggests that was a bad idea.</p>
+
+<p>In the future, <a href="http://bruceravel.github.io/demeter/">Artemis</a>
+will likely use
+<a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a>.  It seems that
+the most sensible default behavior would be to run
+<a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a> using a very
+short self-consistency radius.</p>
+
+<p>Is a reviewer justified in demanding that an author use a more recent
+version of Feff than <em>Feff6</em>?  These results suggest not.</p>
+
+<p>I think the most valuable result of this effort – beyond the
+immediate question of the impact of self-consistent potentials on
+EXAFS analysis – is that these results provide a sense of what
+level of uncertainty is introduced to the application of Gaussian
+statistics to EXASF analysis by uncertainties in the theory model used
+as the basis of the fitting.</p>
+
+<p><a href="http://dx.doi.org/10.1107/S0909049512039544">This paper</a> attempts to
+quantify many of the sources of uncertainty in an EXAFS measurement.
+The sort of comparison presented here offers hope of quantifying the
+contribution to the uncertainty budget of the measurement due to the
+approximations that enter into the theory.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/bruceravel/SCFtests">SCFtests</a> is maintained by <a href="https://github.com/bruceravel">bruceravel</a>.</span>
