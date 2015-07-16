@@ -21,7 +21,7 @@ Background
 In a
 [recent post](http://www.mail-archive.com/ifeffit%40millenia.cars.aps.anl.gov/msg05038.html)
 to the
-[Ifefit mailing list](http://cars9.uchicago.edu/mailman/listinfo/ifeffit/),
+[Ifeffit mailing list](http://cars9.uchicago.edu/mailman/listinfo/ifeffit/),
 a poor soul made this comment:
 
      I wondering about the availability to use a newer FEFF version in
@@ -52,7 +52,7 @@ and [_feff85exafs_](https://github.com/xraypy/feff85exafs).
 I presented these results at a
 [recent symposium on theoretical spectroscopy](http://feffproject.org/SpecialSymposium-JJR/as-program.html).
 By far, the most illuminating comment was from Alexei Ankudinov, the
-prinicple author of _Feff8_.  Alex was surprised that anyone expected
+principle author of _Feff8_.  Alex was surprised that anyone expected
 _Feff8_ or _Feff9_ to make a difference for EXAFS analysis.  Most of
 the features in those later versions, and particularly in _Feff9_,
 pertain to calculations of other spectroscopies.  Other new additions
@@ -129,7 +129,7 @@ Here are the conditions of the tests:
 
 9.  The uranyl calculation was a bit challenging with
     [_feff85exafs_](https://github.com/xraypy/feff85exafs). To get the
-    program to run to complation, it was necessary to set the FOLP
+    program to run to completion, it was necessary to set the FOLP
     parameter to 0.9 for each unique potential. Given that the quality
     of the fit was much the same as for using _Feff6_, this was not
     examined further. Still, this merits further attention for this
@@ -152,7 +152,7 @@ Here are the conditions of the tests:
     capabilities of [Larch](https://github.com/xraypy/xraylarch/).
 
 12. All uncertainties are 1&sigma; error bars determined from the
-    diagonal elements of the covarience matrix evaluated during the
+    diagonal elements of the covariance matrix evaluated during the
     Levenberg-Marquardt minimizations.
 
 13. The plots shown below for each material were generated using the
@@ -197,7 +197,7 @@ were computed using the correlated Debye model and a temperature of
 variable (`ss1`).
 
 The fit included 4 coordination shells, which includes several
-collinear multiple scattering paths of the same distance as the fourth
+co-linear multiple scattering paths of the same distance as the fourth
 shell single scattering path.
 
 `amp` and `alpha` are unitless. `enot` is eV, `ss1` is &Aring;&sup2;, and
@@ -244,7 +244,7 @@ We start with copper because, well, it's copper.  Any discussion of
 XAS theory starts with copper.  It's a tradition!
 
 In fact, we expect copper to be a null result.  There is no reason to
-expect that charge transfer and self-cosistency would have much effect
+expect that charge transfer and self-consistency would have much effect
 on a monoatomic material.  That expectation is borne out.
 
 The fitting parameters are constant well within their uncertainties
@@ -263,12 +263,12 @@ The sample was NiO powder prepared by my colleague Neil Hyatt
 powder was mixed with polyethylene glycol and pressed into a pellet to
 make a edge step of 0.78. The data were measured by Bruce at NSLS
 beamline X23A2 and will be appearing in an upcoming article in Journal
-of Synchrotron Radiation. The simple fiting model to this rocksalt
+of Synchrotron Radiation. The simple fitting model to this rock salt
 structure included a S0&sup2; parameter (`amp`), an energy shift
 (`enot`), and a volumetric lattice expansion coefficient (`alpha`).
 
 The fit included 4 coordination shells, 2 with O and 2 with Ni. There
-are several collinear multiple scattering paths at the same distance
+are several co-linear multiple scattering paths at the same distance
 as the fourth shell Ni scatterer. Each shell has its own &sigma;&sup2;
 parameter (`sso`, `ssni`, `sso2`, and `ssni2`, respectively.).
 
@@ -314,7 +314,7 @@ Discussion
 ----------
 
 NiO was chosen as the second example because it constitutes the
-smallest added complexity compared to copper.  NiO is a rocksalt
+smallest added complexity compared to copper.  NiO is a rock salt
 structure, so it is highly ordered and the local configuration around
 the Ni atom is very well known.  With an oxygen ligand, there should
 be some charge transfer.
@@ -328,7 +328,7 @@ theoretical model.  The ultimate value of Feff's threshold energy
 depends the model.  The starting condition is not the same in _Feff6_
 as in _Feff8_ without self-consistency.  This is seen by the 3.3 eV
 shift in fitted E0 value.  Furthermore, the threshold changes as
-charge is transfered and self-consistency is reached.  This results in
+charge is transferred and self-consistency is reached.  This results in
 a -6 eV shift relative to _Feff6_.
 
 My standard explanation of the E0 fitting parameter when I am teaching
@@ -362,7 +362,7 @@ and a volumetric lattice expansion coefficient (`alpha`). The first
 and second shell S scatterers each get a &sigma;&sup2; parameter (`ss` and
 `ss2`). The third shell of S atoms only contains 2 scatterers. In
 practice, floating its &sigma;&sup2; parameter independently does not
-yeild a statistical improvment to the fit, so the `ss2` parameter is
+yield a statistical improvement to the fit, so the `ss2` parameter is
 used for the third shell &sigma;&sup2;. Finally a &sigma;&sup2; parameter is
 floated for the Fe shell.
 
@@ -414,7 +414,7 @@ Discussion
 This is just slightly more complex than NiO.  It is diatomic, but with
 a slightly less orderly structure than NiO.  Again, all parameters
 except for E0 are consistent within uncertainty, although the &alpha;
-parameter does show some correclation with E0.  All other parameters
+parameter does show some correlation with E0.  All other parameters
 are essentially unchanged.
 
 The E0 parameter, with self-consistency, is equally far from 0 as for
@@ -503,7 +503,7 @@ important for f-electron systems.
 
 All of the other fitting parameters are unchanged within their
 uncertainties.  One parameter merits a bit more discussion.  In the
-paper cited above, the fitten value of `nu`, i.e. the partial
+paper cited above, the fitted value of `nu`, i.e. the partial
 occupancy of the U atom in the second scattering shell, is used to say
 something about the size of the uraninite nanoparticles generated by
 the reduction process.  While the fitted value of `nu` does not change
@@ -535,7 +535,7 @@ S0&sup2; (`amp`), there are energy shifts for each scatterer (`enot`,
 a &sigma;&sup2; (`sso2`) but uses the energy shift for the O scatterer.
 
 BaZrO3 is a true perovskite. Zr sites in the octahedral B site. A
-variety of collinear multiple scattering paths at the distance of the
+variety of co-linear multiple scattering paths at the distance of the
 third shell Zr scatterer are included in the fit. The energy shifts
 are parameterized as described in the paper.
 
@@ -613,7 +613,7 @@ bromoadamantane
 
 ![ 1-bromoadamantane](https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/bromoadamantane.png)
 
-The data are 1-bromoadamantane. Adamantane is a cycloalkane, meaning
+The data are 1-bromoadamantane. Bromoadamantane is a cycloalkane, meaning
 that it is a hydrocarbon with rings of carbon atoms. It is also a
 diamondoid, meaning that it is a strong, stiff, 3D network of covalent
 bonds. 1-bromoadamantane has one hydrogen atom replaced by a bromine
@@ -621,13 +621,13 @@ atom.
 
 The material was supplied by my colleague Alessandra Leri of Manhattan
 Marymount College in the form of a white powder. This powder was
-spread onto kapton tape which was folded to make a sample with an edge
+spread onto Kapton tape which was folded to make a sample with an edge
 step of about 1.7. The data were measured by Bruce at NSLS beamline
 X23A2.
 
 This is an interesting test case because it is a molecule (thus the
 entire molecule can be included in the self-consistency calculation)
-and because there is measureable scattering from the neighboring
+and because there is measurable scattering from the neighboring
 hydrogen atoms. While the &sigma;&sup2; of the hydrogen scatterers is
 not well-determined, the fit is statistically significantly worse when
 the hydrogen scatterers are excluded.
@@ -635,7 +635,7 @@ the hydrogen scatterers are excluded.
 The fit includes the nearest neighbor C, the next three C atoms, and
 the neighboring 6 hydrogen atoms. The DS triangle paths involving the
 first and second neighbor C atoms are also included. The fitting model
-assumes that the adamanatane anion is very rigid compared to the Br-C
+assumes that the adamantane anion is very rigid compared to the Br-C
 bond. Thus, the formula explained in
 [`http://dx.doi.org/10.1088/1742-6596/190/1/012026`](http://dx.doi.org/10.1088/1742-6596/190/1/012026)
 is used to constrain the second neighbor C distance to the first
@@ -683,7 +683,7 @@ appeared on the
       are when H is in the input file -- Feff6 is terrible at this.
 
 Bromoadamantane is a case where scattering from H atoms can be seen
-inthe EXAFS data.  The statistical parameters are all much smaller
+in the EXAFS data.  The statistical parameters are all much smaller
 when the H SS path is included in the fit compared to fits which
 exclude that scattering path.  This is true even though the
 &sigma;&sup2; value for the H SS path is ill-determined &ndash; its
@@ -695,7 +695,7 @@ good.  Despite the ill-defined &sigma;&sup2;, the &Delta;R is well
 defined.
 
 The parameters of the first shell C scatterer are quite well defined
-and consistent accross theory models.  S0&sup2; varies a bit outside
+and consistent across theory models.  S0&sup2; varies a bit outside
 of its uncertainty, as does &Delta;R for the H atom.  The statistical
 parameters for the fits with self-consistency and _Feff6_ are
 basically indistinguishable.
@@ -740,7 +740,7 @@ are unused. The parameterization given in Tables 2 and 5 is used in
 this fit.
 
 There is an S0&sup2; (`amp`) and an energy shift (`enot`). The axial
-and equatorial oxyegn atoms each get a &Delta;R (`deloax` and
+and equatorial oxygen atoms each get a &Delta;R (`deloax` and
 `deloeq`) and a &sigma;&sup2; (`sigoax` and `sigoeq`).
 
 `amp` is unitless. `enot` is eV. `deloax` and `deloeq` are
@@ -802,7 +802,7 @@ the data is chosen at the inflection point of the rising edge.  Is
 this a trend suggesting that self-consistency is important for setting
 the energy scale of f-electron systems?
 
-Also like tghe UO2 example, the SO&sup2; value is a bit different
+Also like the UO2 example, the SO&sup2; value is a bit different
 using _Feff6_ and _Feff8_, which could have an impact on the
 interpretation of the data.  It is, however, correlated with the axial
 &sigma;&sup2; result.
@@ -815,11 +815,11 @@ Conclusion
 
 Sometimes (FeS2, uranyl) the statistical parameters suggest best fit
 was found using _Feff6_.  Sometimes (BaZrO3) _Feff8_ with
-self-consistency gave the smalled reduced &chi;&sup2; and R-factor.
+self-consistency gave the smaller reduced &chi;&sup2; and R-factor.
 And sometimes (UO2) it made no difference.
 
 Excepting E0 parameters, the fits presented here yielded equivalent
-values for fitting paremeters using _Feff6_ and _Feff8_ with
+values for fitting parameters using _Feff6_ and _Feff8_ with
 self-consistency.  Only in the case of f-electron systems &ndash; UO2
 and uranyl &ndash; were the fitting results for E0 parameters more
 sensible with _Feff8_ and self-consistency.
@@ -845,7 +845,7 @@ The most valuable result of this effort &ndash; beyond the immediate
 question of the impact of self-consistent potentials on EXAFS analysis
 &ndash; is that these results provide a sense of what level of
 uncertainty is introduced to the application of Gaussian statistics to
-EXASF analysis by uncertainties in the theory model used as the basis
+EXAFS analysis by uncertainties in the theory model used as the basis
 of the fitting.
 
 [This paper](http://dx.doi.org/10.1107/S0909049512039544) attempts to
@@ -879,7 +879,7 @@ In the context of finding the threshold energy and the zero of
 photoelectron wavenumber, a misplacement of peaks in the DOS will
 result in a misplacement of the threshold.  From the _Feff3_ results
 we know that a E0 shift is adequate to position the high kinetic
-energy peaks well with respct to the data.  Given the shortcomings
+energy peaks well with respect to the data.  Given the shortcomings
 even of the current most advanced theory with respect to finding the
 absolute energy threshold, it is clear that a parameter for an overall
 E0 shift remains necessary to line up the EXAFS data with the EXAFS
