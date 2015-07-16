@@ -7,6 +7,7 @@
 * [BaZrO3, barium zirconate](#bazro3)
 * [C10H15Br, bromoadamantane](#bromoadamantane)
 * [uranyl hydrate](#uranyl-hydrate)
+* [Conclusion](#conclusion)
 
 _____
 
@@ -46,35 +47,39 @@ Background
 5.  In the plots, the ranges of the Fourier transform and of the fit
     are indicated by vertical black lines.
 
-6.  Each material is fitted using theory from _feff6_, from
-    _feff85exafs_ with self-consistency turned off, and from with
-    _feff85exafs_ with self-consistency.  In each case, the default
-    self-energy model (Hedin-Lundqvist) was used.
+6.  Each material is fitted using theory from the version of _Feff6_
+    that ships with [Ifeffit](https://github.com/newville/ifeffit),
+    from [_feff85exafs_](https://github.com/xraypy/feff85exafs) with
+    self-consistency turned off, and from with
+    [_feff85exafs_](https://github.com/xraypy/feff85exafs) with
+    self-consistency.  In each case, the default self-energy model
+    (Hedin-Lundqvist) was used.
 
 7.  For each material that is not a molecule, the analysis is done
     with a sequence of self-consistency radii. This is done to test
     the importance of the consideration of that parameter on the
     analysis. In the case of hydrated uranyl hydrate, this is a
-    molecule, but the feff calculation is done of a crystalline
+    molecule, but the Feff calculation is done of a crystalline
     analogue to the molecule. The effect of self-consistency radius is
     tested in that case.
 
 8.  Where appropriate (bromoadamantane, for example), the `lfms`
     parameter of the `SCF` card is set to 1.
 
-9.  The uranyl calculation was a bit challenging with _feff85exafs_. To
-    get the program to run to complation, it was necessary to set the
-    FOLP parameter to 0.9 for each unique potential. Given that the
-    quality of the fit was much the same as for using _feff6_, this was
-    not examined further. Still, this merits further attention for
-    this material.
+9.  The uranyl calculation was a bit challenging with
+    [_feff85exafs_](https://github.com/xraypy/feff85exafs). To get the
+    program to run to complation, it was necessary to set the FOLP
+    parameter to 0.9 for each unique potential. Given that the quality
+    of the fit was much the same as for using _Feff6_, this was not
+    examined further. Still, this merits further attention for this
+    material.
 
 10. We were interested to know if the effect of SCF on EXAFS fitting
     was different for a first shell fit as compared to a more
     extensive fitting model. So fits were generated for the first
     shells only of all materials except for uranyl hydrate for which
     the axial and equatorial scatterers cannot be isolated. Also, Matt
-    tells me that, years ago, he and John looked at some _feff6_/_feff8_
+    tells me that, years ago, he and John looked at some _Feff6_/_Feff8_
     comparisons, but only for first shell fits. These first shell fits
     are intended for comparison to that older work.  _The results of
     the first shell fits are included in the repository, but not on
@@ -94,7 +99,27 @@ Background
     highly repetitive.  For each material it is the case that the fits
     using the different theoretical models are nearly
     indistinguishable by eye.  The full complement of fits are shown
-    for the sake of completeness.
+    for the sake of completeness.  As you scroll through the plots of
+    the fit results, you may be tempted to think that the same image
+    has been replicated several times.  I assure you that each plot is
+    actual plot made using the actual fit to the different theory
+    models!
+
+14. The very astute Feff user might point out that the path indexing
+    is not guaranteed to be consistent across versions.  That is, a
+    small MS path may barely exceed the heap criterion in one version
+    of Feff, but not in another.  That would change the indexing for
+    all paths with longer half-path-lengths, thus confounding the use
+    of single Larch fitting script with the different version of the
+    theory.  To avoid this problem, the pathfinder in _Feff6_ was run,
+    generating a `files.dat` file.  This `files.dat` was then copied
+    into the folders where the various
+    [_feff85exafs_](https://github.com/xraypy/feff85exafs)
+    calculations were run.  The pathfinder was then skipped in each of
+    the _Feff8_ runs.  This guaranteed that each theory calculation
+    generated the same list of `feffNNNN.dat` files with the same
+    indexing.
+
 
 _____
 
@@ -151,6 +176,20 @@ Fits
 |-------|--------|----------|----------|----------|----------|----------|
 |![fit with feff6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_feff6.png) | ![fit with feff8 no SCF](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=3](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=4](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_5.png)| ![fit with feff8, SCF, R=5.5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_5.5.png)| ![fit with feff8, SCF, R=6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_6.png)|
 
+Discussion
+----------
+
+We start with copper because, well, it's copper.  Any discussion of
+XAS theory starts with copper.  It's a tradition!
+
+In fact, we expect copper to be a null result.  There is no reason to
+expect that charge transfer and self-cosistency would have much effect
+on a monoatomic material.  That expectation is borne out.
+
+The fitting parameters are constant well within their uncertainties
+and across all theory models.  The statistical parameters also do not
+change much across the models.  Amusingly, reduced &chi;&sup2; and
+R-factor are a bit smaller _without_ the use of self-consistency.
 
 _____
 
@@ -162,9 +201,10 @@ The sample was NiO powder prepared by my colleague Neil Hyatt
 (University of Sheffield) and checked by him for phase purity. The
 powder was mixed with polyethylene glycol and pressed into a pellet to
 make a edge step of 0.78. The data were measured by Bruce at NSLS
-beamline X23A2. The simple fiting model to this rocksalt structure
-included a S0&sup2; parameter (`amp`), an energy shift (`enot`), and a
-volumetric lattice expansion coefficient (`alpha`).
+beamline X23A2 and will be appearing in an upcoming article in Journal
+of Synchrotron Radiation. The simple fiting model to this rocksalt
+structure included a S0&sup2; parameter (`amp`), an energy shift
+(`enot`), and a volumetric lattice expansion coefficient (`alpha`).
 
 The fit included 4 coordination shells, 2 with O and 2 with Ni. There
 are several collinear multiple scattering paths at the same distance
@@ -207,6 +247,40 @@ Fits
 | feff6 | no SCF | SCF, R=2.5 | SCF, R=3 | SCF, R=3.7 | SCF, R=4.2 | SCF, R=4.7 |
 |-------|--------|----------|----------|----------|----------|----------|
 |![fit with feff6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_feff6.png) | ![fit with feff8 no SCF](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=2.5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_2.5.png)| ![fit with feff8, SCF, R=3](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_3.png)| ![fit with feff8, SCF, R=3.7](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_3.7.png)| ![fit with feff8, SCF, R=4.2](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_4.2.png)| ![fit with feff8, SCF, R=4.7](https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_4.7.png)|
+
+
+Discussion
+----------
+
+NiO was chosen as the second example because it constitutes the
+smallest added complexity compared to copper.  NiO is a rocksalt
+structure, so it is highly ordered and the local configuration around
+the Ni atom is very well known.  With an oxygen ligand, there should
+be some charge transfer.
+
+With the exception of the E0 parameter, all of the parameters are
+constant well within their error bars.  The statistical parameters are
+unchanged from model to model.
+
+This is the first example of dependence of the E0 parameter on
+theoretical model.  The ultimate value of Feff's threshold energy
+depends the model.  The starting condition is not the same in _Feff6_
+as in _Feff8_ without self-consistency.  This is seen by the 3.3 eV
+shift in fitted E0 value.  Furthermore, the threshold changes as
+charge is transfered and self-consistency is reached.  This results in
+a -6 eV shift relative to _Feff6_.
+
+My standard explanation of the E0 fitting parameter when I am teaching
+EXAFS is that it is the parameter that lines up the zero of wavenumber
+in the data with the zero of wavenumber in the theory.  As such, it is
+hard to say that one of these E0 results is &ldquo;better&rdquo; than
+the others.
+
+One might hope that improvements in theory would lead to a fitted E0
+parameter of 0 when the edge is chosen at the inflection point of the
+rising edge of the XAS data.  While that might be true, we aren't
+there yet with _Feff8_.  See [the conclusion](#conclusion) for more
+discussion.
 
 
 _____
@@ -278,7 +352,7 @@ _____
 UO2
 ===
 
-![Uraninite](https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/UO2.png "fig:")
+![Uraninite](https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/UO2.png)
 
 The data are the UO2 shown in Shelly’s paper on *Reduction of
 Uranium(VI) by Mixed Iron(II)/Iron(III) Hydroxide (Green Rust): 
@@ -344,7 +418,7 @@ _____
 BaZrO3
 ======
 
-![The perovskite structure.](https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/perovskite.png "fig:")
+![The perovskite structure.](https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/perovskite.png)
 
 In a short paper on the Zr edge of BaZrO3,
 [`http://dx.doi.org/10.1016/0921-4526(94)00654-E`](http://dx.doi.org/10.1016/0921-4526(94)00654-E),
@@ -411,7 +485,7 @@ _____
 bromoadamantane
 ===============
 
-![ 1-bromoadamantane](https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/bromoadamantane.png "fig:")
+![ 1-bromoadamantane](https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/bromoadamantane.png)
 
 The data are 1-bromoadamantane. Adamantane is a cycloalkane, meaning
 that it is a hydrocarbon with rings of carbon atoms. It is also a
@@ -476,7 +550,7 @@ _____
 uranyl hydrate
 ==============
 
-![The uranyl motif from sodium uranyl triacetate.](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/uranyl.png "fig:")
+![The uranyl motif from sodium uranyl triacetate.](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/uranyl.png)
 
 The data are the hydrated uranyl hydrate shown in Shelly’s paper on
 *X-ray absorption fine structure determination of pH-dependent
@@ -538,3 +612,11 @@ Fits
 | feff6 | no SCF | SCF, R=2.5 | SCF, R=2.9 | SCF, R=4 | SCF, R=5.2 | SCF, R=6.8 |
 |-------|--------|----------|----------|----------|----------|----------|
 |![fit with feff6](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_feff6.png) | ![fit with feff8 no SCF](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_noSCF.png) | ![fit with feff8, SCF, R=2.5](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_2.5.png)| ![fit with feff8, SCF, R=2.9](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_2.9.png)| ![fit with feff8, SCF, R=4](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_4.png)| ![fit with feff8, SCF, R=5.2](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_5.2.png)| ![fit with feff8, SCF, R=6.8](https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_6.8.png)|
+
+_____
+
+
+Conclusion
+==========
+
+Blah blah
