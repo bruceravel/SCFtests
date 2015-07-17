@@ -58,12 +58,12 @@ on occasion, joked that <em>Feff9</em> must be 50% better than <em>Feff6</em>
 because 9 is 50% bigger than 6.</p>
 
 <p>Sadly for me, my oh-so-extraordinary wit doesn't win a science
-argument.  Since actual <em>science</em> wins science arguments, I thought it
-would be prudent to actually investigate the effect of different
-theory models on EXAFS analysis.  I am doing so in the form of a set
-of tools published as a GitHub repository.  In this way, <em>anyone</em> can
-download the tools and rerun the tests.  Even better, anyone can apply
-the tools to new materials or new ways of computing the theory.</p>
+argument.  Since actual <em>science</em> wins science arguments, I decided to
+investigate the effect of different theory models on EXAFS analysis.
+I am doing so in the form of a set of tools published as a GitHub
+repository.  In this way, <em>anyone</em> can download the tools and rerun
+the tests.  Even better, anyone can apply the tools to new materials
+or new ways of computing the theory.</p>
 
 <p>Because <em>Feff9</em> is not freely available and redistributable, it is
 hard to make use of it in the manner of this exercise.  Consequently,
@@ -109,20 +109,21 @@ ending at a reasonable place where the signal was still much
 bigger than the noise. The choice of 3/Å as the starting
 point was deliberate. The
 <a href="http://dx.doi.org/10.1103/PhysRevB.47.14126">Autobk algorithm</a>
-(and most – if not all – other algorithms) is often unreliable
+(and most, if not all, other algorithms) is often unreliable
 below about 3/Å due to the fact that the μ(E) is changing
 very quickly in that region. Thus the data above 3/Å are
-likely to be reliable a free of systematic error due to the
+likely to be reliably free of systematic error due to the
 details of the background removal.</p></li>
 <li><p>All the materials considered have well-known structures. For these
-tests, we want to avoid the situation where error in a fitting
+tests, I want to avoid the situation where error in a fitting
 model could be attributed to incomplete prior knowledge about the
-structure. That is, we want to isolate the details of the fitting
+structure. That is, I want to isolate the details of the fitting
 model from the details of the theoretical calculation.</p></li>
-<li><p>The first three examples are dense, crystalline solids for which
-we expect self-consistency to contribute rather little to the
+<li><p>The first three examples are dense, crystalline solids for which I
+expect self-consistency to contribute rather little to the
 analysis. The remaining materials all contribute interesting
-features for which self-consistency might play a role.</p></li>
+features for which self-consistency and charge transfer might play
+a role.</p></li>
 <li><p>In the plots, the ranges of the Fourier transform and of the fit
 are indicated by vertical black lines.</p></li>
 <li><p>Each material is fitted using theory from the version of <em>Feff6</em>
@@ -136,19 +137,20 @@ self-consistency.  In each case, the default self-energy model
 with a sequence of self-consistency radii. This is done to test
 the importance of the consideration of that parameter on the
 analysis. In the case of hydrated uranyl hydrate, this is a
-molecule, but the Feff calculation is done of a crystalline
+molecule, but the Feff calculation is made on a crystalline
 analogue to the molecule. The effect of self-consistency radius is
 tested in that case.</p></li>
-<li><p>Where appropriate (bromoadamantane, for example), the <code>lfms</code>
-parameter of the <code>SCF</code> card is set to 1.</p></li>
+<li><p>Where appropriate (bromoadamantane, for example), the
+<a href="http://leonardo.phys.washington.edu/feff/wiki/static/s/c/f/SCF_1ebb.html"><code>lfms</code> parameter of the <code>SCF</code> card</a>
+is set to 1.</p></li>
 <li><p>The uranyl calculation was a bit challenging with
 <a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a>. To get the
-program to run to completion, it was necessary to set the FOLP
-parameter to 0.9 for each unique potential. Given that the quality
-of the fit was much the same as for using <em>Feff6</em>, this was not
-examined further. Still, this merits further attention for this
-material.</p></li>
-<li><p>We were interested to know if the effect of SCF on EXAFS fitting
+program to run to completion, it was necessary to set
+<a href="http://leonardo.phys.washington.edu/feff/wiki/static/f/o/l/FOLP_93fc.html">the FOLP parameter</a>
+to 0.9 for each unique potential. Given that the quality of the
+fit was much the same as for using <em>Feff6</em>, this was not examined
+further. Still, this merits further attention for this material.</p></li>
+<li><p>I was interested to know if the effect of SCF on EXAFS fitting
 was different for a first shell fit as compared to a more
 extensive fitting model. So fits were generated for the first
 shells only of all materials except for uranyl hydrate for which
@@ -161,7 +163,9 @@ this page as they do not tell a different story from the more
 complete fits presented here.</em></p></li>
 <li><p>All fits were performed with a toolset written by Bruce and
 included here in this repository using the XAS analysis
-capabilities of <a href="https://github.com/xraypy/xraylarch/">Larch</a>.</p></li>
+capabilities of <a href="https://github.com/xraypy/xraylarch/">Larch</a>.
+Along with Larch scripts, I used a mish-mash of python, shell, and
+perl scripts.</p></li>
 <li><p>All uncertainties are 1σ error bars determined from the
 diagonal elements of the covariance matrix evaluated during the
 Levenberg-Marquardt minimizations.</p></li>
@@ -182,9 +186,10 @@ of Feff, but not in another.  That would change the indexing for
 all paths with longer half-path-lengths, thus confounding the use
 of single Larch fitting script with the different version of the
 theory.  To avoid this problem, the pathfinder in <em>Feff6</em> was run,
-generating a <code>files.dat</code> file.  This <code>files.dat</code> was then copied
-into the folders where the various
-<a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a>
+generating
+<a href="http://leonardo.phys.washington.edu/feff/wiki/static/f/e/f/FEFF_Program_control_1397.html">a <code>paths.dat</code> file</a>.
+This <code>paths.dat</code> was then copied into the folders where the
+various <a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a>
 calculations were run.  The pathfinder was then skipped in each of
 the <em>Feff8</em> runs.  This guaranteed that each theory calculation
 generated the same list of <code>feffNNNN.dat</code> files with the same
@@ -375,10 +380,12 @@ shell single scattering path.</p>
 <h2>
 <a id="discussion" class="anchor" href="#discussion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discussion</h2>
 
-<p>We start with copper because, well, it's copper.  Any discussion of
-XAS theory starts with copper.  It's a tradition!</p>
+<p>I start with copper because, well,
+<a href="http://www.theatlantic.com/technology/archive/2013/11/english-has-a-new-preposition-because-internet/281601/">because</a>
+copper.  All discussions of XAS theory start with copper.  It's
+tradition!</p>
 
-<p>In fact, we expect copper to be a null result.  There is no reason to
+<p>In fact, I expect copper to be a null result.  There is no reason to
 expect that charge transfer and self-consistency would have much effect
 on a monoatomic material.  That expectation is borne out.</p>
 
@@ -600,11 +607,11 @@ unchanged from model to model.</p>
 
 <p>This is the first example of dependence of the E0 parameter on
 theoretical model.  The ultimate value of Feff's threshold energy
-depends the model.  The starting condition is not the same in <em>Feff6</em>
-as in <em>Feff8</em> without self-consistency.  This is seen by the 3.3 eV
-shift in fitted E0 value.  Furthermore, the threshold changes as
-charge is transferred and self-consistency is reached.  This results in
-a -6 eV shift relative to <em>Feff6</em>.</p>
+depends on the model.  The starting condition is not the same in
+<em>Feff6</em> as in <em>Feff8</em> without self-consistency.  This is seen by
+the 3.3 eV shift in fitted E0 value.  Furthermore, the threshold
+changes as charge is transferred and self-consistency is reached.
+This results in a -6 eV shift relative to <em>Feff6</em>.</p>
 
 <p>My standard explanation of the E0 fitting parameter when I am teaching
 EXAFS is that it is the parameter that lines up the zero of wavenumber
@@ -614,7 +621,7 @@ the others.</p>
 
 <p>One might hope that improvements in theory would lead to a fitted E0
 parameter of 0 when the edge is chosen at the inflection point of the
-rising edge of the XAS data.  While that might be true, we aren't
+rising edge of the XAS data.  While that might be true, we're not
 there yet with <em>Feff8</em>.  See <a href="#conclusion">the conclusion</a> for more
 discussion.</p>
 
@@ -1729,8 +1736,8 @@ interpretation of the data.  It is, however, correlated with the axial
 <h1>
 <a id="conclusion" class="anchor" href="#conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion</h1>
 
-<p>Sometimes (FeS2, uranyl) the statistical parameters suggest best fit
-was found using <em>Feff6</em>.  Sometimes (BaZrO3) <em>Feff8</em> with
+<p>Sometimes (FeS2, uranyl) the statistical parameters suggest the best
+fit was found using <em>Feff6</em>.  Sometimes (BaZrO3) <em>Feff8</em> with
 self-consistency gave the smaller reduced χ² and R-factor.
 And sometimes (UO2) it made no difference.</p>
 
@@ -1740,8 +1747,8 @@ self-consistency.  Only in the case of f-electron systems – UO2
 and uranyl – were the fitting results for E0 parameters more
 sensible with <em>Feff8</em> and self-consistency.</p>
 
-<p>In most cases, the worst fitting result was with <em>Feff8</em> without
-self-consistency.</p>
+<p>In most cases, the fit using <em>Feff8</em> without self-consistency resulted
+in the largest statistical parameters.</p>
 
 <p><a href="http://bruceravel.github.io/demeter/">Artemis</a> has used <em>Feff6</em> for
 years.  Nothing presented here suggests that was a bad idea.</p>
@@ -1756,6 +1763,9 @@ short self-consistency radius.</p>
 <p>Is a reviewer justified in demanding that an author use a more recent
 version of Feff than <em>Feff6</em>?  On the basis of what I have presented
 here, I think not.</p>
+
+<h2>
+<a id="theoretical-approximations-and-measurement-uncertainty" class="anchor" href="#theoretical-approximations-and-measurement-uncertainty" aria-hidden="true"><span class="octicon octicon-link"></span></a>Theoretical approximations and measurement uncertainty</h2>
 
 <p>The most valuable result of this effort – beyond the immediate
 question of the impact of self-consistent potentials on EXAFS analysis
@@ -1792,16 +1802,49 @@ peaks are demonstrably shifted relative to experiment.</p>
 
 <p>In the context of finding the threshold energy and the zero of
 photoelectron wavenumber, a misplacement of peaks in the DOS will
-result in a misplacement of the threshold.  From the <em>Feff3</em> results
+result in a misplacement of the threshold.  From the <em>Feff3</em> results,
 we know that a E0 shift is adequate to position the high kinetic
 energy peaks well with respect to the data.  Given the shortcomings
 even of the current most advanced theory with respect to finding the
 absolute energy threshold, it is clear that a parameter for an overall
 E0 shift remains necessary to line up the EXAFS data with the EXAFS
-theory.  While we must remain mindful that fitted E0 shifts <strong>can</strong> be
+theory.  While one must remain mindful that fitted E0 shifts <strong>can</strong> be
 <a href="http://dx.doi.org/10.1107/S0909049598002970">too large</a>, thus
 confounding the measurement of other parameters, EXAFS analysis
 continues to require E0 shift parameters.</p>
+
+<h2>
+<a id="a-note-on-the-set-of-standards" class="anchor" href="#a-note-on-the-set-of-standards" aria-hidden="true"><span class="octicon octicon-link"></span></a>A note on the set of standards</h2>
+
+<p>For anyone doing EXAFS analysis, a fairly common moment is the one
+when a fit is not going well, the parameters don't make sense, the
+fitted function doesn't look like the data, and the person doing the
+analysis is deeply confused.</p>
+
+<p>In that moment, it is extremely tempting to blame the theory.  In
+fact, it is super fun to blame Feff.  Don't stop there!  Blame John
+Rehr personally for your analysis woes.  Fun <strong>and</strong> satisfying!</p>
+
+<p>The truth is, that moment of confusion usually happens with a real
+research project and typically with a material for which the
+experimenter has rather little prior knowledge about the actual
+structure of the sample.  While it is tempting to attribute a poor fit
+to an inadequacy of the theory, it is vastly more likely that the
+problem is a shortcoming of the fitting model.</p>
+
+<p>In this exercise, I chose a set of materials for which I have
+excellent prior knowledge about the local configuration around the
+absorber.  With a good structural model, any shortcomings of the fit
+would then more likely be attributable to shortcomings of the theory.</p>
+
+<p>This exercise, along with my long experience, tell me that when you,
+dear reader, find yourself cursing Feff and/or John, you should
+indulge that only long enough to get it out of your system.  Then you
+should think deeply about your sample and how you represent its
+structure in the fit.  It is much more likely that your sample is
+something other than what you expect and that the solution to your
+problem is to prepare a better sample or to dream up a more
+representative fitting model.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/bruceravel/SCFtests">SCFtests</a> is maintained by <a href="https://github.com/bruceravel">bruceravel</a>.</span>
