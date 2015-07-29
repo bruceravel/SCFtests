@@ -12,6 +12,7 @@ Table of Contents
 * [Uranyl hydrate](#uranyl-hydrate)
 * [Conclusion](#conclusion)
 
+[![DOI](https://zenodo.org/badge/15446/bruceravel/SCFtests.svg)](https://zenodo.org/badge/latestdoi/15446/bruceravel/SCFtests)
 _____
 
 
