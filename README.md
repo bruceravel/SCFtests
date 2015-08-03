@@ -187,6 +187,16 @@ Here are the conditions of the tests:
     generated the same list of `feffNNNN.dat` files with the same
     indexing.
 
+15. For each material, a table of charge transfer and threshold
+    energies is presented.  This is infomration gleaned from _Feff8_'s
+    screen messages and _Feff6_'s standard header.  The charge
+    transfer values are the final charge transfered for each unique
+    potential as reported in the final round of the self-consistency
+    loop.  The threshold energy $mu; is reported for each
+    self-consistency radius as well as for _Feff8_ without
+    self-consistency and for _Feff6_.  This table is included ion
+    hopes that it will help make sense of the fitted values for E0.
+
 
 _____
 
