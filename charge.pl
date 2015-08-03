@@ -110,7 +110,7 @@ foreach my $r (sort keys %mu) {
 $t->add(\%these);
 
 $t->done;
-print "\nStarting value for &mu; in feff8 = $mu_old\n";
+print "\nStarting value for &mu; in feff8 = $mu_old\n\n";
 print   "Value for &mu; in feff6 = $mu_feff6\n\n";
 
 
