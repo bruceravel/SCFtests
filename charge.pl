@@ -94,7 +94,7 @@ foreach my $i (0 .. $ipcount-1) {
   $these{' ip'} = $i;
   foreach my $r (sort keys %mu) {
     #push @these, sprintf("%6.3f", $ct{$r}->[$i]);
-    my $key = (split(/_/, $r))[1];
+    my $key = 'R='.(split(/_/, $r))[1];
     $these{$key} = sprintf("%6.3f", $ct{$r}->[$i]);
   };
 
@@ -102,16 +102,16 @@ foreach my $i (0 .. $ipcount-1) {
 }
 
 my %these = ();
-$these{' ip'} = 'mu';
+$these{' ip'} = '&mu;';
 foreach my $r (sort keys %mu) {
-  my $key = (split(/_/, $r))[1];
+  my $key = 'R='.(split(/_/, $r))[1];
   $these{$key} = sprintf("%6.3f", $mu{$r});
 };
 $t->add(\%these);
 
 $t->done;
-print "\nmu_old   = $mu_old\n";
-print "mu_feff6 = $mu_feff6\n\n";
+print "\n    &mu;\\_old   = $mu_old\n";
+print   "    &mu;\\_feff6 = $mu_feff6\n\n";
 
 
 sub title {
