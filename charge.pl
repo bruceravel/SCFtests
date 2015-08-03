@@ -86,7 +86,7 @@ while (<$FD>) {
 close $FD;
 
 
-print title("charge transfer in $material", 2);
+print title("Charge transfer and threshold energy", 2);
 
 my $t = Text::MarkdownTable->new();
 foreach my $i (0 .. $ipcount-1) {
@@ -110,11 +110,11 @@ foreach my $r (sort keys %mu) {
 $t->add(\%these);
 
 $t->done;
-print "\n    &mu;\\_old   = $mu_old\n";
-print   "    &mu;\\_feff6 = $mu_feff6\n\n";
+print "\nStarting value for &mu; in feff8 = $mu_old\n";
+print   "Value for &mu; in feff6 = $mu_feff6\n\n";
 
 
 sub title {
   my ($phrase, $nnl) = @_;
-  return $phrase, $/, "=" x length($phrase), $/ x $nnl;
+  return $phrase, $/, "-" x length($phrase), $/ x $nnl;
 };
