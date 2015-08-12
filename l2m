@@ -3,6 +3,14 @@
 ## convert the latex fit summaries to a pandoc output format, likely
 ## markdown_github
 
+## I wrote this so I could easily convert latex tables that had
+## already been made into markdown format.  It could, of course, made
+## sense to simply write those table to markdown format in the first
+## place.  However, the Feff runs and fits are time consuming and it
+## was faster to convert tables that already existed.  In any case,
+## this script has the neat feature that it works easily with emacs'
+## shell-command.
+
 ## in emacs: C-u M-! ./l2m <material>
 
 format='markdown_github'

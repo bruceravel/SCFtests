@@ -3,16 +3,18 @@
 all = ['BaZrO3', 'Copper', 'FeS2', 'NiO', 'UO2', 'bromoadamantane', 'uranyl',]  # 'methyltin'
 #all = ['uranyl',]
 
-doplot  = False
-output  = 'latex'
+doplot   = False                # True = make plots as fitting happens
+output   = 'latex'              # tabulate output, see https://pypi.python.org/pypi/tabulate#table-format
+doiorder = False                # True = perform the iorder test
 
 for m in all:
     material   = m
     firstshell = False
     fittest    = 'scf'
     run 'fitcompare.lar'
-    fittest    = 'iorder'
-    run 'fitcompare.lar'
+    if doiorder:
+        fittest    = 'iorder'
+        run 'fitcompare.lar'
 
     if m != 'uranyl':
         fittest    = 'scf'

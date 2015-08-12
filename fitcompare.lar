@@ -48,14 +48,17 @@ if a.firstshell:
     shells='_1st'
 #endif
 
-
-suffix = '.txt'
+##
+## output can be any of "plain", "simple", "grid", "fancy_grid", "pipe", "orgtbl", "rst", "mediawiki", "html", "latex", or "latex_booktabs"
+## see: https://pypi.python.org/pypi/tabulate#table-format
+##
+suffix = '.tab'
 try:
     output
 except NameError:
     output='simple'
 #endtry
-if output == 'latex': 
+if output.startswith('latex'): 
     suffix = '.tex'
 #endif
 
