@@ -154,7 +154,9 @@ Here are the conditions of the tests:
     included here in this repository using the XAS analysis
     capabilities of [Larch](https://github.com/xraypy/xraylarch/).
     Along with Larch scripts, I used a mish-mash of python, shell, and
-    perl scripts.
+    perl scripts.  See
+    https://github.com/bruceravel/SCFtests/blob/master/use.md for
+    details.
 
 12. All uncertainties are 1&sigma; error bars determined from the
     diagonal elements of the covariance matrix evaluated during the

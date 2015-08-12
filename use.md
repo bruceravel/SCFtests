@@ -36,6 +36,12 @@ defining a fitting model using Larch.  There is also a Feff6 input
 file and a `paths.dat` file which is used to be sure that each Feff
 calculation produces the exact same set of paths.
 
+
+Future materials:
+
+* methyltin
+* ???
+
 ## Workflow
 
 This was all developed on a linux computer.  No explicit support is
