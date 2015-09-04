@@ -4,5 +4,6 @@
     "rpath": 5.0,
     "s02": 0,
     "iorder": 2,
-    "pathfinder": 1
+    "pathfinder": 1,
+    "radii": [3, 4, 5, 5.5, 6]
 }
