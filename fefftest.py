@@ -13,6 +13,7 @@ from larch import (Group, Parameter, isParameter, param_value, use_plugin_path, 
 use_plugin_path('xafs')
 from feffdat import feffpath
 from feffrunner import feffrunner
+from feffit import feffit_report
 use_plugin_path('wx')
 from plotter import (_newplot, _plot)
 
@@ -27,7 +28,7 @@ class FeffTestGroup(Group):
         Group.__init__(self,  **kwargs)
         self._larch       = Interpreter()
         self.materials    = ("Copper", "NiO", "FeS2", "UO2", "BaZrO3", "bromoadamantane", "uranyl")
-        self._material    = None
+        self.__material   = None
         self.json         = None
         self.mustache     = None
         self.test         = 'scf'
@@ -43,21 +44,23 @@ class FeffTestGroup(Group):
         
     @property
     def material(self):
-        return self._material
+        return self.__material
     @material.setter
     def material(self, value):
         if value in self.materials:
-            self._material = value
+            self.__material = value
             self.folder = value
             self.path = realpath(self.folder)
             self.json = json.load(open(join(value, value + '.json')))
             self.mustache = join(value, value + '.mustache')
+            self.models = self.__previous(value)
         else:
-            self._material = None
+            self.__material = None
             self.folder = None
             self.path = None
             self.json = None
             self.mustache = None
+            self.models = []
             
     def __repr__(self):
         if not self.material:
@@ -74,6 +77,18 @@ class FeffTestGroup(Group):
         else:
             raise Exception("You have not specified a valid test")
 
+    def __previous(self, material):
+        """
+        Fetch the list of models for which feff has already been run.  This will
+        be an empty list if feff has not yet been run.
+        """
+        list = []
+        for f in sorted(listdir(join(material, self.test))):
+            if f.startswith('feff6'):   list.append(f)
+            if f.startswith('noSCF'):   list.append(f)
+            if f.startswith('withSCF'): list.append(f)
+        return list
+        
     def __target(self, which):
         target = join(self.material, self.test, which)
         if isdir(target): rmtree(target)
@@ -99,23 +114,31 @@ class FeffTestGroup(Group):
         target = self.__target('feff6')
         inpfile = join(target, 'feff.inp')
         copy(join(self.material, self.material+'.feff6'), inpfile)
-        a=feffrunner(feffinp=inpfile)
+        ff=feffrunner(feffinp=inpfile)
         self.json['pathfinder'] = 1
-        a.run(exe='feff6')
+        ff.run(exe='feff6')
         self.__cull('feff6')
 
         pathsdat = join(self.material, self.test, 'feff6', 'paths.dat')
         renderer = pystache.Renderer()
+        self.threshold = {'feff6': []}
+        self.chargetransfer = {'feff6': []}
+        ff.threshold = []
+        ff.chargetransfer = []
         
         ## feff 8 without SCF
         target = self.__target('noSCF')
         self.json['pathfinder'] = 0
         self.json['doscf'] = '* '
-        a.feffinp = join(target, 'feff.inp')
-        with open(a.feffinp, 'w') as inp:
+        ff.feffinp = join(target, 'feff.inp')
+        with open(ff.feffinp, 'w') as inp:
             inp.write(renderer.render_path( self.mustache, self.json ))  # mat/mat.mustache with mat/mat.json
         copy(pathsdat, join(self.material, self.test, 'noSCF'))
-        a.run()
+        ff.run()
+        self.threshold['noSCF'] = ff.threshold
+        self.chargetransfer['noSCF'] = list([])
+        ff.threshold = []
+        ff.chargetransfer = []
         self.__cull('noSCF')
 
         ## feff 8 at each of the SCF radii
@@ -123,16 +146,28 @@ class FeffTestGroup(Group):
         for r in self.json['radii']:
             this = 'withSCF_%s' % r
             target = self.__target(this)
-            a.feffinp = join(target, 'feff.inp')
+            ff.feffinp = join(target, 'feff.inp')
             self.json['scf'] = r
-            with open(a.feffinp, 'w') as inp:
+            with open(ff.feffinp, 'w') as inp:
                 inp.write(renderer.render_path( self.mustache, self.json ))  # mat/mat.mustache with mat/mat.json
             copy(pathsdat, join(self.material, self.test, this))
-            a.run()
+            ff.run()
+            self.threshold[this] = ff.threshold
+            self.chargetransfer[this] = ff.chargetransfer
+            ff.threshold = []
+            ff.chargetransfer = []
             self.__cull(this)
 
-            
     def fits(self):
+        if self.test == 'scf':
+            self.fits_scf()
+        elif self.test == 'iorder':
+            self.fits_iorder()
+        else:
+            raise Exception("You have not specified a valid test")
+        
+            
+    def fits_scf(self):
         """
         Perform a canned fit using a sequence of Feff calculations
 
@@ -153,7 +188,7 @@ class FeffTestGroup(Group):
         module = importlib.import_module(self.material, package=None)
 
         if self.test is None:
-            raise Exception("You must select a test folder.")
+            raise Exception("You must select a test.")
 
         self.models = []
         folders = ['feff6', 'noSCF']
@@ -168,6 +203,16 @@ class FeffTestGroup(Group):
 
 
     def plot(self, which):
+        """
+        Make a plot of one of the fitting results.  The argument is the
+        name of the fit, "feff6", "noSCF", or "withSCF_N" where N is
+        the radius of the self-consistency cluster.  Alternatively,
+        which can be in integer denoting the place in the list of
+        models.  1 is always "feff6", 2 is always "noSCF", 3+ is the
+        "withSCF" calculation in order of increasing radius.
+        """
+        if isinstance(which, int):
+            which = self.models[which-1]
         if which in self.models:
             dsets = getattr(getattr(self, which), 'datasets')
             dset = dsets[0]
@@ -182,7 +227,27 @@ class FeffTestGroup(Group):
         else:
             raise Exception("%s is not one of the feff models for %s" % (which, self.material))
                 
-        
+    def report(self, which):
+        if isinstance(which, int):
+            which = self.models[which-1]
+        if which in self.models:
+            this = getattr(self, which)
+            print feffit_report(this, _larch=self._larch)
+        else:
+            raise Exception("%s is not one of the feff models for %s" % (which, self.material))
+
+    def compare(self, param):
+        for m in self.models:
+            this=getattr(self, m)
+            if param in getattr(getattr(this, 'params'), 'covar_vars'):
+                print "%12s: %.5f +/- %.5f" % (m,
+                                               getattr(getattr(getattr(this, 'params'), param), 'value'),
+                                               getattr(getattr(getattr(this, 'params'), param), 'stderr'))
+            elif param in ('chi_reduced', 'chi_square', 'rfactor'):
+                print "%12s: %.5f" % (m, getattr(getattr(this, 'params'), param))
+            else:
+                print '%s is not one of the parameters of this fit' % param
+
 ######################################################################
 
 def ft(_larch=None, **kws):
