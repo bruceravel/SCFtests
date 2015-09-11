@@ -136,7 +136,7 @@ def do_fit(self, which, firstshell=False, fittest='baseline'):
 
     renderer = pystache.Renderer()
     with open(join(self.folder, fittest,'fit_'+which+shells+'.gp'), 'w') as inp:
-        inp.write(renderer.render_path( 'fit.mustache', # gnuplot mustache file
+        inp.write(renderer.render_path( 'plot.mustache', # gnuplot mustache file
                                         {'material': 'NiO',
                                          'model': which,
                                          'fittest': fittest,

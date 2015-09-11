@@ -17,6 +17,18 @@ from feffit import feffit_report
 use_plugin_path('wx')
 from plotter import (_newplot, _plot)
 
+
+import tabulate
+bs=u'\\ '
+bs=bs[0:1]
+tabulate.LATEX_ESCAPE_RULES[bs]=bs
+tabulate.LATEX_ESCAPE_RULES[u'{']=u'{'
+tabulate.LATEX_ESCAPE_RULES[u'}']=u'}'
+tabulate.LATEX_ESCAPE_RULES[u'^']=u'^'
+tabulate.LATEX_ESCAPE_RULES[u'_']=u'_'
+tabulate.LATEX_ESCAPE_RULES[u'$']=u'$'
+
+
 class FeffTestGroup(Group):
     """
     Feff testing group
@@ -35,6 +47,8 @@ class FeffTestGroup(Group):
         self.tests        = ('scf', 'iorder')
         self.dryrun       = False
         self.dopathfinder = False
+        self.tableformat  = 'pipe' # 'plain', 'simple', 'grid', 'fancy_grid', 'pipe', 'orgtbl', 'rst', 'mediawiki', 'html', 'latex', 'latex_booktabs'
+
         ## some things to make the cohabitation with f85ut happy
         self.doplot       = False
         self.verbose      = False
@@ -83,10 +97,11 @@ class FeffTestGroup(Group):
         be an empty list if feff has not yet been run.
         """
         list = []
-        for f in sorted(listdir(join(material, self.test))):
-            if f.startswith('feff6'):   list.append(f)
-            if f.startswith('noSCF'):   list.append(f)
-            if f.startswith('withSCF'): list.append(f)
+        testdir = join(material, self.test)
+        if isdir(testdir):
+            for f in sorted(listdir(testdir)):
+                for sf in ('feff6', 'noSCF', 'withSCF'): # <============ other tests?
+                    if f.startswith(sf):   list.append(f)
         return list
         
     def __target(self, which):
@@ -111,6 +126,7 @@ class FeffTestGroup(Group):
             raise Exception("You have not yet set the material for this test")
 
         ## do feff6 run
+        self.models = []
         target = self.__target('feff6')
         inpfile = join(target, 'feff.inp')
         copy(join(self.material, self.material+'.feff6'), inpfile)
@@ -121,6 +137,7 @@ class FeffTestGroup(Group):
 
         pathsdat = join(self.material, self.test, 'feff6', 'paths.dat')
         renderer = pystache.Renderer()
+        self.models.append('feff6')
         self.threshold = {'feff6': []}
         self.chargetransfer = {'feff6': []}
         ff.threshold = []
@@ -135,6 +152,7 @@ class FeffTestGroup(Group):
             inp.write(renderer.render_path( self.mustache, self.json ))  # mat/mat.mustache with mat/mat.json
         copy(pathsdat, join(self.material, self.test, 'noSCF'))
         ff.run()
+        self.models.append('noSCF')
         self.threshold['noSCF'] = ff.threshold
         self.chargetransfer['noSCF'] = list([])
         ff.threshold = []
@@ -152,30 +170,27 @@ class FeffTestGroup(Group):
                 inp.write(renderer.render_path( self.mustache, self.json ))  # mat/mat.mustache with mat/mat.json
             copy(pathsdat, join(self.material, self.test, this))
             ff.run()
+            self.models.append(this)
             self.threshold[this] = ff.threshold
             self.chargetransfer[this] = ff.chargetransfer
             ff.threshold = []
             ff.chargetransfer = []
             self.__cull(this)
 
-    def fits(self):
-        if self.test == 'scf':
-            self.fits_scf()
-        elif self.test == 'iorder':
-            self.fits_iorder()
-        else:
-            raise Exception("You have not specified a valid test")
+    # def fits(self):
+    #     if self.test == 'scf':
+    #         self.fits_scf()
+    #     elif self.test == 'iorder':
+    #         self.fits_iorder()
+    #     else:
+    #         raise Exception("You have not specified a valid test")
         
             
-    def fits_scf(self):
+    def fits(self):
         """
         Perform a canned fit using a sequence of Feff calculations
 
-        This is not used for unit testing feff85exafs.  It is a
-        generalization of the fit() method intended for use with a
-        generic testing framework, e.g. https://github.com/bruceravel/SCFtests
-
-        Uses self.fittest, the name of a folder containing a sequence of
+        Uses self.test, the name of a folder containing a sequence of
         Feff calculations.
 
         Sets self.models, a list of subfolders containing the identifying
@@ -190,26 +205,98 @@ class FeffTestGroup(Group):
         if self.test is None:
             raise Exception("You must select a test.")
 
-        self.models = []
-        folders = ['feff6', 'noSCF']
-        for r in self.json['radii']:
-            folders.append('withSCF_%s' % r)
-        for d in folders:
+        for d in self.models:
             if isdir(join(self.material, self.test, d)):
                 print '>>>>>>>>> fitting with model: %s' % d
-                self.models.append(d)
                 this = module.do_fit(self, d, firstshell=self.firstshell, fittest=self.test)
                 setattr(self, d, this)
 
 
+    def table(self):
+        variables = getattr(getattr(getattr(self, self.models[0]), 'params'), 'covar_vars')
+
+        prefix = ''             # \\num{
+        postfix = ''            # }
+        chisqr = 'chi-square'   # $\chi^2$
+        chinu = 'chi-reduced'   # $\chi^2_\\nu$
+        rfactor = 'R-factor'    # $\mathcal{R}$
+        paramheader = 'Best fit values'
+        statsheader = 'Statistics'
+        if self.tableformat.startswith('latex'):
+            prefix = '\\num{'
+            postfix = '}'
+            chisqr = '$\chi^2$'
+            chinu = '$\chi^2_\\nu$'
+            rfactor = '$\mathcal{R}$'
+            paramheader = '\\subsection{Best fit values}\n'
+            statsheader = '\\subsection{Statistics}\n'
+            
+        
+        table = []
+        for d in self.models:
+            dd=d
+            if "_" in dd : dd=d.replace("_", "(") + ")"
+            inner = [dd,]
+            for var in variables:
+                if var in ('amp', 'enot', 'nu'):
+                    fmt = "%s%.2f(%d)%s"
+                    mult = 100
+                elif var in ('thetad'):
+                    fmt = "%s%.0f(%d)%s"
+                    mult = 1
+                elif var.startswith('dr'):
+                    fmt = "%s%.3f(%d)%s"
+                    mult = 1000
+                elif var.startswith('e'):
+                    fmt = "%s%.3f(%d)%s"
+                    mult = 1000
+                else:
+                    fmt = "%s%.5f(%d)%s"
+                    mult = 100000
+                val = fmt % (prefix,
+                             getattr(getattr(getattr(getattr(self, d), 'params'), var), 'value'),
+                             int(mult*getattr(getattr(getattr(getattr(self, d), 'params'), var), 'stderr')),
+                             postfix)
+                inner.append( val )
+            table.append(inner)
+
+        result = "\n%s\n\n" % paramheader
+        result = result + "%s\n\n" % tabulate.tabulate(table, headers=['model',]+variables, tablefmt=self.tableformat)
+
+        table = []
+        for d in self.models:
+            dd=d
+            if "_" in dd : dd=d.replace("_", "(") + ")"
+            inner = [dd,]
+            for stat in ('chi_square', 'chi_reduced', 'rfactor'):
+                inner.append( getattr(getattr(getattr(self, d), 'params'), stat) )
+            table.append(inner)
+        result = result + "%s\n\n" % statsheader
+        result = result + "%s\n" % tabulate.tabulate(table, headers=['model',chisqr, chinu, rfactor], floatfmt=".4f", tablefmt=self.tableformat)
+
+        return result
+        
+    def compare(self, param):
+        for m in self.models:
+            this=getattr(self, m)
+            if param in getattr(getattr(this, 'params'), 'covar_vars'):
+                print "%12s: %.5f +/- %.5f" % (m,
+                                               getattr(getattr(getattr(this, 'params'), param), 'value'),
+                                               getattr(getattr(getattr(this, 'params'), param), 'stderr'))
+            elif param in ('chi_reduced', 'chi_square', 'rfactor'):
+                print "%12s: %.5f" % (m, getattr(getattr(this, 'params'), param))
+            else:
+                print '%s is not one of the parameters of this fit' % param
+
+                
     def plot(self, which):
         """
         Make a plot of one of the fitting results.  The argument is the
         name of the fit, "feff6", "noSCF", or "withSCF_N" where N is
         the radius of the self-consistency cluster.  Alternatively,
         which can be in integer denoting the place in the list of
-        models.  1 is always "feff6", 2 is always "noSCF", 3+ is the
-        "withSCF" calculation in order of increasing radius.
+        models.  1 is always "feff6", 2 is always "noSCF", 3+ are the
+        "withSCF" calculations in order of increasing radius.
         """
         if isinstance(which, int):
             which = self.models[which-1]
@@ -227,6 +314,17 @@ class FeffTestGroup(Group):
         else:
             raise Exception("%s is not one of the feff models for %s" % (which, self.material))
                 
+    def png(self, which):
+        """
+        Call gnuplot to generate a PNG file with the result of the fit using the specified model.
+        """
+        if isinstance(which, int):
+            which = self.models[which-1]
+        if which in self.models:
+            subprocess.call(['gnuplot', join(self.material, self.test, 'fit_%s.gp' % which)])
+        else:
+            raise Exception("%s is not one of the feff models for %s" % (which, self.material))
+            
     def report(self, which):
         if isinstance(which, int):
             which = self.models[which-1]
@@ -236,17 +334,6 @@ class FeffTestGroup(Group):
         else:
             raise Exception("%s is not one of the feff models for %s" % (which, self.material))
 
-    def compare(self, param):
-        for m in self.models:
-            this=getattr(self, m)
-            if param in getattr(getattr(this, 'params'), 'covar_vars'):
-                print "%12s: %.5f +/- %.5f" % (m,
-                                               getattr(getattr(getattr(this, 'params'), param), 'value'),
-                                               getattr(getattr(getattr(this, 'params'), param), 'stderr'))
-            elif param in ('chi_reduced', 'chi_square', 'rfactor'):
-                print "%12s: %.5f" % (m, getattr(getattr(this, 'params'), param))
-            else:
-                print '%s is not one of the parameters of this fit' % param
 
 ######################################################################
 

@@ -58,7 +58,7 @@ imagine rewriting the whole thing as a Larch app....
 * `models.py`: (python) prepare and run a single Feff calculation
 * `allfits.lar`: (larch) run all fits for all materials
 * `ficompare.lar`: (larch) run all fits for a single material
-* `fit.mustache`: mustache template used to generate gnuplot scripts
+* `plot.mustache`: mustache template used to generate gnuplot scripts
 * `allplots.sh`: (shell) convert all the gnuplot scripts into PNG images
 * `charge.pl`: (perl) snarf information about charge transfer and threshold energies from Feff run logs
 * `README.md`: (markdown) full description of SCF/EXAFS results
@@ -126,7 +126,7 @@ to set the format of the output table.  See
 [the tabulate documentation](https://pypi.python.org/pypi/tabulate#table-format)
 for the list of table formats.
 
-The file `fit.mustache` is a [mustache](https://mustache.github.io/)
+The file `plot.mustache` is a [mustache](https://mustache.github.io/)
 template for a [gnuplot](http://gnuplot.info) script.  Each python
 script defining the fitting model for a material makes a call to the
 pystache renderer after finishing each fit.  Thus a `.gp` file is
