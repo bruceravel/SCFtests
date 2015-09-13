@@ -40,14 +40,17 @@ class FeffTestGroup(Group):
         Group.__init__(self,  **kwargs)
         self._larch       = Interpreter()
         self.materials    = ("Copper", "NiO", "FeS2", "UO2", "BaZrO3", "bromoadamantane", "uranyl")
+        self.tests        = ('scf', 'iorder')
         self.__material   = None
+        self.__test       = None
+        self.testmodule   = None
+
         self.json         = None
         self.mustache     = None
-        self.test         = 'scf'
-        self.tests        = ('scf', 'iorder')
         self.dryrun       = False
         self.dopathfinder = False
-        self.tableformat  = 'pipe' # 'plain', 'simple', 'grid', 'fancy_grid', 'pipe', 'orgtbl', 'rst', 'mediawiki', 'html', 'latex', 'latex_booktabs'
+        self.tableformat  = 'pipe' # 'plain', 'simple', 'grid', 'fancy_grid', 'pipe', 'orgtbl'
+                                   # 'rst', 'mediawiki', 'html', 'latex', 'latex_booktabs'
 
         ## some things to make the cohabitation with f85ut happy
         self.doplot       = False
@@ -76,6 +79,20 @@ class FeffTestGroup(Group):
             self.mustache = None
             self.models = []
             
+    @property
+    def test(self):
+        return self.__test
+    @test.setter
+    def test(self, value):
+        if value in self.tests:
+            self.__test = value
+            ## load the prep() method from the chosen test
+            sys.path.append('fefftests')
+            self.testmodule = importlib.import_module(value, package=None)
+        else:
+            self.__test = None
+            self.testmodule   = None
+
     def __repr__(self):
         if not self.material:
             return '<Feff Test Group (none)>'
@@ -84,12 +101,9 @@ class FeffTestGroup(Group):
         return '<Feff Test Group (none)>'
 
     def prep(self):
-        if self.test == 'scf':
-            self.prep_scf()
-        elif self.test == 'iorder':
-            self.prep_iorder()
-        else:
+        if not self.test:
             raise Exception("You have not specified a valid test")
+        self.testmodule.prep(self)
 
     def __previous(self, material):
         """
@@ -104,13 +118,20 @@ class FeffTestGroup(Group):
                     if f.startswith(sf):   list.append(f)
         return list
         
-    def __target(self, which):
+    def target(self, which):
+        """
+        Determine the name of the working directory of the current testing
+        model and initialize it.
+        """
         target = join(self.material, self.test, which)
         if isdir(target): rmtree(target)
         makedirs(target)
         return target
 
-    def __cull(self, which):
+    def cull(self, which):
+        """
+        Clean up files from the Feff run which are not needed for testing.
+        """
         owd = getcwd()
         try:
             chdir(join(self.material, self.test, which))
@@ -121,71 +142,6 @@ class FeffTestGroup(Group):
         finally:
             chdir(owd)
     
-    def prep_scf(self):
-        if not self.material:
-            raise Exception("You have not yet set the material for this test")
-
-        ## do feff6 run
-        self.models = []
-        target = self.__target('feff6')
-        inpfile = join(target, 'feff.inp')
-        copy(join(self.material, self.material+'.feff6'), inpfile)
-        ff=feffrunner(feffinp=inpfile)
-        self.json['pathfinder'] = 1
-        ff.run(exe='feff6')
-        self.__cull('feff6')
-
-        pathsdat = join(self.material, self.test, 'feff6', 'paths.dat')
-        renderer = pystache.Renderer()
-        self.models.append('feff6')
-        self.threshold = {'feff6': []}
-        self.chargetransfer = {'feff6': []}
-        ff.threshold = []
-        ff.chargetransfer = []
-        
-        ## feff 8 without SCF
-        target = self.__target('noSCF')
-        self.json['pathfinder'] = 0
-        self.json['doscf'] = '* '
-        ff.feffinp = join(target, 'feff.inp')
-        with open(ff.feffinp, 'w') as inp:
-            inp.write(renderer.render_path( self.mustache, self.json ))  # mat/mat.mustache with mat/mat.json
-        copy(pathsdat, join(self.material, self.test, 'noSCF'))
-        ff.run()
-        self.models.append('noSCF')
-        self.threshold['noSCF'] = ff.threshold
-        self.chargetransfer['noSCF'] = list([])
-        ff.threshold = []
-        ff.chargetransfer = []
-        self.__cull('noSCF')
-
-        ## feff 8 at each of the SCF radii
-        self.json['doscf'] = ''
-        for r in self.json['radii']:
-            this = 'withSCF_%s' % r
-            target = self.__target(this)
-            ff.feffinp = join(target, 'feff.inp')
-            self.json['scf'] = r
-            with open(ff.feffinp, 'w') as inp:
-                inp.write(renderer.render_path( self.mustache, self.json ))  # mat/mat.mustache with mat/mat.json
-            copy(pathsdat, join(self.material, self.test, this))
-            ff.run()
-            self.models.append(this)
-            self.threshold[this] = ff.threshold
-            self.chargetransfer[this] = ff.chargetransfer
-            ff.threshold = []
-            ff.chargetransfer = []
-            self.__cull(this)
-
-    # def fits(self):
-    #     if self.test == 'scf':
-    #         self.fits_scf()
-    #     elif self.test == 'iorder':
-    #         self.fits_iorder()
-    #     else:
-    #         raise Exception("You have not specified a valid test")
-        
-            
     def fits(self):
         """
         Perform a canned fit using a sequence of Feff calculations
@@ -261,7 +217,8 @@ class FeffTestGroup(Group):
             table.append(inner)
 
         result = "\n%s\n\n" % paramheader
-        result = result + "%s\n\n" % tabulate.tabulate(table, headers=['model',]+variables, tablefmt=self.tableformat)
+        result = result + "%s\n\n" % tabulate.tabulate(table, headers=['model',]+variables,
+                                                       tablefmt=self.tableformat)
 
         table = []
         for d in self.models:
@@ -272,7 +229,8 @@ class FeffTestGroup(Group):
                 inner.append( getattr(getattr(getattr(self, d), 'params'), stat) )
             table.append(inner)
         result = result + "%s\n\n" % statsheader
-        result = result + "%s\n" % tabulate.tabulate(table, headers=['model',chisqr, chinu, rfactor], floatfmt=".4f", tablefmt=self.tableformat)
+        result = result + "%s\n" % tabulate.tabulate(table, headers=['model',chisqr, chinu, rfactor],
+                                                     floatfmt=".4f", tablefmt=self.tableformat)
 
         return result
         
@@ -291,12 +249,15 @@ class FeffTestGroup(Group):
                 
     def plot(self, which):
         """
-        Make a plot of one of the fitting results.  The argument is the
-        name of the fit, "feff6", "noSCF", or "withSCF_N" where N is
-        the radius of the self-consistency cluster.  Alternatively,
-        which can be in integer denoting the place in the list of
-        models.  1 is always "feff6", 2 is always "noSCF", 3+ are the
-        "withSCF" calculations in order of increasing radius.
+        Make a plot of one of the fitting results.  The argument is the name
+        of the fit.  Alternatively, which can be in integer denoting
+        the place in the list of models.
+
+        For example, for the SCF tests, the names are "feff6",
+        "noSCF", or "withSCF_N" where N is the radius of the
+        self-consistency cluster.  1 is always "feff6", 2 is always
+        "noSCF", 3+ are the "withSCF" calculations in order of
+        increasing radius.
         """
         if isinstance(which, int):
             which = self.models[which-1]
@@ -312,7 +273,7 @@ class FeffTestGroup(Group):
             _plot(dset.data.r,  dset.data.chir_re, label='', color='blue', _larch=self._larch)
             _plot(dset.model.r, dset.model.chir_re, label='', color='red', _larch=self._larch)
         else:
-            raise Exception("%s is not one of the feff models for %s" % (which, self.material))
+            raise Exception("%s is not one of the feff models for the %s test" % (which, self.test))
                 
     def png(self, which):
         """
@@ -323,7 +284,7 @@ class FeffTestGroup(Group):
         if which in self.models:
             subprocess.call(['gnuplot', join(self.material, self.test, 'fit_%s.gp' % which)])
         else:
-            raise Exception("%s is not one of the feff models for %s" % (which, self.material))
+            raise Exception("%s is not one of the feff models for the %s test" % (which, self.test))
             
     def report(self, which):
         if isinstance(which, int):
@@ -332,7 +293,7 @@ class FeffTestGroup(Group):
             this = getattr(self, which)
             print feffit_report(this, _larch=self._larch)
         else:
-            raise Exception("%s is not one of the feff models for %s" % (which, self.material))
+            raise Exception("%s is not one of the feff models for the %s test" % (which, self.test))
 
 
 ######################################################################
