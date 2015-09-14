@@ -1,4 +1,4 @@
-from   os.path   import join
+from   os.path   import join, isfile, isdir
 from   shutil  import copy
 import sys, subprocess, glob, pystache, json, re
 
@@ -20,6 +20,16 @@ def prep(fefftest):
 
     ## note the paths.dat file so it can be copied to each of the following test folders
     pathsdat = join(fefftest.material, 'scf', 'feff6', 'paths.dat')
+    if not isfile(pathsdat):    # make it if it's not there
+        fefftest.test = 'scf'
+        target = fefftest.target('feff6') # make the folder for the feff6 run
+        inpfile = join(target, 'feff.inp')
+        copy(join(fefftest.material, fefftest.material+'.feff6'), inpfile)
+        runner=feffrunner(feffinp=inpfile)
+        fefftest.json['pathfinder'] = 1
+        runner.run(exe='feff6')
+        fefftest.cull('feff6')
+        fefftest.test = 'iorder'
 
     ## make dicts for holding the convergence data for each feff8 run
     fefftest.threshold = dict()
@@ -31,6 +41,7 @@ def prep(fefftest):
     renderer = pystache.Renderer()
 
     ## feff 8 with each iorder using the second shortest SCF radius
+    fefftest.json['pathfinder'] = 0
     fefftest.json['doscf'] = ''
     fefftest.json['scf'] = fefftest.json['radii'][0] # unless there is only 1 SCF radius
     if len(fefftest.json['radii']) > 1:

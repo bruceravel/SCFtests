@@ -58,6 +58,10 @@ The point of this test is to evaluate the effect of the feff model on
 EXAFS fitting.  This tests feff6 against feff8 and self-consistency
 against the absence of self-consistency.
 
+[As discussed elsewhere](README.md), self-consistency provides scant
+impact on the quality of the EXAFS analysis or on the measured
+results.
+
 ### iorder
 
 In the paper that introduced feff6 ("Multiple-scattering calculations
@@ -87,6 +91,9 @@ Limiting the iorder test to first shell fitting will result in
 identical fits for all iorder values.  Single scattering paths are
 computed exactly in feff.  It is only multiple scattering paths that
 are subject to the IORDER approximation.
+
+The executive summary of this test is that the original assessment of
+6x6 (IORDER=2) is the correct choice.
 
 ## Workflow
 
@@ -238,8 +245,8 @@ The integer shortcut from the `plot()` method can be used here.
 
 ## A larch script for testing all standards
 
-Here is a very simple script.  It will be very time consuming due as
-feff must be run in the `prep()` step for each material.
+Here is a very simple script.  It will be quite time consuming as feff
+must be run in the `prep()` step for each material.
 
 ```python
 add_plugin('fefftest')
@@ -334,6 +341,12 @@ the `.py` files expect consistent path indexing.
 
 If you add a new material, you should edit the `fefftest.py` plugin
 file to add the name of your new material to the list at line 42.
+
+If your test requires modification of the `feff.inp` file, then you
+should edit the `<material>.mustache` file for each material
+accordingly and add the necessary parameters to the `<material>.json`
+files.  Be sure to provide a sensible default for your new parameters
+so that other tests will still run correctly.
 
 # Results and documentation
 
