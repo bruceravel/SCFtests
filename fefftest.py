@@ -64,6 +64,8 @@ class FeffTestGroup(Group):
         return self.__material
     @material.setter
     def material(self, value):
+        if self.__test == None:
+            raise Exception("You must set the test BEFORE you set the material")
         if value in self.materials:
             self.__material = value
             self.folder = value
@@ -92,6 +94,8 @@ class FeffTestGroup(Group):
         else:
             self.__test = None
             self.testmodule   = None
+            string = ', '.join(map(str, self.tests))
+            raise Exception("you said '%s' -- the valid tests are: %s" % (value, string))
 
     def __repr__(self):
         if not self.material:

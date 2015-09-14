@@ -42,7 +42,178 @@ Future materials:
 * methyltin
 * ???
 
+## Established tests
+
+### SCF
+
+This is a test that runs any of the curated standards against a
+sequence of different feff models related to probing the effect of
+self-consistency.  Feff will be run in each of the following ways:
+
+1. feff6
+2. feff8 without self-consistency
+3. feff8 with one or more radii for the self-consistency computation
+
+The point of this test is to evaluate the effect of the feff model on
+EXAFS fitting.  This tests feff6 against feff8 and self-consistency
+against the absence of self-consistency.
+
+### iorder
+
+In the paper that introduced feff6 ("Multiple-scattering calculations
+of x-ray-absorption spectra", S. I. Zabinsky, J. J. Rehr,
+A. Ankudinov, R. C. Albers, and M. J. Eller, Phys. Rev. **B**52,
+p. 2995,
+[doi:10.1103/PhysRevB.52.2995](http://dx.doi.org/10.1103/PhysRevB.52.2995)),
+the authors discuss an approximation made in the computation of the
+Rehr-Albers separable propagators.  The scaling of the spherical
+harmonic scattering factors used to compute the photoelectron free
+propagator is such that the corresponding matrix can be limited in
+dimension to 6x6.  There is some discussion about the accuracy of this
+approximation at high energy, but the authors assert the numerical
+accuracy of this approximation is within 1% of the full calculation at
+photoelectron wavenumbers below 20.
+
+The size of this matrix is controlled in the feff input file by the
+IORDER keyword.  The default value of 2 corresponds to the 6x6
+matrix.  The assertion that the 6x6 matrix is adequate is easily tested
+using this testing framework.
+
+The iorder test runs feff8 with a short self-consistency radius and
+with a range of iorder values, including 1, 2, 3, 4, and 10 (10 being
+something the source code refers to as the "cute" algorithm).
+
+Limiting the iorder test to first shell fitting will result in
+identical fits for all iorder values.  Single scattering paths are
+computed exactly in feff.  It is only multiple scattering paths that
+are subject to the IORDER approximation.
+
 ## Workflow
+
+The testing is implemented as a larch plugin.  Once larch has been
+started, load the `fefftest` plugin:
+
+```
+larch> add_plugin('fefftest')
+```
+
+Note that these instructions presume that your working directory is
+the main directory of the repository.  This is not a Larch plugin in
+the sense that it is designed and written to be used anywhere and in
+any way.  The workflow of the feff testing expects to find certain
+files in certain locations.  The easiest way to ensure this is to do
+you testing in the repository directory.
+
+Once the plugin is loaded, create a FeffTestGroup object, set some
+of its attributes, and prepare the feff calculations:
+
+```
+larch> a = ft()
+larch> a.test = 'scf'
+larch> a.material = 'Copper'
+larch> a.prep()
+```
+
+The `a.prep()` step may be quite time consuming, depending on the
+SCF radii used in the testing steps.  Once the feff calculations have
+run to completion, you can run the canned fitting model using each of
+the feff models:
+
+```
+larch> a.fits()
+>>>>>>>>> fitting with model: feff6
+wrote to file 'Copper/scf/fit_feff6.k'
+wrote to file 'Copper/scf/fit_feff6.r'
+>>>>>>>>> fitting with model: noSCF
+wrote to file 'Copper/scf/fit_noSCF.k'
+wrote to file 'Copper/scf/fit_noSCF.r'
+>>>>>>>>> fitting with model: withSCF_3
+wrote to file 'Copper/scf/fit_withSCF_3.k'
+wrote to file 'Copper/scf/fit_withSCF_3.r'
+  (and so one)
+```
+
+### Make a plot of any fit:
+
+```
+larch> a.plot('feff6')
+```
+
+As a shortcut, you can use integer arguments where the integers refer
+to the (1-based) position of the model in the `models` attribute.
+
+```
+larch> show a.models
+['feff6', 'noSCF', withSCF_3', withSCF_4', withSCF_5', withSCF_5.5', withSCF_6']
+larch> a.plot(1)
+```
+
+`a.plot(1)` and `a.plot('feff6')` make the same plot.
+
+
+### Make a nice PNG image of any fit:
+
+```
+larch> a.png('feff6')
+```
+
+In the case of the Copper SCF test, this writes a file to
+`Copper/scf/fit_feff6.png`.
+
+The integer shortcut from the `plot()` method can be used here.
+
+### Examine an individual parameter
+
+To examine the evolution of an individual fitting parameter over
+the sequence of feff calculations:
+
+```
+larch> a.compare('enot')
+
+```
+
+### Tables of fit results
+
+To generate a table of results for variables and statistical
+parameters from the fit sequence:
+
+```
+larch> a.table()
+
+```
+
+The formatting of the table is controlled by the `tableformat`
+attribute and can be any of the
+[strings specified here](https://pypi.python.org/pypi/tabulate#table-format).
+By default, the `pipe` format is used.  `latex` is handled specially
+by the `table()` method.
+
+
+## A larch script for testing all standards
+
+Here is a very simple script.  It will be very time consuming due as
+feff must be run in the `prep()` step for each material.
+
+```python
+add_plugin('fefftest')
+a = ft()
+a.test = 'scf'
+for m in ("Copper", "NiO", "FeS2", "UO2", "BaZrO3", "bromoadamantane", "uranyl"):
+    a.material = m
+    a.prep()
+    a.fits()
+    print a.table()
+#endfor
+```
+
+It would be wise to capture the output of the `table()` method in
+some way.  As this example is written, the table containing the
+fitting results will be lost among the voluminous screen output of
+the many feff runs.
+
+
+
+## Obsolete stuff follows
 
 This was all developed on a linux computer.  No explicit support is
 offered for Windows although there should be enough information
