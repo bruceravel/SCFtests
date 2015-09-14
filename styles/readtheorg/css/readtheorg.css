@@ -361,6 +361,11 @@ table thead{
     empty-cells:show;
     margin-bottom:24px;
     border-bottom:1px solid #e1e4e5;
+
+    width: 100%;
+    overflow: auto;
+    word-break: normal;
+    word-break: keep-all;
 }
 
 td{
