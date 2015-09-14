@@ -1,17 +1,10 @@
 * Table of Contents
 #+SETUPFILE: theme-readtheorg-local.setup
 
-
-[[https://zenodo.org/badge/latestdoi/15446/bruceravel/SCFtests][[[https://zenodo.org/badge/15446/bruceravel/SCFtests.svg]]]]
-
-
 * Background
 
-In a
-[[http://www.mail-archive.com/ifeffit%40millenia.cars.aps.anl.gov/msg05038.html][recent
-post]] to the
-[[http://cars9.uchicago.edu/mailman/listinfo/ifeffit/][Ifeffit mailing
-list]], a poor soul made this comment:
+In a [[http://www.mail-archive.com/ifeffit%40millenia.cars.aps.anl.gov/msg05038.html][recent post]] to the [[http://cars9.uchicago.edu/mailman/listinfo/ifeffit/][Ifeffit mailing list]], a poor soul made this
+comment:
 
 #+BEGIN_EXAMPLE
      I wondering about the availability to use a newer FEFF version in
@@ -34,30 +27,27 @@ way, /anyone/ can download the tools and rerun the tests. Even better,
 anyone can apply the tools to new materials or new ways of computing the
 theory.
 
-Because /Feff9/ is not freely available and redistributable, it is hard
-to make use of it in the manner of this exercise. Consequently, the
-forms of Feff used here are the two redistributable versions: the
-/Feff6/ that comes with [[https://github.com/newville/ifeffit][Ifeffit]]
-and [[https://github.com/xraypy/feff85exafs][/feff85exafs/]].
+Because /Feff9/ is not freely available and redistributable, it is
+hard to make use of it in the manner of this exercise. Consequently,
+the forms of Feff used here are the two redistributable versions: the
+/Feff6/ that comes with [[https://github.com/newville/ifeffit][Ifeffit]] and [[https://github.com/xraypy/feff85exafs][/feff85exafs/]].
 
-I presented these results at a
-[[http://feffproject.org/SpecialSymposium-JJR/as-program.html][recent
-symposium on theoretical spectroscopy]]. By far, the most illuminating
-comment was from Alexei Ankudinov, the principle author of /Feff8/. Alex
-was surprised that anyone expected /Feff8/ or /Feff9/ to make a
-difference for EXAFS analysis. Most of the features in those later
-versions, and particularly in /Feff9/, pertain to calculations of other
-spectroscopies. Other new additions to the code would not be expected to
-have much impact for photoelectrons of high kinetic energy, i.e. far
-from the absorption edge.
+I presented these results at a [[http://feffproject.org/SpecialSymposium-JJR/as-program.html][recent symposium on theoretical
+spectroscopy]]. By far, the most illuminating comment was from Alexei
+Ankudinov, the principle author of /Feff8/. Alex was surprised that
+anyone expected /Feff8/ or /Feff9/ to make a difference for EXAFS
+analysis. Most of the features in those later versions, and
+particularly in /Feff9/, pertain to calculations of other
+spectroscopies. Other new additions to the code would not be expected
+to have much impact for photoelectrons of high kinetic energy,
+i.e. far from the absorption edge.
 
 This page is about /EXAFS/ analysis, not XANES calculations or
 calculations of other spectroscopies. Obviously, any calculation of a
-spectroscopy for which the photoelectron has low kinetic energy will be
-extremely sensitive to the details of the potential surface.
-Self-consistency and charge transfer are
-[[http://dx.doi.org/10.1103/PhysRevB.58.7565][unambiguously important]]
-for such calculations. The question here is about the impact on the
+spectroscopy for which the photoelectron has low kinetic energy will
+be extremely sensitive to the details of the potential surface.
+Self-consistency and charge transfer are [[http://dx.doi.org/10.1103/PhysRevB.58.7565][unambiguously important]] for
+such calculations. The question here is about the impact on the
 analysis of the EXAFS spectrum.
 
 Be all that as it may, the "Feff8/Feff9 *must* be better“ comment is

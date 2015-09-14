@@ -1,4 +1,4 @@
-* SCFtests
+* Using the Feff testing framework
 #+SETUPFILE: theme-readtheorg-local.setup
 
 Tools for testing effect of SCF on EXAFS fits
