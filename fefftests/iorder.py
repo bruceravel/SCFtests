@@ -14,7 +14,7 @@ def prep(fefftest):
     if not fefftest.material:
         raise Exception("You have not yet set the material for this test")
     
-    fefftest.models = []
+    fefftest.models = []        # this will be a list of the model names
     inpfile = join(fefftest.material, 'scf', 'feff6', 'feff.inp')
     runner=feffrunner(feffinp=inpfile)
 
@@ -45,9 +45,11 @@ def prep(fefftest):
             inp.write(renderer.render_path( fefftest.mustache, fefftest.json ))  # mat/mat.mustache with mat/mat.json
         copy(pathsdat, join(fefftest.material, fefftest.test, this)) # use the feff6 paths.dat
         runner.run()
-        fefftest.models.append(this)
+        fefftest.models.append(this) # keep a tally of the model names
+        ## add the current convergence results
         fefftest.threshold[this] = runner.threshold
         fefftest.chargetransfer[this] = runner.chargetransfer
+        ## and reinitialize the convergence attributes in feffrunner
         runner.threshold = []
         runner.chargetransfer = []
         fefftest.cull(this)

@@ -115,9 +115,14 @@ larch> a.prep()
 ```
 
 The `a.prep()` step may be quite time consuming, depending on the
-SCF radii used in the testing steps.  Once the feff calculations have
-run to completion, you can run the canned fitting model using each of
-the feff models:
+SCF radii used in the testing steps.
+
+If the feff calculations have already be run, this will be noticed
+when setting the `material` attribute.  In that case, the `prep()`
+step can be skipped, and you can proceed directly to fitting.
+
+Once the feff calculations have run to completion, you can run the
+canned fitting model using each of the feff models:
 
 ```
 larch> a.fits()
@@ -132,6 +137,8 @@ wrote to file 'Copper/scf/fit_withSCF_3.k'
 wrote to file 'Copper/scf/fit_withSCF_3.r'
   (and so one)
 ```
+
+There is no persistence of the fitting results (yet).
 
 ### Make a plot of any fit:
 
@@ -169,7 +176,13 @@ the sequence of feff calculations:
 
 ```
 larch> a.compare('enot')
-
+       feff6: 4.96784 +/- 0.49360
+       noSCF: 5.70543 +/- 0.48196
+   withSCF_3: 3.44875 +/- 0.56411
+   withSCF_4: 3.54301 +/- 0.56281
+   withSCF_5: 3.39539 +/- 0.56334
+ withSCF_5.5: 3.40748 +/- 0.56450
+   withSCF_6: 3.46357 +/- 0.56386
 ```
 
 ### Tables of fit results
@@ -178,7 +191,31 @@ To generate a table of results for variables and statistical
 parameters from the fit sequence:
 
 ```
-larch> a.table()
+larch> print a.table()
+
+Best fit values
+
+| model        | alpha         | amp     | enot     | ss1         | thetad   |
+|:-------------|:--------------|:--------|:---------|:------------|:---------|
+| feff6        | -0.00074(92)  | 0.96(4) | 4.97(49) | 0.00382(33) | 253(22)  |
+| noSCF        | -0.00046(90)  | 0.95(4) | 5.71(48) | 0.00400(33) | 239(19)  |
+| withSCF(3)   | -0.00077(104) | 0.94(5) | 3.45(56) | 0.00402(38) | 241(22)  |
+| withSCF(4)   | -0.00076(104) | 0.94(5) | 3.54(56) | 0.00402(38) | 242(22)  |
+| withSCF(5)   | -0.00077(104) | 0.94(5) | 3.40(56) | 0.00402(38) | 241(22)  |
+| withSCF(5.5) | -0.00077(105) | 0.94(5) | 3.41(56) | 0.00402(38) | 241(22)  |
+| withSCF(6)   | -0.00076(104) | 0.94(5) | 3.46(56) | 0.00402(38) | 241(22)  |
+
+Statistics
+
+| model        |   chi-square |   chi-reduced |   R-factor |
+|:-------------|-------------:|--------------:|-----------:|
+| feff6        |    1444.2957 |       54.3832 |     0.0145 |
+| noSCF        |    1412.8206 |       53.1981 |     0.0142 |
+| withSCF(3)   |    1820.8201 |       68.5608 |     0.0182 |
+| withSCF(4)   |    1814.2834 |       68.3147 |     0.0182 |
+| withSCF(5)   |    1816.9001 |       68.4132 |     0.0182 |
+| withSCF(5.5) |    1823.0856 |       68.6461 |     0.0183 |
+| withSCF(6)   |    1819.9264 |       68.5271 |     0.0182 |
 
 ```
 
@@ -188,6 +225,16 @@ attribute and can be any of the
 By default, the `pipe` format is used.  `latex` is handled specially
 by the `table()` method.
 
+### Examine the full fit report
+
+```
+larch> a.report('feff6')
+```
+
+This writes larch's fit report to the screen for the fit using the
+specified feff model.
+
+The integer shortcut from the `plot()` method can be used here.
 
 ## A larch script for testing all standards
 
@@ -212,108 +259,83 @@ fitting results will be lost among the voluminous screen output of
 the many feff runs.
 
 
+# Adding new materials
 
-## Obsolete stuff follows
+Each material must have a set of files with specific names.  Using
+Copper as the example, there must be a subdirectory of the repository
+called `Copper`.  In that subdirectory, there must be the following
+files:
 
-This was all developed on a linux computer.  No explicit support is
-offered for Windows although there should be enough information
-provided to figure out how to get all this to work on Windows.
+1. `Copper.json`: a JSON file containing values used in the mustache
+   file 
+2. `Copper.mustache`: a feff.inp for running feff8 with certain values
+   replaced by [mustache](https://github.com/mustache/mustache)
+   tokens
+3. `Copper.feff6`: the same feff.inp data, but structured for use with
+   feff6
+4. `Copper.py`: the fitting model, using larch syntax for setting up
+   and running the fit
+5. `Copper.chik`: the chi(k) as a column ASCII file with wavenumber in
+   the first column and un-k-weighted chi(k) in the second column
 
-This is a mish-mash of shell, python, larch, and perl scripts.  That
-works and is not exactly wrong, but it is pretty slap-dash.  One could
-imagine rewriting the whole thing as a Larch app....
+So, if you introduce a new material, you **must** provide each of
+these files, replacing `Copper` with the name of the new material.
 
-### File listing
+A few notes:
 
-* `prep.sh`: (shell) prepare a sequence of Feff calculations for a material
-* `models.py`: (python) prepare and run a single Feff calculation
-* `allfits.lar`: (larch) run all fits for all materials
-* `ficompare.lar`: (larch) run all fits for a single material
-* `plot.mustache`: mustache template used to generate gnuplot scripts
-* `allplots.sh`: (shell) convert all the gnuplot scripts into PNG images
-* `charge.pl`: (perl) snarf information about charge transfer and threshold energies from Feff run logs
-* `README.md`: (markdown) full description of SCF/EXAFS results
-* `results.tex`: (latex) full description of SCF/EXAFS results
-* `iord.tex`: (latex) full description of iorder/EXAFS results
-* `feffitplots.sty`: (latex) style file for formating grids of plots
-
-### Set up workspace.
-
-Run the `prep.sh` shell script:
-
-```bash
-./prep.sh Copper
-./prep.sh BaZrO3
-./prep.sh FeS2
-./prep.sh NiO
-./prep.sh UO2
-./prep.sh bromoadamantane
-./prep.sh uranyl
-```
-
-This is time-consuming -- maybe hours, depending on your computer.
-Each of those steps will create a set of subdirectories for each
-material, then run Feff under a variety of conidtions.  For each
-material, Feff will be run using:
-
-1. Feff6
-2. Feff85exafs, but without self-consistency
-3. Feff85exafs, with self-consistency using a sequence of
-   self-consistency cluster sizes.  For most materials, 5 calculations
-   are made at increasing radii.  For bromoadamantane, only 1 SCF
-   calculation is made which includes the entire molecule.
-
-`prep.sh` is actually a wrapper around the `models.py` python script.
-This script writes `feff.inp` appropriate to each calculation using a
-mustache template found in each material's folder and the pystache
-renderer.  It then uses Larch's feffrunner to run the correct version
-of the Feff and cull chaff from Feff's output.
-
-The `charge.pl` script examines the Feff run logs for a material and
-generates a markdown table containing the results of charge transfer
-for each unique potential in the material and for each SCF radius.  It
-also shows the threshold energy for each of the calculations.  This
-information may be useful in understanding the dependence of fitted E0
-on Feff theory.
+* In the JSON file, the `radii` item is a list of radii over which to
+  compute the self-consistency.  Unless the material is a small
+  molecule, you should select 5 or so values.  The first should
+  include only the first coordination shell.  The largest radii should
+  not be so large that the feff calculation takes inordinately long.
+* For the mustache template of the feff.inp file, follow the example
+  of the ones already in the repository.  You will likely want to
+  generate a feff8 input file using whatever tool you normally use
+  (Atoms, for example), then edit it by hand to insert the mustache
+  tokens in the same places as in the examples.
+* For the feff6 input file, just use Atoms (or whatever) to make a
+  feff6 input, then rename it.
+* For the fitting model in the `.py` file, again follow the examples
+  given.  How you set up the parameters and paths is entirely up to,
+  but be sure to include all of the logic towards the end of the file,
+  including:
+  * The setting of `rx` the upper bound of the fit in R
+  * The bits controlled with the `doplot` and `verbose` flags
+  * The writing of the output ASCII column files
+  * The writing of the gnuplot script, making sure to set all of its
+    mustache substitutions correctly for your fitting model
+* My typical pattern was to play with the fitting model in Artemis,
+  the reproduce my final model in the `.py` file.  I then used Artemis
+  to generate the `.chik` file.
 
 
-### Run all of the fits
+# Adding new tests
 
-The file `allfits.lar` is a Larch script which runs through all of the
-materials and performs the sequence of fits.  Fire up larch, then run
-it like so:
+A new test is added by making a new python script in the `fefftests`
+folder.  This python file defines the `prep()` method.  That is, it
+defines the conditions under which feff is run, then makes each feff
+calculation.
 
-	larch> run 'allfits.lar'
+The scf and iorder tests are pretty well commented.  Follow those
+examples.  The bottom line is that they loop through the list of
+testing conditions.  For each condition, a subdirectory called
+`<testname>/<condition>` is created.  The mustache template is filled
+in and written to `<testname>/<condition>/feff.inp`.  Finally, feff is
+run.
 
-It calls on the `fitcompare.lar` Larch script, which sets up default
-values for various parameters (or uses those specified by the
-`allfits.lar` script).  It then runs the `fitcompare` method from the
-`f85ut` unit testing group.  That method knows how to search out the
-folders containing each of the Feff calculations then run a fit on
-each one.  Finally, `fitcompare.lar` gathers up all the fitting
-results for a material and organizes them into some sort of table.
-The `output` parameter in `allfits.lar` and `fitcompare.lar` is used
-to set the format of the output table.  See
-[the tabulate documentation](https://pypi.python.org/pypi/tabulate#table-format)
-for the list of table formats.
+Note that, to verify that the *exact* same set of scattering paths are
+used for every test, the `paths.dat` file from the `scf/feff6` test
+should be copied into each new testing subdirectory.  The reason for
+this is to be sure that path indexing is consistent between models.
+Which a small change to the feff model, the amplitude of a small path
+might cause it to fall below one of feff's filtering criteria.  This
+would change the indexing of subsequent paths.  The fitting models in
+the `.py` files expect consistent path indexing.
 
-The file `plot.mustache` is a [mustache](https://mustache.github.io/)
-template for a [gnuplot](http://gnuplot.info) script.  Each python
-script defining the fitting model for a material makes a call to the
-pystache renderer after finishing each fit.  Thus a `.gp` file is
-generated for each fit made to each material and given a name that
-indicates the conditions of the fit (e.g. `fit_feff6.gp` or
-`fit_withSCF_5.gp`).  After `allfits.lar` is finished, there will be
-several such `.gp` files in each material's folder.
+If you add a new material, you should edit the `fefftest.py` plugin
+file to add the name of your new material to the list at line 42.
 
-The shell script `allplots.sh` finds each of these gnuplot scripts and
-runs gnuplot on them, producing a `.png` output file for each one.
-The PNG files have the same name as the gnuplot script, thus
-`fit_withSCF_5.gp` makes `fit_withSCF_5.png` and so on.
-
-
-
-## Results and documentation
+# Results and documentation
 
 The file `results.tex` gathers up the output of all the stuff above
 for conversion to a nice PDF file.  Eventually I decided I wanted to
@@ -324,3 +346,7 @@ The `README.md` file is being maintained.
 
 The file `iord.tex` collects the results of the iorder test for
 conversion to a nice PDF file.
+
+If you add a new material, you should edit the `fefftest.py` plugin
+file to add the name of your new test to the list at line 43.
+
