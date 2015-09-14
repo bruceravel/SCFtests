@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2015-09-14 Mon 14:42 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title></title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Bruce Ravel" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline14">1. SCFtests</a>
+<ul>
+<li><a href="#orgheadline1">1.1. Prerequisites</a></li>
+<li><a href="#orgheadline2">1.2. Curated set of standard data</a></li>
+<li><a href="#orgheadline6">1.3. Established tests</a>
+<ul>
+<li><a href="#orgheadline3">1.3.1. SCF</a></li>
+<li><a href="#orgheadline4">1.3.2. iorder</a></li>
+<li><a href="#orgheadline5">1.3.3. Future tests</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline12">1.4. Workflow</a>
+<ul>
+<li><a href="#orgheadline7">1.4.1. Make a plot of any fit:</a></li>
+<li><a href="#orgheadline8">1.4.2. Make a nice PNG image of any fit:</a></li>
+<li><a href="#orgheadline9">1.4.3. Examine an individual parameter</a></li>
+<li><a href="#orgheadline10">1.4.4. Tables of fit results</a></li>
+<li><a href="#orgheadline11">1.4.5. Examine the full fit report</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline13">1.5. A larch script for testing all standards</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline15">2. Adding new materials</a></li>
+<li><a href="#orgheadline16">3. Adding new tests</a></li>
+<li><a href="#orgheadline17">4. Results and documentation</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline14" class="outline-2">
+<h2 id="orgheadline14"><span class="section-number-2">1</span> SCFtests</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Tools for testing effect of SCF on EXAFS fits
+</p>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> Prerequisites</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+You <b>must</b> have these tools on your computer, properly built, installed,
+and functioning:
+</p>
+
+<ol class="org-ol">
+<li><a href="https://github.com/xraypy/xraylarch">Larch</a></li>
+<li><a href="https://github.com/xraypy/feff85exafs">feff85exafs</a></li>
+</ol>
+
+<p>
+The following python modules are used (<code>sudo pip install &lt;module&gt;</code>):
+</p>
+
+<ol class="org-ol">
+<li><a href="https://github.com/defunkt/pystache">pystache</a></li>
+<li><a href="https://pypi.python.org/pypi/tabulate">tabulate</a></li>
+</ol>
+
+<p>
+An adequately complete LaTeX installation is needed to compile the latex
+documents.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.2</span> Curated set of standard data</h3>
+<div class="outline-text-3" id="text-1-2">
+<ol class="org-ol">
+<li>Copper</li>
+<li>NiO</li>
+<li>FeS2</li>
+<li>UO2</li>
+<li>BaZrO3</li>
+<li>Uranyl ion in solution</li>
+<li>bromoadamantane</li>
+</ol>
+
+<p>
+Each of these folders has much of the same stuff as the data-bearing
+tests for <a href="https://github.com/xraypy/feff85exafs">feff85exafs</a>,
+including a mustache template for <code>feff.inp</code>, a json file controlling
+how the template is filled in, χ(k) data, a python script defining a
+fitting model using Larch, and a Feff6 input file.
+</p>
+
+<p>
+Future materials:
+</p>
+
+<ul class="org-ul">
+<li>methyltin, multiple data set, simple molecule</li>
+<li>???</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6"><span class="section-number-3">1.3</span> Established tests</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-orgheadline3" class="outline-4">
+<h4 id="orgheadline3"><span class="section-number-4">1.3.1</span> SCF</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+This is a test that runs any of the curated standards against a sequence
+of different Feff models related to probing the effect of
+self-consistency. Feff will be run in each of the following ways:
+</p>
+
+<ol class="org-ol">
+<li>Feff6</li>
+<li>Feff8 without self-consistency</li>
+<li>Feff8 with one or more radii for the self-consistency computation</li>
+</ol>
+
+<p>
+The point of this test is to evaluate the effect of the Feff model on
+EXAFS fitting. This tests Feff6 against Feff8 and self-consistency
+against the absence of self-consistency.
+</p>
+
+<p>
+As discussed elsewhere, self-consistency provides scant impact on the
+quality of the EXAFS analysis or on the measured results.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-4">
+<h4 id="orgheadline4"><span class="section-number-4">1.3.2</span> iorder</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<p>
+In the paper that introduced Feff6 ("Multiple-scattering calculations of
+x-ray-absorption spectra", S. I. Zabinsky, J. J. Rehr, A. Ankudinov, R.
+C. Albers, and M. J. Eller, Phys. Rev. *B*52, p. 2995,
+<a href="http://dx.doi.org/10.1103/PhysRevB.52.2995"><a href="10.1103/PhysRevB.52.2995">10.1103/PhysRevB.52.2995</a></a>),
+the authors discuss an approximation made in the computation of the
+Rehr-Albers separable propagators. The scaling of the spherical harmonic
+scattering factors used to compute the photoelectron free propagator is
+such that the corresponding matrix can be limited in dimension to 6x6.
+There is some discussion about the accuracy of this approximation at
+high energy, but the authors assert the numerical accuracy of this
+approximation is within 1% of the full calculation at photoelectron
+wavenumbers below 20.
+</p>
+
+<p>
+The size of this matrix is controlled in the Feff input file by the
+IORDER keyword. The default value of 2 corresponds to the 6x6 matrix.
+The assertion that the 6x6 matrix is adequate is easily tested using
+this testing framework.
+</p>
+
+<p>
+The iorder test runs Feff8 with a short self-consistency radius and with
+a range of iorder values, including 1, 2, 3, 4, and 10 (10 being
+something the source code refers to as the "cute" algorithm).
+</p>
+
+<p>
+Limiting the iorder test to first shell fitting will result in identical
+fits for all iorder values. Single scattering paths are computed exactly
+in Feff. It is only multiple scattering paths that are subject to the
+IORDER approximation.
+</p>
+
+<p>
+The executive summary of this test is that the original assessment of
+6x6 (IORDER=2) is the correct choice.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline5" class="outline-4">
+<h4 id="orgheadline5"><span class="section-number-4">1.3.3</span> Future tests</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<p>
+Here are some ideas for new things to try
+</p>
+
+<ul class="org-ul">
+<li>SCF test on a temperature sequence (NiO, Copper, FeS2,
+bromoadamantane can all be done easily)</li>
+<li>Multi-pole self-energy, full calculation or John's idea for a
+MPSE-lite (basically a broadened single pole)</li>
+<li>Calculation R-grid (RGRID=0.05 is the default, could try 0.03, 0.01,
+and 0.07)</li>
+<li>Output k grid (this would require editing code)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline12" class="outline-3">
+<h3 id="orgheadline12"><span class="section-number-3">1.4</span> Workflow</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+The testing is implemented as a larch plugin. Once larch has been
+started, load the <code>fefftest</code> plugin:
+</p>
+
+<pre class="example">
+larch&gt; add_plugin('fefftest')
+</pre>
+
+<p>
+Note that these instructions presume that your working directory is the
+main directory of the repository. This is not a Larch plugin in the
+sense that it is designed and written to be used anywhere and in any
+way. The workflow of the Feff testing expects to find certain files in
+certain locations. The easiest way to ensure this is to do you testing
+in the repository directory.
+</p>
+
+<p>
+Once the plugin is loaded, create a FeffTestGroup object, set some of
+its attributes, and prepare the Feff calculations:
+</p>
+
+<pre class="example">
+larch&gt; a = ft()
+larch&gt; a.test = 'scf'
+larch&gt; a.material = 'Copper'
+larch&gt; a.prep()
+</pre>
+
+<p>
+The <code>a.prep()</code> step may be quite time consuming, depending on the SCF
+radii used in the testing steps.
+</p>
+
+<p>
+If the Feff calculations have already be run, this will be noticed when
+setting the <code>material</code> attribute. In that case, the <code>prep()</code> step can be
+skipped, and you can proceed directly to fitting.
+</p>
+
+<p>
+Once the Feff calculations have run to completion, you can run the
+canned fitting model using each of the Feff models:
+</p>
+
+<pre class="example">
+larch&gt; a.fits()
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; fitting with model: feff6
+wrote to file 'Copper/scf/fit_feff6.k'
+wrote to file 'Copper/scf/fit_feff6.r'
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; fitting with model: noSCF
+wrote to file 'Copper/scf/fit_noSCF.k'
+wrote to file 'Copper/scf/fit_noSCF.r'
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; fitting with model: withSCF_3
+wrote to file 'Copper/scf/fit_withSCF_3.k'
+wrote to file 'Copper/scf/fit_withSCF_3.r'
+  (and so one)
+</pre>
+
+<p>
+There is no persistence of the fitting results (yet).
+</p>
+</div>
+
+<div id="outline-container-orgheadline7" class="outline-4">
+<h4 id="orgheadline7"><span class="section-number-4">1.4.1</span> Make a plot of any fit:</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<pre class="example">
+larch&gt; a.plot('feff6')
+</pre>
+
+<p>
+As a shortcut, you can use integer arguments where the integers refer to
+the (1-based) position of the model in the <code>models</code> attribute. For
+example,
+</p>
+
+<pre class="example">
+larch&gt; show a.models
+['feff6', 'noSCF', withSCF_3', withSCF_4', withSCF_5', withSCF_5.5', withSCF_6']
+larch&gt; a.plot(1)
+</pre>
+
+<p>
+<code>a.plot(1)</code> and <code>a.plot('feff6')</code> make the same plot.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline8" class="outline-4">
+<h4 id="orgheadline8"><span class="section-number-4">1.4.2</span> Make a nice PNG image of any fit:</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<pre class="example">
+larch&gt; a.png('feff6')
+</pre>
+
+<p>
+In the case of the Copper SCF test, this writes a file to
+<code>Copper/scf/fit_feff6.png</code>.
+</p>
+
+<p>
+The integer shortcut from the <code>plot()</code> method can be used here.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline9" class="outline-4">
+<h4 id="orgheadline9"><span class="section-number-4">1.4.3</span> Examine an individual parameter</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<p>
+To examine the evolution of an individual fitting parameter over the
+sequence of Feff calculations:
+</p>
+
+<pre class="example">
+larch&gt; a.compare('enot')
+       feff6: 4.96784 +/- 0.49360
+       noSCF: 5.70543 +/- 0.48196
+   withSCF_3: 3.44875 +/- 0.56411
+   withSCF_4: 3.54301 +/- 0.56281
+   withSCF_5: 3.39539 +/- 0.56334
+ withSCF_5.5: 3.40748 +/- 0.56450
+   withSCF_6: 3.46357 +/- 0.56386
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgheadline10" class="outline-4">
+<h4 id="orgheadline10"><span class="section-number-4">1.4.4</span> Tables of fit results</h4>
+<div class="outline-text-4" id="text-1-4-4">
+<p>
+To generate a table of results for variables and statistical parameters
+from the fit sequence:
+</p>
+
+<pre class="example">
+larch&gt; print a.table()
+
+Best fit values
+
+| model        | alpha         | amp     | enot     | ss1         | thetad   |
+|:-------------|:--------------|:--------|:---------|:------------|:---------|
+| feff6        | -0.00074(92)  | 0.96(4) | 4.97(49) | 0.00382(33) | 253(22)  |
+| noSCF        | -0.00046(90)  | 0.95(4) | 5.71(48) | 0.00400(33) | 239(19)  |
+| withSCF(3)   | -0.00077(104) | 0.94(5) | 3.45(56) | 0.00402(38) | 241(22)  |
+| withSCF(4)   | -0.00076(104) | 0.94(5) | 3.54(56) | 0.00402(38) | 242(22)  |
+| withSCF(5)   | -0.00077(104) | 0.94(5) | 3.40(56) | 0.00402(38) | 241(22)  |
+| withSCF(5.5) | -0.00077(105) | 0.94(5) | 3.41(56) | 0.00402(38) | 241(22)  |
+| withSCF(6)   | -0.00076(104) | 0.94(5) | 3.46(56) | 0.00402(38) | 241(22)  |
+
+Statistics
+
+| model        |   chi-square |   chi-reduced |   R-factor |
+|:-------------|-------------:|--------------:|-----------:|
+| feff6        |    1444.2957 |       54.3832 |     0.0145 |
+| noSCF        |    1412.8206 |       53.1981 |     0.0142 |
+| withSCF(3)   |    1820.8201 |       68.5608 |     0.0182 |
+| withSCF(4)   |    1814.2834 |       68.3147 |     0.0182 |
+| withSCF(5)   |    1816.9001 |       68.4132 |     0.0182 |
+| withSCF(5.5) |    1823.0856 |       68.6461 |     0.0183 |
+| withSCF(6)   |    1819.9264 |       68.5271 |     0.0182 |
+</pre>
+
+<p>
+The formatting of the table is controlled by the <code>tableformat</code> attribute
+and can be any of the
+<a href="https://pypi.python.org/pypi/tabulate#table-format">strings specified
+here</a>. By default, the <code>pipe</code> format is used. <code>latex</code> is handled
+specially by the <code>table()</code> method.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline11" class="outline-4">
+<h4 id="orgheadline11"><span class="section-number-4">1.4.5</span> Examine the full fit report</h4>
+<div class="outline-text-4" id="text-1-4-5">
+<pre class="example">
+larch&gt; a.report('feff6')
+</pre>
+
+<p>
+This writes larch's fit report to the screen for the fit using the
+specified Feff model.
+</p>
+
+<p>
+The integer shortcut from the <code>plot()</code> method can be used here.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline13" class="outline-3">
+<h3 id="orgheadline13"><span class="section-number-3">1.5</span> A larch script for testing all standards</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Here is a very simple script. It will be quite time consuming as Feff
+must be run in the <code>prep()</code> step for each material.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python">add_plugin('fefftest')
+a = ft()
+a.test = 'scf'
+for m in ("Copper", "NiO", "FeS2", "UO2", "BaZrO3", "bromoadamantane", "uranyl"):
+    a.material = m
+    a.prep()
+    a.fits()
+    print a.table()
+#endfor
+</pre>
+</div>
+
+<p>
+It would be wise to capture the output of the <code>table()</code> method in some
+way. As this example is written, the table containing the fitting
+results will be lost among the voluminous screen output of the many Feff
+runs.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline15" class="outline-2">
+<h2 id="orgheadline15"><span class="section-number-2">2</span> Adding new materials</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Each material must have a set of files with specific names. Using Copper
+as the example, there must be a subdirectory of the repository called
+<code>Copper</code>. In that subdirectory, there must be the following files:
+</p>
+
+<ol class="org-ol">
+<li><code>Copper.json</code>: a JSON file containing values used in the mustache
+file</li>
+<li><code>Copper.mustache</code>: a feff.inp for running Feff8 with certain values
+replaced by <a href="https://github.com/mustache/mustache">mustache</a> tokens</li>
+<li><code>Copper.feff6</code>: the same feff.inp data, but structured for use with
+Feff6</li>
+<li><code>Copper.py</code>: the fitting model, using larch syntax for setting up and
+running the fit</li>
+<li><code>Copper.chik</code>: the χ(k) as a column ASCII file with wavenumber in the
+first column and un-k-weighted χ(k) in the second column</li>
+</ol>
+
+<p>
+So, if you introduce a new material, you <b>must</b> provide each of these
+files, replacing <code>Copper</code> with the name of the new material.
+</p>
+
+<p>
+A few notes:
+</p>
+
+<ul class="org-ul">
+<li>In the JSON file, the <code>radii</code> item is a list of radii over which to
+compute the self-consistency. Unless the material is a small
+molecule, you should select 5 or so values. The first should include
+only the first coordination shell. The largest radii should not be so
+large that the Feff calculation takes inordinately long.</li>
+<li>For the mustache template of the feff.inp file, follow the example of
+the ones already in the repository. You will likely want to generate
+a Feff8 input file using whatever tool you normally use (Atoms, for
+example), then edit it by hand to insert the mustache tokens in the
+same places as in the examples.</li>
+<li>For the Feff6 input file, just use Atoms (or whatever) to make a
+Feff6 input, then rename it.</li>
+<li>For the fitting model in the <code>.py</code> file, again follow the examples
+given. How you set up the parameters and paths is entirely up to, but
+be sure to include all of the logic towards the end of the file,
+including:</li>
+<li>The setting of <code>rx</code>, the upper bound of the fit in R</li>
+<li>The bits controlled with the <code>doplot</code> and <code>verbose</code> flags</li>
+<li>The writing of the output ASCII column files</li>
+<li>The writing of the gnuplot script, making sure to set all of its
+mustache substitutions correctly for your fitting model</li>
+<li>My typical pattern was to play with the fitting model in Artemis, the
+reproduce my final model in the <code>.py</code> file. I then used Artemis to
+generate the <code>.chik</code> file.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline16" class="outline-2">
+<h2 id="orgheadline16"><span class="section-number-2">3</span> Adding new tests</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+A new test is added by making a new python script in the <code>fefftests</code>
+folder. This python file defines the <code>prep()</code> method. That is, it
+defines the conditions under which Feff is run, then makes each Feff
+calculation.
+</p>
+
+<p>
+The scf and iorder tests are pretty well commented. Follow those
+examples. The bottom line is that they loop through the list of testing
+conditions. For each condition, a subdirectory called
+<code>&lt;testname&gt;/&lt;condition&gt;</code> is created. The mustache template is filled in
+and written to <code>&lt;testname&gt;/&lt;condition&gt;/feff.inp</code>. Finally, Feff is run.
+</p>
+
+<p>
+Note that, to verify that the <i>exact</i> same set of scattering paths are
+used for every test, the <code>paths.dat</code> file from the <code>scf/feff6</code> test
+should be copied into each new testing subdirectory. The reason for this
+is to be sure that path indexing is consistent between models. Which a
+small change to the Feff model, the amplitude of a small path might
+cause it to fall below one of Feff's filtering criteria. This would
+change the indexing of subsequent paths. The fitting models in the <code>.py</code>
+files expect consistent path indexing.
+</p>
+
+<p>
+If you add a new material, you should edit the <code>fefftest.py</code> plugin file
+to add the name of your new material to the list at line 42.
+</p>
+
+<p>
+If your test requires modification of the <code>feff.inp</code> file, then you
+should edit the <code>&lt;material&gt;.mustache</code> file for each material accordingly
+and add the necessary parameters to the <code>&lt;material&gt;.json</code> files. Be sure
+to provide a sensible default for your new parameters so that other
+tests will still run correctly.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline17" class="outline-2">
+<h2 id="orgheadline17"><span class="section-number-2">4</span> Results and documentation</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+The file <code>results.tex</code> gathers up the output of all the stuff above for
+conversion to a nice PDF file. Eventually I decided I wanted to make a
+GitHub Pages website instead. The content of <code>results.tex</code> was the
+starting point for the current <code>README.md</code> file.
+</p>
+
+<p>
+The <code>README.md</code> file is being maintained.
+</p>
+
+<p>
+The file <code>iord.tex</code> collects the results of the iorder test for
+conversion to a nice PDF file.
+</p>
+
+<p>
+If you add a new material, you should edit the <code>fefftest.py</code> plugin file
+to add the name of your new test to the list at line 43.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Bruce Ravel</p>
+<p class="date">Created: 2015-09-14 Mon 14:42</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
