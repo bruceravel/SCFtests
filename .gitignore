@@ -68,6 +68,8 @@ target/
 results.pdf
 iord.pdf
 
+*.html
+
 ############################################################
 
 *~
@@ -93,3 +95,33 @@ auto/*
 *.fpj
 *.xyz
 **/*.tex
+
+
+BaZrO3/scf/fit_feff6_1st.png
+BaZrO3/scf/fit_noSCF_1st.png
+BaZrO3/scf/fit_withSCF_3_1st.png
+BaZrO3/scf/fit_withSCF_4_1st.png
+BaZrO3/scf/fit_withSCF_5.5_1st.png
+BaZrO3/scf/fit_withSCF_5_1st.png
+BaZrO3/scf/fit_withSCF_6_1st.png
+FeS2/scf/fit_feff6_1st.png
+FeS2/scf/fit_noSCF_1st.png
+FeS2/scf/fit_withSCF_3.6_1st.png
+FeS2/scf/fit_withSCF_3_1st.png
+FeS2/scf/fit_withSCF_4_1st.png
+FeS2/scf/fit_withSCF_5.3_1st.png
+FeS2/scf/fit_withSCF_5.5_1st.png
+NiO/scf/fit_feff6_1st.png
+NiO/scf/fit_noSCF_1st.png
+NiO/scf/fit_withSCF_2.5_1st.png
+NiO/scf/fit_withSCF_3.7_1st.png
+NiO/scf/fit_withSCF_3_1st.png
+NiO/scf/fit_withSCF_4.2_1st.png
+NiO/scf/fit_withSCF_4.7_1st.png
+UO2/scf/fit_feff6_1st.png
+UO2/scf/fit_noSCF_1st.png
+UO2/scf/fit_withSCF_3_1st.png
+UO2/scf/fit_withSCF_4_1st.png
+UO2/scf/fit_withSCF_5.5_1st.png
+UO2/scf/fit_withSCF_5_1st.png
+UO2/scf/fit_withSCF_6_1st.png

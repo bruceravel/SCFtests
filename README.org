@@ -1,0 +1,12 @@
+* Feff Testing framework
+
+This repository contains tools which use [[http://xraypy.github.io/xraylarch/][larch]] to test how making
+changes to Feff effects the results of EXAFS analysis on real
+materials.
+
+ 1. [[use.org][Read the use.org file]] for an explanation of how the testing
+    framework work.
+ 2. [[scf.org][Read the SCF file]] for a discussion of tests of the effect of
+    self-consistent potentials on EXAFS fitting.
+ 3. [[iorder.org][Read the iorder file]] for a discussion of the effect of Feff's
+    IORDER parameter on EXAFS fitting.

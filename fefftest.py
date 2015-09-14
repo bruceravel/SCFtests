@@ -125,7 +125,7 @@ class FeffTestGroup(Group):
     def target(self, which):
         """
         Determine the name of the working directory of the current testing
-        model and initialize it.
+        materials + model and initialize it.
         """
         target = join(self.material, self.test, which)
         if isdir(target): rmtree(target)
@@ -156,14 +156,16 @@ class FeffTestGroup(Group):
         Sets self.models, a list of subfolders containing the identifying
         strings of the sequence of calculations.
 
-        Returns a bunch of self.<id>, where <id> are feffit groups
-        containing the fits in the sequence.
+        Returns a bunch of self.<id>, where <id> are feffit fit result
+        groups containing the fits in the sequence.
+
         """
         sys.path.append(self.material)
         module = importlib.import_module(self.material, package=None)
 
         if self.test is None:
-            raise Exception("You must select a test.")
+            string = ', '.join(map(str, self.tests))
+            raise Exception("You must select one of the tests: %s" % string)
 
         for d in self.models:
             if isdir(join(self.material, self.test, d)):
@@ -175,21 +177,11 @@ class FeffTestGroup(Group):
     def table(self):
         variables = getattr(getattr(getattr(self, self.models[0]), 'params'), 'covar_vars')
 
-        prefix = ''             # \\num{
-        postfix = ''            # }
-        chisqr = 'chi-square'   # $\chi^2$
-        chinu = 'chi-reduced'   # $\chi^2_\\nu$
-        rfactor = 'R-factor'    # $\mathcal{R}$
-        paramheader = 'Best fit values'
-        statsheader = 'Statistics'
+        (prefix, postfix, chisqr,       chinu,         rfactor,    paramheader,       statsheader ) = \
+        ('',     '',      'chi-square', 'chi-reduced', 'R-factor', 'Best fit values', 'Statistics')
         if self.tableformat.startswith('latex'):
-            prefix = '\\num{'
-            postfix = '}'
-            chisqr = '$\chi^2$'
-            chinu = '$\chi^2_\\nu$'
-            rfactor = '$\mathcal{R}$'
-            paramheader = '\\subsection{Best fit values}\n'
-            statsheader = '\\subsection{Statistics}\n'
+            (prefix,   postfix, chisqr,     chinu,           rfactor,         paramheader,                     statsheader) = \
+            ('\\num{', '}',     '$\chi^2$', '$\chi^2_\\nu$', '$\mathcal{R}$', '\\subsection{Best fit values}', '\\subsection{Statistics}')
             
         
         table = []
@@ -223,7 +215,6 @@ class FeffTestGroup(Group):
         result = "\n%s\n\n" % paramheader
         result = result + "%s\n\n" % tabulate.tabulate(table, headers=['model',]+variables,
                                                        tablefmt=self.tableformat)
-
         table = []
         for d in self.models:
             dd=d
@@ -235,7 +226,6 @@ class FeffTestGroup(Group):
         result = result + "%s\n\n" % statsheader
         result = result + "%s\n" % tabulate.tabulate(table, headers=['model',chisqr, chinu, rfactor],
                                                      floatfmt=".4f", tablefmt=self.tableformat)
-
         return result
         
     def compare(self, param):

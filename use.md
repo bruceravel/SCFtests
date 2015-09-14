@@ -5,12 +5,13 @@ Tools for testing effect of SCF on EXAFS fits
 
 ## Prerequisites
 
-You **must** have these tools on your computer, properly built and functioning:
+You **must** have these tools on your computer, properly built,
+installed, and functioning:
 
 1. [Larch](https://github.com/xraypy/xraylarch)
 2. [feff85exafs](https://github.com/xraypy/feff85exafs)
 
-The following python modules are used:
+The following python modules are used (`sudo pip install <module>`):
 
 1. [pystache](https://github.com/defunkt/pystache)
 2. [tabulate](https://pypi.python.org/pypi/tabulate)
@@ -31,15 +32,13 @@ latex documents.
 Each of these folders has much of the same stuff as the data-bearing
 tests for [feff85exafs](https://github.com/xraypy/feff85exafs),
 including a mustache template for `feff.inp`, a json file controlling
-how the template is filled in, &chi;(k) data, and a python script
-defining a fitting model using Larch.  There is also a Feff6 input
-file and a `paths.dat` file which is used to be sure that each Feff
-calculation produces the exact same set of paths.
+how the template is filled in, &chi;(k) data, a python script defining
+a fitting model using Larch, and a Feff6 input file.
 
 
 Future materials:
 
-* methyltin
+* methyltin, multiple data set, simple molecule
 * ???
 
 ## Established tests
@@ -47,15 +46,15 @@ Future materials:
 ### SCF
 
 This is a test that runs any of the curated standards against a
-sequence of different feff models related to probing the effect of
+sequence of different Feff models related to probing the effect of
 self-consistency.  Feff will be run in each of the following ways:
 
-1. feff6
-2. feff8 without self-consistency
-3. feff8 with one or more radii for the self-consistency computation
+1. Feff6
+2. Feff8 without self-consistency
+3. Feff8 with one or more radii for the self-consistency computation
 
-The point of this test is to evaluate the effect of the feff model on
-EXAFS fitting.  This tests feff6 against feff8 and self-consistency
+The point of this test is to evaluate the effect of the Feff model on
+EXAFS fitting.  This tests Feff6 against Feff8 and self-consistency
 against the absence of self-consistency.
 
 [As discussed elsewhere](README.md), self-consistency provides scant
@@ -64,7 +63,7 @@ results.
 
 ### iorder
 
-In the paper that introduced feff6 ("Multiple-scattering calculations
+In the paper that introduced Feff6 ("Multiple-scattering calculations
 of x-ray-absorption spectra", S. I. Zabinsky, J. J. Rehr,
 A. Ankudinov, R. C. Albers, and M. J. Eller, Phys. Rev. **B**52,
 p. 2995,
@@ -78,22 +77,37 @@ approximation at high energy, but the authors assert the numerical
 accuracy of this approximation is within 1% of the full calculation at
 photoelectron wavenumbers below 20.
 
-The size of this matrix is controlled in the feff input file by the
+The size of this matrix is controlled in the Feff input file by the
 IORDER keyword.  The default value of 2 corresponds to the 6x6
 matrix.  The assertion that the 6x6 matrix is adequate is easily tested
 using this testing framework.
 
-The iorder test runs feff8 with a short self-consistency radius and
+The iorder test runs Feff8 with a short self-consistency radius and
 with a range of iorder values, including 1, 2, 3, 4, and 10 (10 being
 something the source code refers to as the "cute" algorithm).
 
 Limiting the iorder test to first shell fitting will result in
 identical fits for all iorder values.  Single scattering paths are
-computed exactly in feff.  It is only multiple scattering paths that
+computed exactly in Feff.  It is only multiple scattering paths that
 are subject to the IORDER approximation.
 
 The executive summary of this test is that the original assessment of
 6x6 (IORDER=2) is the correct choice.
+
+### Future tests
+
+Here are some ideas for new things to try
+
+* SCF test on a temperature sequence (NiO, Copper, FeS2,
+  bromoadamantane can all be done easily)
+* Multi-pole self-energy, full calculation or John's idea for a
+  MPSE-lite (basically a broadened single pole)
+* Calculation R-grid (RGRID=0.05 is the default, could try 0.03, 0.01,
+  and 0.07)
+* Output k grid (this would require editing code)
+
+
+
 
 ## Workflow
 
@@ -107,12 +121,12 @@ larch> add_plugin('fefftest')
 Note that these instructions presume that your working directory is
 the main directory of the repository.  This is not a Larch plugin in
 the sense that it is designed and written to be used anywhere and in
-any way.  The workflow of the feff testing expects to find certain
+any way.  The workflow of the Feff testing expects to find certain
 files in certain locations.  The easiest way to ensure this is to do
 you testing in the repository directory.
 
 Once the plugin is loaded, create a FeffTestGroup object, set some
-of its attributes, and prepare the feff calculations:
+of its attributes, and prepare the Feff calculations:
 
 ```
 larch> a = ft()
@@ -124,12 +138,12 @@ larch> a.prep()
 The `a.prep()` step may be quite time consuming, depending on the
 SCF radii used in the testing steps.
 
-If the feff calculations have already be run, this will be noticed
+If the Feff calculations have already be run, this will be noticed
 when setting the `material` attribute.  In that case, the `prep()`
 step can be skipped, and you can proceed directly to fitting.
 
-Once the feff calculations have run to completion, you can run the
-canned fitting model using each of the feff models:
+Once the Feff calculations have run to completion, you can run the
+canned fitting model using each of the Feff models:
 
 ```
 larch> a.fits()
@@ -154,7 +168,8 @@ larch> a.plot('feff6')
 ```
 
 As a shortcut, you can use integer arguments where the integers refer
-to the (1-based) position of the model in the `models` attribute.
+to the (1-based) position of the model in the `models` attribute.  For
+example,
 
 ```
 larch> show a.models
@@ -179,7 +194,7 @@ The integer shortcut from the `plot()` method can be used here.
 ### Examine an individual parameter
 
 To examine the evolution of an individual fitting parameter over
-the sequence of feff calculations:
+the sequence of Feff calculations:
 
 ```
 larch> a.compare('enot')
@@ -239,13 +254,13 @@ larch> a.report('feff6')
 ```
 
 This writes larch's fit report to the screen for the fit using the
-specified feff model.
+specified Feff model.
 
 The integer shortcut from the `plot()` method can be used here.
 
 ## A larch script for testing all standards
 
-Here is a very simple script.  It will be quite time consuming as feff
+Here is a very simple script.  It will be quite time consuming as Feff
 must be run in the `prep()` step for each material.
 
 ```python
@@ -263,7 +278,7 @@ for m in ("Copper", "NiO", "FeS2", "UO2", "BaZrO3", "bromoadamantane", "uranyl")
 It would be wise to capture the output of the `table()` method in
 some way.  As this example is written, the table containing the
 fitting results will be lost among the voluminous screen output of
-the many feff runs.
+the many Feff runs.
 
 
 # Adding new materials
@@ -275,15 +290,15 @@ files:
 
 1. `Copper.json`: a JSON file containing values used in the mustache
    file 
-2. `Copper.mustache`: a feff.inp for running feff8 with certain values
+2. `Copper.mustache`: a feff.inp for running Feff8 with certain values
    replaced by [mustache](https://github.com/mustache/mustache)
    tokens
 3. `Copper.feff6`: the same feff.inp data, but structured for use with
-   feff6
+   Feff6
 4. `Copper.py`: the fitting model, using larch syntax for setting up
    and running the fit
-5. `Copper.chik`: the chi(k) as a column ASCII file with wavenumber in
-   the first column and un-k-weighted chi(k) in the second column
+5. `Copper.chik`: the &chi;(k) as a column ASCII file with wavenumber
+   in the first column and un-k-weighted &chi;(k) in the second column
 
 So, if you introduce a new material, you **must** provide each of
 these files, replacing `Copper` with the name of the new material.
@@ -294,19 +309,19 @@ A few notes:
   compute the self-consistency.  Unless the material is a small
   molecule, you should select 5 or so values.  The first should
   include only the first coordination shell.  The largest radii should
-  not be so large that the feff calculation takes inordinately long.
+  not be so large that the Feff calculation takes inordinately long.
 * For the mustache template of the feff.inp file, follow the example
   of the ones already in the repository.  You will likely want to
-  generate a feff8 input file using whatever tool you normally use
+  generate a Feff8 input file using whatever tool you normally use
   (Atoms, for example), then edit it by hand to insert the mustache
   tokens in the same places as in the examples.
-* For the feff6 input file, just use Atoms (or whatever) to make a
-  feff6 input, then rename it.
+* For the Feff6 input file, just use Atoms (or whatever) to make a
+  Feff6 input, then rename it.
 * For the fitting model in the `.py` file, again follow the examples
   given.  How you set up the parameters and paths is entirely up to,
   but be sure to include all of the logic towards the end of the file,
   including:
-  * The setting of `rx` the upper bound of the fit in R
+  * The setting of `rx`, the upper bound of the fit in R
   * The bits controlled with the `doplot` and `verbose` flags
   * The writing of the output ASCII column files
   * The writing of the gnuplot script, making sure to set all of its
@@ -320,22 +335,22 @@ A few notes:
 
 A new test is added by making a new python script in the `fefftests`
 folder.  This python file defines the `prep()` method.  That is, it
-defines the conditions under which feff is run, then makes each feff
+defines the conditions under which Feff is run, then makes each Feff
 calculation.
 
 The scf and iorder tests are pretty well commented.  Follow those
 examples.  The bottom line is that they loop through the list of
 testing conditions.  For each condition, a subdirectory called
 `<testname>/<condition>` is created.  The mustache template is filled
-in and written to `<testname>/<condition>/feff.inp`.  Finally, feff is
+in and written to `<testname>/<condition>/feff.inp`.  Finally, Feff is
 run.
 
 Note that, to verify that the *exact* same set of scattering paths are
 used for every test, the `paths.dat` file from the `scf/feff6` test
 should be copied into each new testing subdirectory.  The reason for
 this is to be sure that path indexing is consistent between models.
-Which a small change to the feff model, the amplitude of a small path
-might cause it to fall below one of feff's filtering criteria.  This
+Which a small change to the Feff model, the amplitude of a small path
+might cause it to fall below one of Feff's filtering criteria.  This
 would change the indexing of subsequent paths.  The fitting models in
 the `.py` files expect consistent path indexing.
 
