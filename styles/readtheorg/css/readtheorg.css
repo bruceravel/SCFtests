@@ -342,30 +342,32 @@ pre.src{
     padding:12px;
 }
 
-/* table { */
-/*   display: block; */
-/*   width: 100%; */
-/*   overflow: auto; */
-/*   word-break: normal; */
-/*   word-break: keep-all; } */
-/*   table th { */
-/*     font-weight: bold; } */
-/*   table th, .table td { */
-/*     padding: 0.5rem 1rem; */
-/*     border: 1px solid #e9ebec; } */
+table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all; }
+  table th {
+    font-weight: bold; }
+  table th, .table td {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e9ebec; }
 
 
-table thead{
+table tbody thead{
     border-collapse:collapse;
     border-spacing:0;
     empty-cells:show;
     margin-bottom:24px;
     border-bottom:1px solid #e1e4e5;
 
-    width: 100%;
-    overflow: auto;
-    word-break: normal;
-    word-break: keep-all;
+    /* display: block; */
+    /* position: absolute; */
+    /* width: 100%; */
+    /* overflow-x: auto; */
+    /* word-break: normal; */
+    /* word-break: keep-all; */
 }
 
 td{
@@ -378,7 +380,9 @@ table td,table th{
     padding:8px 16px;
     background-color:white;
     border:1px solid #e1e4e5;
+    table-layout: fixed;
 }
+
 
 table thead th{
     font-weight:bold;
@@ -743,7 +747,7 @@ hr{
     left:0;
     width:300px;
     overflow-x:hidden;
-    overflow-y:scroll;
+    overflow-y:auto;
     height:100%;
     background:#343131;
     z-index:200;
