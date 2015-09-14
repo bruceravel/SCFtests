@@ -1,4 +1,5 @@
 * Using the Feff testing framework
+#+AUTHOR: Bruce Ravel
 #+SETUPFILE: theme-readtheorg-local.setup
 
 Tools for testing effect of SCF on EXAFS fits

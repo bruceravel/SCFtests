@@ -1,4 +1,5 @@
 * Feff Testing framework
+#+AUTHOR: Bruce Ravel
 #+SETUPFILE: theme-readtheorg-local.setup
 
 
