@@ -1,0 +1,279 @@
+#+TITLE: Test the effect of the IORDER parameter on EXAFS analysis
+#+AUTHOR: Bruce Ravel
+#+DATE: {{{time(%Y-%m-%d)}}}
+#+SETUPFILE: theme-readtheorg-local.setup
+
+* Background
+
+The [[http://leonardo.phys.washington.edu/feff/wiki/static/i/o/r/IORDER_326d.html][feff document]] tells us this about the =IORDER= parameter
+(links and some formatting added by me):
+
+#+BEGIN_QUOTE
+  Order of the approximation used in module =GENFMT=.
+  =feff= uses order 2 by default, which is correct to terms of
+  order 1/(pR)^2 and corresponds to 6x6 scattering matrices
+  in the Rehr-Albers formalism.  Single scattering is calculated
+  exactly to this order.  The 6x6 approximation is accurate to
+  within a few percent in every case we have tried (that is, higher
+  order doesn’t change the result more than a few percent). However
+  M4 shells and higher shells may require increased iorder for
+  coupling the matrix elements.  Changing the default values requires
+  some familiarity with the Rehr-Albers paper and the structure of the
+  module =GENFMT=.  To do so, follow the instructions in the
+  feff source code in subroutine
+  [[https://github.com/xraypy/feff85exafs/blob/master/src/GENFMT/setlam.f][=setlam=]].  The key =iord= is passed to
+  =setlam= for processing.  You may need to change
+  [[https://github.com/xraypy/feff85exafs/blob/master/src/HEADERS/dim.h#L37][the code parameter =lamtot=]] if you want to do higher order
+  calculations.  For details of the algorithm used by =GENFMT=,
+  see [[http://dx.doi.org/10.1103/PhysRevB.41.8139][the paper by J.J. Rehr and R.C. Albers]]. For the M4 and
+  higher edges, you may receive an error message like: Lambda array
+  overfilled. In that case the calculations should be repeated with
+  =IORDER -70202= (10x10 matrices).
+#+END_QUOTE
+
+To test the effect of changing the =iord= parameter on EXAFS analysis,
+I compiled up a copy of the =genfmt= program with [[https://github.com/xraypy/feff85exafs/blob/master/src/HEADERS/dim.h][/src/HEADERS/dim.h]]
+modified with =lamtot=35=, =mtot=6=, and =ntot=4=.  (I am a bit
+skeptical that I have done this correctly.  I can run =genfmt= to
+completion with the default values (15,4,2) and get the same results.
+Either the advice to modify the code for higher order is nonsense, or
+it is not explained clearly enough for me to follow.)
+
+/Caveat:/ I selected those values based on my understanding of
+[[https://github.com/xraypy/feff85exafs/blob/master/src/GENFMT/setlam.f][=setlam.f=]].  =genfmt= ran to completion without complaint, so I am
+hopeful that that was done correctly.
+
+For each material (see the SCF tests document for descriptions of the
+materials), I computed Feff with self-consistency and the
+self-consistency radius set to the /second shortest/ value used in the
+SCF tests.  For example, for FeS2, the radius was set to 3.6 Å
+and, for BaZrO3, the radius was set to 4 Å.  I then ran
+calculations with the =iord= parameter set to 1, 2, 3, 4, and 10.  [[https://github.com/xraypy/feff85exafs/blob/master/src/GENFMT/setlam.f#L60][The
+code]] identifies 10 as triggering the "cute" algorithm, which treats
+collinear paths differently from other multiple scattering paths.
+
+Changes to the =iord= parameter should only effect multiple
+scattering paths.  Single scattering paths are calculated without that
+approximation.  This is easily tested.  Running a sequence of first
+shell fits with different values if =iord= does, in fact,
+result in identical fit results.  For example, here are the results
+for first shell fits to FeS2:
+
+[[file:FeS2/iorder/fit_iorder_02_1st.png][file:FeS2/iorder/fit_iorder_02_1st.png]]
+
+** Best fit values
+
+| model      |     amp |         delr |      enot |          ss |
+|------------+---------+--------------+-----------+-------------|
+| iorder(01) | 0.65(4) | 0.00263(606) | -1.39(80) | 0.00275(73) |
+| iorder(02) | 0.65(4) | 0.00263(606) | -1.39(80) | 0.00275(73) |
+| iorder(03) | 0.65(4) | 0.00263(606) | -1.39(80) | 0.00275(73) |
+| iorder(04) | 0.65(4) | 0.00263(606) | -1.39(80) | 0.00275(73) |
+| iorder(10) | 0.65(4) | 0.00263(606) | -1.39(80) | 0.00275(73) |
+
+
+** Statistics
+
+| model      | chi-square | chi-reduced | R-factor |
+|------------+------------+-------------+----------|
+| iorder(01) |  1689.4014 |    425.3271 |   0.0061 |
+| iorder(02) |  1689.4014 |    425.3271 |   0.0061 |
+| iorder(03) |  1689.4014 |    425.3271 |   0.0061 |
+| iorder(04) |  1689.4014 |    425.3271 |   0.0061 |
+| iorder(10) |  1689.4014 |    425.3271 |   0.0061 |
+
+
+
+
+The fits are not plotted here.  In all cases, the fit quality is
+comparable to what is shown in the SCF test document.  The tiny
+differences between the different =iord= values are almost impossible
+to see in the plot.  Thus, only the tables are presented here.
+
+* Copper
+
+** Best fit values
+
+| model      |         alpha |     amp |     enot |         ss1 |  thetad |
+|------------+---------------+---------+----------+-------------+---------|
+| iorder(01) |  -0.00100(95) | 0.93(4) | 3.65(50) | 0.00391(34) | 231(19) |
+| iorder(02) | -0.00076(104) | 0.94(5) | 3.54(56) | 0.00402(38) | 242(22) |
+| iorder(03) | -0.00084(108) | 0.94(5) | 3.47(58) | 0.00402(39) | 242(23) |
+| iorder(04) | -0.00085(107) | 0.94(5) | 3.47(57) | 0.00402(39) | 241(23) |
+| iorder(10) | -0.00085(108) | 0.94(5) | 3.47(58) | 0.00402(39) | 241(23) |
+
+
+** Statistics
+
+| model      | chi-square | chi-reduced | R-factor |
+|------------+------------+-------------+----------|
+| iorder(01) |  1451.5050 |     54.6547 |   0.0145 |
+| iorder(02) |  1814.3186 |     68.3160 |   0.0182 |
+| iorder(03) |  1957.0127 |     73.6890 |   0.0196 |
+| iorder(04) |  1939.1358 |     73.0158 |   0.0194 |
+| iorder(10) |  1960.6756 |     73.8269 |   0.0196 |
+
+
+* NiO
+
+** Best fit values
+
+| model      |         alpha |     amp |      enot |        ssni |        ssni2 |          sso |          sso2 |
+|------------+---------------+---------+-----------+-------------+--------------+--------------+---------------|
+| iorder(01) | -0.00143(178) | 0.69(5) | -8.21(64) | 0.00544(67) | 0.00824(131) | 0.00421(138) | 0.04240(4140) |
+| iorder(02) | -0.00073(145) | 0.71(4) | -7.95(53) | 0.00555(55) |  0.00715(95) | 0.00456(119) | 0.03368(2237) |
+| iorder(03) | -0.00079(144) | 0.71(4) | -7.98(53) | 0.00556(55) |  0.00714(94) | 0.00454(118) | 0.03124(1981) |
+| iorder(04) | -0.00081(145) | 0.71(4) | -7.98(53) | 0.00555(55) |  0.00713(94) | 0.00453(118) | 0.03125(1991) |
+| iorder(10) | -0.00079(144) | 0.71(4) | -7.98(53) | 0.00556(55) |  0.00714(94) | 0.00455(118) | 0.03113(1970) |
+
+** Statistics
+
+| model      | chi-square | chi-reduced | R-factor |
+|------------+------------+-------------+----------|
+| iorder(01) | 38702.7615 |   1901.1944 |   0.0303 |
+| iorder(02) | 26875.8980 |   1320.2238 |   0.0211 |
+| iorder(03) | 26578.2785 |   1305.6039 |   0.0208 |
+| iorder(04) | 26758.0818 |   1314.4363 |   0.0210 |
+| iorder(10) | 26567.5468 |   1305.0767 |   0.0208 |
+
+
+* FeS2
+
+** Best fit values
+
+| model      |        alpha |     amp |      enot |          ss |          ss2 |        ssfe |
+|------------+--------------+---------+-----------+-------------+--------------+-------------|
+| iorder(01) | 0.00215(185) | 0.68(3) | -2.01(60) | 0.00314(62) | 0.00444(174) | 0.00493(75) |
+| iorder(02) | 0.00212(191) | 0.68(3) | -2.17(63) | 0.00311(63) | 0.00423(172) | 0.00494(77) |
+| iorder(03) | 0.00213(198) | 0.68(4) | -2.21(66) | 0.00313(66) | 0.00415(177) | 0.00497(80) |
+| iorder(04) | 0.00211(199) | 0.68(4) | -2.21(66) | 0.00312(66) | 0.00414(178) | 0.00496(80) |
+| iorder(10) | 0.00213(199) | 0.68(4) | -2.21(66) | 0.00313(66) | 0.00415(177) | 0.00497(80) |
+
+
+** Statistics
+
+
+| model      | chi-square | chi-reduced | R-factor |
+|------------+------------+-------------+----------|
+| iorder(01) |  4447.0925 |    317.3195 |   0.0140 |
+| iorder(02) |  4634.9046 |    330.7207 |   0.0145 |
+| iorder(03) |  5022.0462 |    358.3449 |   0.0158 |
+| iorder(04) |  5058.9254 |    360.9764 |   0.0159 |
+| iorder(10) |  5035.8570 |    359.3304 |   0.0158 |
+
+
+* UO2
+
+** Best fit values
+
+| model      |      amp |        dro |       dro2 |        dru |      enot |        nu |          sso |         sso2 |          ssu |
+|------------+----------+------------+------------+------------+-----------+-----------+--------------+--------------+--------------|
+| iorder(01) | 0.82(10) | -0.027(13) | -0.003(34) | -0.003(12) | 2.01(130) | 8.61(375) | 0.00875(209) | 0.00954(555) | 0.00352(263) |
+| iorder(02) | 0.84(10) | -0.026(13) | -0.013(29) | -0.003(11) | 2.08(130) | 9.16(373) | 0.00892(209) | 0.00972(513) | 0.00389(250) |
+| iorder(03) | 0.84(10) | -0.026(13) | -0.013(29) | -0.002(11) | 2.08(130) | 9.16(373) | 0.00892(209) | 0.00972(513) | 0.00389(250) |
+| iorder(04) | 0.84(10) | -0.026(13) | -0.013(29) | -0.002(11) | 2.08(130) | 9.16(373) | 0.00892(209) | 0.00973(513) | 0.00389(250) |
+| iorder(10) | 0.84(10) | -0.026(13) | -0.013(29) | -0.002(11) | 2.08(130) | 9.16(373) | 0.00892(209) | 0.00973(513) | 0.00389(250) |
+
+** Statistics
+
+| model      | chi-square | chi-reduced | R-factor |
+|------------+------------+-------------+----------|
+| iorder(01) |   171.0989 |     22.7117 |   0.0164 |
+| iorder(02) |   169.9560 |     22.5600 |   0.0163 |
+| iorder(03) |   169.9596 |     22.5604 |   0.0163 |
+| iorder(04) |   169.8907 |     22.5513 |   0.0163 |
+| iorder(10) |   169.8918 |     22.5514 |   0.0163 |
+
+
+* BaZrO3
+
+** Best fit values
+
+| model      |        alpha |     amp |          eba |       enot |          ezr |        ssba |         sso |         sso2 |        sszr |
+|------------+--------------+---------+--------------+------------+--------------+-------------+-------------+--------------+-------------|
+| iorder(01) | -0.00021(98) | 1.05(7) | -10.605(684) | -10.49(69) | -4.337(2543) | 0.00522(46) | 0.00314(78) | 0.00612(212) | 0.00342(41) |
+| iorder(02) | -0.00007(74) | 1.13(5) | -11.026(482) | -10.60(48) | -6.794(1618) | 0.00559(33) | 0.00380(59) | 0.00850(213) | 0.00362(28) |
+| iorder(03) | -0.00004(75) | 1.12(5) | -11.005(492) | -10.56(49) | -6.791(1640) | 0.00558(34) | 0.00376(60) | 0.00842(215) | 0.00361(29) |
+| iorder(04) |  0.00030(77) | 1.12(5) | -10.928(497) | -10.48(49) | -6.363(1734) | 0.00570(35) | 0.00378(61) | 0.00847(218) | 0.00355(30) |
+| iorder(10) | -0.00005(75) | 1.12(5) | -11.009(491) | -10.57(49) | -6.791(1639) | 0.00558(34) | 0.00377(60) | 0.00842(215) | 0.00361(29) |
+
+** Statistics
+
+
+| model      | chi-square | chi-reduced | R-factor |
+|------------+------------+-------------+----------|
+| iorder(01) | 14053.7540 |    869.6780 |   0.0169 |
+| iorder(02) |  6898.9084 |    426.9200 |   0.0083 |
+| iorder(03) |  7146.3251 |    442.2307 |   0.0086 |
+| iorder(04) |  7306.0243 |    452.1133 |   0.0088 |
+| iorder(10) |  7123.5220 |    440.8196 |   0.0085 |
+
+
+* Bromoadamantane
+
+** Best fit values
+
+| model      | amp      | delr          | drh       | enot      | ss           | ssh          |
+|------------+----------+---------------+-----------+-----------+--------------+--------------|
+| iorder(01) | 1.34(24) | 0.01872(1605) | 0.080(27) | 1.82(175) | 0.00581(210) | 0.00096(341) |
+| iorder(02) | 1.33(20) | 0.01762(1408) | 0.073(25) | 1.54(156) | 0.00560(180) | 0.00143(319) |
+| iorder(03) | 1.33(21) | 0.01636(1430) | 0.072(25) | 1.40(159) | 0.00561(184) | 0.00128(316) |
+| iorder(04) | 1.33(21) | 0.01714(1416) | 0.073(24) | 1.48(157) | 0.00564(182) | 0.00128(314) |
+| iorder(10) | 1.33(21) | 0.01669(1426) | 0.073(25) | 1.43(158) | 0.00563(183) | 0.00127(316) |
+
+** Statistics
+
+| model      |   chi-square |   chi-reduced |   R-factor |
+|------------+--------------+---------------+------------|
+| iorder(01) |   11474.0951 |     2212.5492 |     0.0306 |
+| iorder(02) |    8632.0143 |     1664.5109 |     0.0230 |
+| iorder(03) |    8876.4900 |     1711.6531 |     0.0237 |
+| iorder(04) |    8749.5201 |     1687.1695 |     0.0233 |
+| iorder(10) |    8842.9991 |     1705.1951 |     0.0236 |
+
+* Uranyl hydrate
+
+** Best fit values
+
+| model      | amp     | deloax       | deloeq        | enot     | sigoax      | sigoeq       |
+|------------+---------+--------------+---------------+----------+-------------+--------------|
+| iorder(01) | 1.08(5) | 0.04151(452) | -0.04527(800) | 3.45(66) | 0.00075(60) | 0.00692(95)  |
+| iorder(02) | 1.08(6) | 0.04172(547) | -0.04485(971) | 3.50(81) | 0.00074(73) | 0.00691(115) |
+| iorder(03) | 1.08(6) | 0.04172(549) | -0.04485(974) | 3.50(81) | 0.00074(73) | 0.00691(115) |
+| iorder(04) | 1.08(6) | 0.04175(546) | -0.04484(968) | 3.51(81) | 0.00073(72) | 0.00691(114) |
+| iorder(10) | 1.08(6) | 0.04175(546) | -0.04484(968) | 3.51(81) | 0.00073(72) | 0.00691(114) |
+
+** Statistics
+
+| model      |   chi-square |   chi-reduced |   R-factor |
+|------------+--------------+---------------+------------|
+| iorder(01) |      48.8338 |        7.8707 |     0.0035 |
+| iorder(02) |      70.9006 |       11.4273 |     0.0050 |
+| iorder(03) |      71.3468 |       11.4992 |     0.0051 |
+| iorder(04) |      70.4754 |       11.3587 |     0.0050 |
+| iorder(10) |      70.4964 |       11.3621 |     0.0050 |
+
+* Discussion
+
+1. A couple of the materials pretty much as one might expect.  NiO,
+   Bromoadamantane, and BaZrO3 show a significant drop in chi-reduced
+   between =iord= of 1 and 2, while not showing a statistically
+   significant change in any of the fitting parameters.
+
+2. A few materials -- Copper, FeS2, and uranyl -- actually show
+   somewhat better chi-reduced for =iord= of 1.  I think this tells us
+   that at =iord= of 1, the calculation is not converged and that the
+   effect of this on the EXAFS analysis is ill-determined.  I think it
+   would be a mistake to claim something like "fitting is better in
+   some cases with =iord=1=."  Rather, this variability is telling us
+   that =iord=1= is a mistake.
+
+3. In most cases, there is very little change in chi-reduced for
+   =iord>=2=.  While there is some variability among the
+   larger =iord= results for some materials (NiO, for example,
+   varied by a bit more than 1%), it seems that the default of
+   =iord=2= is well justified.
+
+4. Perhaps this exercise could be used to approximate the
+   systematic uncertainty contributed by the MS theory to the EXAFS
+   analysis....

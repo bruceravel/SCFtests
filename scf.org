@@ -1,5 +1,6 @@
-* Table of Contents
+#+TITLE: Test the effect of self-consistent potentials on EXAFS analysis
 #+AUTHOR: Bruce Ravel
+#+DATE: {{{time(%Y-%m-%d)}}}
 #+SETUPFILE: theme-readtheorg-local.setup
 
 * Background

@@ -1,10 +1,10 @@
-* Using the Feff testing framework
+#+TITLE: Using the Feff testing framework
 #+AUTHOR: Bruce Ravel
+#+DATE: {{{time(%Y-%m-%d)}}}
 #+SETUPFILE: theme-readtheorg-local.setup
 
-Tools for testing effect of SCF on EXAFS fits
 
-** Prerequisites
+* Prerequisites
 
 You *must* have these tools on your computer, properly built, installed,
 and functioning:
@@ -17,10 +17,8 @@ The following python modules are used (=sudo pip install <module>=):
 1. [[https://github.com/defunkt/pystache][pystache]]
 2. [[https://pypi.python.org/pypi/tabulate][tabulate]]
 
-An adequately complete LaTeX installation is needed to compile the latex
-documents.
 
-** Curated set of standard data
+* Curated set of standard data
 
 1. Copper
 2. NiO
@@ -41,9 +39,9 @@ Future materials:
 -  methyltin, multiple data set, simple molecule
 -  ???
 
-** Established tests
+* Established tests
 
-*** SCF
+** SCF
 
 This is a test that runs any of the curated standards against a sequence
 of different Feff models related to probing the effect of
@@ -60,7 +58,7 @@ against the absence of self-consistency.
 As discussed elsewhere, self-consistency provides scant impact on the
 quality of the EXAFS analysis or on the measured results.
 
-*** iorder
+** iorder
 
 In the paper that introduced Feff6 ([[http://dx.doi.org/10.1103/PhysRevB.52.2995][DOI: 10.1103/PhysRevB.52.2995]]),
 the authors discuss an approximation made in the computation of the
@@ -89,7 +87,7 @@ IORDER approximation.
 The executive summary of this test is that the original assessment of
 6x6 (IORDER=2) is the correct choice.
 
-*** Future tests
+** Future tests
 
 Here are some ideas for new things to try
 
@@ -101,7 +99,9 @@ Here are some ideas for new things to try
    and 0.07)
 -  Output k grid (this would require editing code)
 
-** Workflow
+* Workflow
+
+** Interactive testing
 
 The testing is implemented as a larch plugin. Once larch has been
 started, load the =fefftest= plugin:
@@ -348,17 +348,3 @@ and add the necessary parameters to the =<material>.json= files. Be sure
 to provide a sensible default for your new parameters so that other
 tests will still run correctly.
 
-* Results and documentation
-
-The file =results.tex= gathers up the output of all the stuff above for
-conversion to a nice PDF file. Eventually I decided I wanted to make a
-GitHub Pages website instead. The content of =results.tex= was the
-starting point for the current =README.md= file.
-
-The =README.md= file is being maintained.
-
-The file =iord.tex= collects the results of the iorder test for
-conversion to a nice PDF file.
-
-If you add a new material, you should edit the =fefftest.py= plugin file
-to add the name of your new test to the list at line 43.

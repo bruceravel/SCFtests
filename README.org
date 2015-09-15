@@ -1,10 +1,12 @@
-* Feff Testing framework
+#+TITLE: Feff Testing framework
 #+AUTHOR: Bruce Ravel
+#+DATE: {{{time(%Y-%m-%d)}}}
 #+SETUPFILE: theme-readtheorg-local.setup
 
 
 [[https://zenodo.org/badge/latestdoi/15446/bruceravel/SCFtests][https://zenodo.org/badge/15446/bruceravel/SCFtests.svg]]
 
+* Documents
 
 This repository contains tools which use [[http://xraypy.github.io/xraylarch/][larch]] to test how making
 changes to Feff effects the results of EXAFS analysis on real
@@ -16,3 +18,60 @@ materials.
     self-consistent potentials on EXAFS fitting.
  3. [[file:iorder.org][Read the iorder file]] for a discussion of the effect of Feff's
     IORDER parameter on EXAFS fitting.
+
+* Background and purpose of the testing framework
+
+One of the first chores that was done for [[https://github.com/xraypy/feff85exafs][Feff85exafs]] was the creation
+of a unit testing framework.  This was used to validate changes made
+to the code and to verify that errors were not introduced as changes
+were made.  
+
+The basis of the unit testing was a sequence of calculations made with
+Feff85exafs in the state it was in when it was first released by The
+Feff Project.  The unit testing was a lengthy series of comparisons of
+numbers and arrays as computed by Feff in its original state and as
+computed by the newly compiled version.  Also implemented were a
+series of tests to verify that EXAFS fitting results were consistent
+between the original and newly compiled Feff.
+
+This mechanism of comparing EXAFS fitting results between Feff in two
+states was a particularly interesting aspect of the unit testing
+framework.  This basic idea of comparing fitting results between Feff
+in two states was then expanded to this more generalize testing
+framework. 
+
+The concept here is that the effect of changes to Feff's theory could
+be tested against real data.  A curated set of standards was chosen,
+including
+
+ 1. Copper foil
+ 2. FeS2
+ 3. NiO
+ 4. UO2
+ 5. BaZrO3
+ 6. bomoadamantane
+ 7. uranyl hydrate
+
+Each of these is a material for which excellent prior knowledge about
+the structure of the local configuration environment is known.  For
+each of these materials a successful, defensible fitting model is
+known.  This allows us to separate the effect of changes in the
+theoretical model from uncertainty in assumptions about the structural
+configuration. 
+
+More specifically, this framework allows testing of the effect of
+later versions of Feff compared to the version of Feff6 that has long
+been distributed with [[https://github.com/bruceravel/demeter][Demeter]] and [[https://github.com/newville/ifeffit][Ifeffit]].  (Hint: the answer is that
+later versions of Feff have scant effect on EXAFS analysis.)
+
+Currently, two tests have been implemented.  One examines the effect
+of self-consistent potentials, the other examines the effect of
+changing Feff's =IORDER= parameter.
+
+* Acknowledgments
+
+This work depends principally on [[https://github.com/xraypy/feff85exafs][Feff85exafs]] and [[http://xraypy.github.io/xraylarch/][larch]].
+
+These web pages are made using two tools by [[https://github.com/fniessen][Fabrice Niessen]]: [[https://github.com/fniessen/org-html-themes][the
+ReadTheOrg theme]] (modified slightly by Bruce) and his super-handy
+[[https://github.com/fniessen/orgmk][orgmk]] tool.
