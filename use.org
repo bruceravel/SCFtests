@@ -355,7 +355,7 @@ I use emacs, git, and GitHub to manage the web pages.
 Generating html pages for the GitHub Pages site uses several
 emacs-related features, including:
 
-1. [[org-mode][http://orgmode.org/]]
+1. Emacs' [[http://orgmode.org/][org-mode]]
 2. The [[https://github.com/fniessen/org-html-themes][ReadTheOrg]] export theme (slightly modified by me, with my
    modifications pushed to the =gh-pages= branch)
 3. The [[https://github.com/fniessen/orgmk][orgmk]] batch processer
