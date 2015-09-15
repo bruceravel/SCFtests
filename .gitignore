@@ -76,9 +76,9 @@ iord.pdf
 **/baseline
 #**/scf
 **/fit_*
-**/noSCF*
-**/withSCF*
-**/iorder
+noSCF/
+withSCF*/
+iorder/
 **/fit*.k
 **/fit*.r
 **/fit*.gp
@@ -89,6 +89,7 @@ iord.pdf
 **/*.aux
 auto/*
 **/_save_scf_save/*
+feff6/
 
 ## prep and output for fitting models
 *.prj
