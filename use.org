@@ -29,10 +29,10 @@ The following python modules are used (=sudo pip install <module>=):
 7. bromoadamantane
 
 Each of these folders has much of the same stuff as the data-bearing
-tests for [[https://github.com/xraypy/feff85exafs][feff85exafs]],
-including a mustache template for =feff.inp=, a json file controlling
-how the template is filled in, χ(k) data, a python script defining a
-fitting model using Larch, and a Feff6 input file.
+tests for [[https://github.com/xraypy/feff85exafs][feff85exafs]], including a mustache template for =feff.inp=, a
+json file controlling how the template is filled in, χ(k) data, a
+python script defining a fitting model using Larch, and a Feff6 input
+file.
 
 Future materials:
 
@@ -348,3 +348,20 @@ and add the necessary parameters to the =<material>.json= files. Be sure
 to provide a sensible default for your new parameters so that other
 tests will still run correctly.
 
+* Making the web pages
+
+I use emacs, git, and GitHub to manage the web pages.
+
+Generating html pages for the GitHub Pages site uses several
+emacs-related features, including:
+
+1. [[org-mode][http://orgmode.org/]]
+2. The [[https://github.com/fniessen/org-html-themes][ReadTheOrg]] export theme (slightly modified by me, with my
+   modifications pushed to the =gh-pages= branch)
+3. The [[https://github.com/fniessen/orgmk][orgmk]] batch processer
+4. The [[https://melpa.org/#/htmlize][htmlize package]]
+
+My workflow is that I edit the =.org= files in Emacs.  I then use the
+simple =o2h.sh= command line script to process each of the org files
+into html files.  The html files, along with style and image files,
+are pushed to the =gh-pages= branch of the repository.

@@ -14,10 +14,10 @@ materials.
 
  1. [[file:use.org][Read the use.org file]] for an explanation of how the testing
     framework work.
- 2. [[file:scf.org][Read the SCF file]] for a discussion of tests of the effect of
-    self-consistent potentials on EXAFS fitting.
+ 2. [[file:scf.org][Read the SCF file]] for a discussion of the effect of
+    self-consistent potentials on EXAFS analysis.
  3. [[file:iorder.org][Read the iorder file]] for a discussion of the effect of Feff's
-    IORDER parameter on EXAFS fitting.
+    IORDER parameter on EXAFS analysis.
 
 * Background and purpose of the testing framework
 
@@ -72,6 +72,6 @@ changing Feff's =IORDER= parameter.
 
 This work depends principally on [[https://github.com/xraypy/feff85exafs][Feff85exafs]] and [[http://xraypy.github.io/xraylarch/][larch]].
 
-These web pages are made using two tools by [[https://github.com/fniessen][Fabrice Niessen]]: [[https://github.com/fniessen/org-html-themes][the
-ReadTheOrg theme]] (modified slightly by Bruce) and his super-handy
-[[https://github.com/fniessen/orgmk][orgmk]] tool.
+These web pages are made using [[http://orgmode.org/][org-mode]] and two tools by [[https://github.com/fniessen][Fabrice
+Niessen]]: his [[https://github.com/fniessen/org-html-themes][ReadTheOrg theme]] (modified slightly by Bruce) and his
+super-handy [[https://github.com/fniessen/orgmk][orgmk]] tool.
