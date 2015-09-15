@@ -6,13 +6,14 @@
 
 [[https://zenodo.org/badge/latestdoi/15446/bruceravel/SCFtests][https://zenodo.org/badge/15446/bruceravel/SCFtests.svg]]
 
+The [[https://github.com/bruceravel/SCFtests][SCFtest repository]] contains tools which use [[http://xraypy.github.io/xraylarch/][larch]] to test how
+making changes to Feff effects the results of EXAFS analysis on real
+materials.  This website documents the use of these tools and the
+results of various tests made using these tools.
+
 * Documents
 
-This repository contains tools which use [[http://xraypy.github.io/xraylarch/][larch]] to test how making
-changes to Feff effects the results of EXAFS analysis on real
-materials.
-
- 1. [[file:use.org][Read the use.org file]] for an explanation of how the testing
+ 1. [[file:use.org][Read the use file]] for an explanation of how the testing
     framework work.
  2. [[file:scf.org][Read the SCF file]] for a discussion of the effect of
     self-consistent potentials on EXAFS analysis.
@@ -72,6 +73,6 @@ changing Feff's =IORDER= parameter.
 
 This work depends principally on [[https://github.com/xraypy/feff85exafs][Feff85exafs]] and [[http://xraypy.github.io/xraylarch/][larch]].
 
-These web pages are made using [[http://orgmode.org/][org-mode]] and two tools by [[https://github.com/fniessen][Fabrice
+The web pages are made using [[http://orgmode.org/][org-mode]] and two tools by [[https://github.com/fniessen][Fabrice
 Niessen]]: his [[https://github.com/fniessen/org-html-themes][ReadTheOrg theme]] (modified slightly by Bruce) and his
 super-handy [[https://github.com/fniessen/orgmk][orgmk]] tool.
