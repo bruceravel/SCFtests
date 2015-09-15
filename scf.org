@@ -425,8 +425,9 @@ and /Feff8/.
 * UO2
 
 #+CAPTION: Uraninite
+[[file:UO2/UO2.png]]
 
-UO2/UO2.png]] The data are the UO2 shown in Shelly's paper on
+The data are the UO2 shown in Shelly's paper on
 /Reduction of Uranium(VI) by Mixed Iron(II)/Iron(III) Hydroxide (Green
 Rust):  Formation of UO2 Nanoparticles/:
 [[http://dx.doi.org/10.1021/es0208409][=http://dx.doi.org/10.1021/es0208409=]]
@@ -513,8 +514,9 @@ reduction process.
 * BaZrO3
 
 #+CAPTION: The perovskite structure.
+[[file:BaZrO3/perovskite.png]]
 
-BaZrO3/perovskite.png]] In a short paper on the Zr edge of BaZrO3,
+In a short paper on the Zr edge of BaZrO3,
 [[http://dx.doi.org/10.1016/0921-4526(94)00654-E][=http://dx.doi.org/10.1016/0921-4526(94)00654-E=]], Haskel et
 al. proposed that shortcomings of /feff/'s potential model could be
 accommodated by floating an energy shift parameter for each scatterer
@@ -611,8 +613,8 @@ as the increases in FeS2 and NiO.
 * Bromoadamantane
 
 #+CAPTION:  1-bromoadamantane
+[[file:bromoadamantane/bromoadamantane.png]]
 
-bromoadamantane/bromoadamantane.png]]
 The data are 1-bromoadamantane. Bromoadamantane is a cycloalkane,
 meaning that it is a hydrocarbon with rings of carbon atoms. It is also
 a diamondoid, meaning that it is a strong, stiff, 3D network of covalent
@@ -719,8 +721,8 @@ that it is any worse than /Feff8/.
 * Uranyl hydrate
 
 #+CAPTION: The uranyl motif from sodium uranyl triacetate.
+[[file:uranyl/uranyl.png]]
 
-uranyl/uranyl.png]]
 The data are the hydrated uranyl hydrate shown in Shelly's paper on
 /X-ray absorption fine structure determination of pH-dependent
 U-bacterial cell wall interactions/,
