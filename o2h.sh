@@ -14,7 +14,7 @@ done
 
 ## copy all the files over
 for f in $all; do
-    cp -v $f.html $target/
+    mv -v $f.html $target/
 done
 ## rename README.html to index.html
-mv $target/README.html $target/index.html
+mv -v $target/README.html $target/index.html
