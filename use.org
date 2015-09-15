@@ -62,10 +62,7 @@ quality of the EXAFS analysis or on the measured results.
 
 *** iorder
 
-In the paper that introduced Feff6 ("Multiple-scattering calculations of
-x-ray-absorption spectra", S. I. Zabinsky, J. J. Rehr, A. Ankudinov, R.
-C. Albers, and M. J. Eller, Phys. Rev. *B*52, p. 2995,
-[[http://dx.doi.org/10.1103/PhysRevB.52.2995][doi:10.1103/PhysRevB.52.2995]]),
+In the paper that introduced Feff6 ([[http://dx.doi.org/10.1103/PhysRevB.52.2995][DOI: 10.1103/PhysRevB.52.2995]]),
 the authors discuss an approximation made in the computation of the
 Rehr-Albers separable propagators. The scaling of the spherical harmonic
 scattering factors used to compute the photoelectron free propagator is
@@ -151,7 +148,7 @@ canned fitting model using each of the Feff models:
     >>>>>>>>> fitting with model: withSCF_3
     wrote to file 'Copper/scf/fit_withSCF_3.k'
     wrote to file 'Copper/scf/fit_withSCF_3.r'
-      (and so one)
+      (and so on)
 #+END_EXAMPLE
 
 There is no persistence of the fitting results (yet).
@@ -234,11 +231,10 @@ from the fit sequence:
     | withSCF(6)   |    1819.9264 |       68.5271 |     0.0182 |
 #+END_EXAMPLE
 
-The formatting of the table is controlled by the =tableformat= attribute
-and can be any of the
-[[https://pypi.python.org/pypi/tabulate#table-format][strings specified
-here]]. By default, the =pipe= format is used. =latex= is handled
-specially by the =table()= method.
+The formatting of the table is controlled by the =tableformat=
+attribute and can be any of the [[https://pypi.python.org/pypi/tabulate#table-format][strings specified here]]. By default,
+the =pipe= format is used. =latex= is handled specially by the
+=table()= method.
 
 *** Examine the full fit report
 
@@ -282,7 +278,8 @@ as the example, there must be a subdirectory of the repository called
 1. =Copper.json=: a JSON file containing values used in the mustache
    file
 2. =Copper.mustache=: a feff.inp for running Feff8 with certain values
-   replaced by [[https://github.com/mustache/mustache][mustache]] tokens
+   replaced by [[https://github.com/mustache/mustache][mustache]] tokens corresponding to the scalar entries in
+   =Copper.json=
 3. =Copper.feff6=: the same feff.inp data, but structured for use with
    Feff6
 4. =Copper.py=: the fitting model, using larch syntax for setting up and
@@ -295,30 +292,30 @@ files, replacing =Copper= with the name of the new material.
 
 A few notes:
 
--  In the JSON file, the =radii= item is a list of radii over which to
-   compute the self-consistency. Unless the material is a small
-   molecule, you should select 5 or so values. The first should include
-   only the first coordination shell. The largest radii should not be so
-   large that the Feff calculation takes inordinately long.
--  For the mustache template of the feff.inp file, follow the example of
-   the ones already in the repository. You will likely want to generate
-   a Feff8 input file using whatever tool you normally use (Atoms, for
-   example), then edit it by hand to insert the mustache tokens in the
-   same places as in the examples.
--  For the Feff6 input file, just use Atoms (or whatever) to make a
-   Feff6 input, then rename it.
--  For the fitting model in the =.py= file, again follow the examples
-   given. How you set up the parameters and paths is entirely up to, but
-   be sure to include all of the logic towards the end of the file,
-   including:
--  The setting of =rx=, the upper bound of the fit in R
--  The bits controlled with the =doplot= and =verbose= flags
--  The writing of the output ASCII column files
--  The writing of the gnuplot script, making sure to set all of its
-   mustache substitutions correctly for your fitting model
--  My typical pattern was to play with the fitting model in Artemis, the
-   reproduce my final model in the =.py= file. I then used Artemis to
-   generate the =.chik= file.
+- In the JSON file, the =radii= item is a list of radii over which to
+  compute the self-consistency. Unless the material is a small
+  molecule, you should select 5 or so values. The first should include
+  only the first coordination shell. The largest radii should not be so
+  large that the Feff calculation takes inordinately long.
+- For the mustache template of the feff.inp file, follow the example of
+  the ones already in the repository. You will likely want to generate
+  a Feff8 input file using whatever tool you normally use (Atoms, for
+  example), then edit it by hand to insert the mustache tokens in the
+  same places as in the examples.
+- For the Feff6 input file, just use Atoms (or whatever) to make a
+  Feff6 input, then rename it.
+- For the fitting model in the =.py= file, again follow the examples
+  given. How you set up the parameters and paths is entirely up to, but
+  be sure to include all of the logic towards the end of the file,
+  including:
+  + The setting of =rx=, the upper bound of the fit in R
+  + The bits controlled with the =doplot= and =verbose= flags
+  + The writing of the output ASCII column files
+  + The writing of the gnuplot script, making sure to set all of its
+    mustache substitutions correctly for your fitting model
+- My typical pattern was to play with the fitting model in Artemis, the
+  reproduce my final model in the =.py= file. I then used Artemis to
+  generate the =.chik= file.
 
 * Adding new tests
 
