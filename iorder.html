@@ -1,0 +1,1473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>Test the effect of the IORDER parameter on EXAFS analysis</title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Bruce Ravel" />
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Test the effect of the IORDER parameter on EXAFS analysis</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline3">1. Background</a>
+<ul>
+<li><a href="#orgheadline1">1.1. Best fit values</a></li>
+<li><a href="#orgheadline2">1.2. Statistics</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline6">2. Copper</a>
+<ul>
+<li><a href="#orgheadline4">2.1. Best fit values</a></li>
+<li><a href="#orgheadline5">2.2. Statistics</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline9">3. NiO</a>
+<ul>
+<li><a href="#orgheadline7">3.1. Best fit values</a></li>
+<li><a href="#orgheadline8">3.2. Statistics</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline12">4. FeS2</a>
+<ul>
+<li><a href="#orgheadline10">4.1. Best fit values</a></li>
+<li><a href="#orgheadline11">4.2. Statistics</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline15">5. UO2</a>
+<ul>
+<li><a href="#orgheadline13">5.1. Best fit values</a></li>
+<li><a href="#orgheadline14">5.2. Statistics</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline18">6. BaZrO3</a>
+<ul>
+<li><a href="#orgheadline16">6.1. Best fit values</a></li>
+<li><a href="#orgheadline17">6.2. Statistics</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline21">7. Bromoadamantane</a>
+<ul>
+<li><a href="#orgheadline19">7.1. Best fit values</a></li>
+<li><a href="#orgheadline20">7.2. Statistics</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline24">8. Uranyl hydrate</a>
+<ul>
+<li><a href="#orgheadline22">8.1. Best fit values</a></li>
+<li><a href="#orgheadline23">8.2. Statistics</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline25">9. Discussion</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3"><span class="section-number-2">1</span> Background</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The <a href="http://leonardo.phys.washington.edu/feff/wiki/static/i/o/r/IORDER_326d.html">feff document</a> tells us this about the <code>IORDER</code> parameter
+(links and some formatting added by me):
+</p>
+
+<blockquote>
+<p>
+Order of the approximation used in module <code>GENFMT</code>.
+<code>feff</code> uses order 2 by default, which is correct to terms of
+order 1/(pR)^2 and corresponds to 6x6 scattering matrices
+in the Rehr-Albers formalism.  Single scattering is calculated
+exactly to this order.  The 6x6 approximation is accurate to
+within a few percent in every case we have tried (that is, higher
+order doesn’t change the result more than a few percent). However
+M4 shells and higher shells may require increased iorder for
+coupling the matrix elements.  Changing the default values requires
+some familiarity with the Rehr-Albers paper and the structure of the
+module <code>GENFMT</code>.  To do so, follow the instructions in the
+feff source code in subroutine
+<a href="https://github.com/xraypy/feff85exafs/blob/master/src/GENFMT/setlam.f"><code>setlam</code></a>.  The key <code>iord</code> is passed to
+<code>setlam</code> for processing.  You may need to change
+<a href="https://github.com/xraypy/feff85exafs/blob/master/src/HEADERS/dim.h#L37">the code parameter <code>lamtot</code></a> if you want to do higher order
+calculations.  For details of the algorithm used by <code>GENFMT</code>,
+see <a href="http://dx.doi.org/10.1103/PhysRevB.41.8139">the paper by J.J. Rehr and R.C. Albers</a>. For the M4 and
+higher edges, you may receive an error message like: Lambda array
+overfilled. In that case the calculations should be repeated with
+<code>IORDER -70202</code> (10x10 matrices).
+</p>
+</blockquote>
+
+<p>
+To test the effect of changing the <code>iord</code> parameter on EXAFS analysis,
+I compiled up a copy of the <code>genfmt</code> program with <a href="https://github.com/xraypy/feff85exafs/blob/master/src/HEADERS/dim.h">/src/HEADERS/dim.h</a>
+modified with <code>lamtot=35</code>, <code>mtot=6</code>, and <code>ntot=4</code>.  (I am a bit
+skeptical that I have done this correctly.  I can run <code>genfmt</code> to
+completion with the default values (15,4,2) and get the same results.
+Either the advice to modify the code for higher order is nonsense, or
+it is not explained clearly enough for me to follow.)
+</p>
+
+<p>
+<i>Caveat:</i> I selected those values based on my understanding of
+<a href="https://github.com/xraypy/feff85exafs/blob/master/src/GENFMT/setlam.f"><code>setlam.f</code></a>.  <code>genfmt</code> ran to completion without complaint, so I am
+hopeful that that was done correctly.
+</p>
+
+<p>
+For each material (see the SCF tests document for descriptions of the
+materials), I computed Feff with self-consistency and the
+self-consistency radius set to the <i>second shortest</i> value used in the
+SCF tests.  For example, for FeS2, the radius was set to 3.6 Å
+and, for BaZrO3, the radius was set to 4 Å.  I then ran
+calculations with the <code>iord</code> parameter set to 1, 2, 3, 4, and 10.  <a href="https://github.com/xraypy/feff85exafs/blob/master/src/GENFMT/setlam.f#L60">The
+code</a> identifies 10 as triggering the &ldquo;cute&rdquo; algorithm, which treats
+collinear paths differently from other multiple scattering paths.
+</p>
+
+<p>
+Changes to the <code>iord</code> parameter should only effect multiple
+scattering paths.  Single scattering paths are calculated without that
+approximation.  This is easily tested.  Running a sequence of first
+shell fits with different values if <code>iord</code> does, in fact,
+result in identical fit results.  For example, here are the results
+for first shell fits to FeS2:
+</p>
+
+
+<div class="figure">
+<p><a href="FeS2/iorder/fit_iorder_02_1st.png"><img src="FeS2/iorder/fit_iorder_02_1st.png" alt="fit_iorder_02_1st.png" /></a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-1-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">amp</th>
+<th scope="col" class="org-right">delr</th>
+<th scope="col" class="org-right">enot</th>
+<th scope="col" class="org-right">ss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">0.65(4)</td>
+<td class="org-right">0.00263(606)</td>
+<td class="org-right">-1.39(80)</td>
+<td class="org-right">0.00275(73)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">0.65(4)</td>
+<td class="org-right">0.00263(606)</td>
+<td class="org-right">-1.39(80)</td>
+<td class="org-right">0.00275(73)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">0.65(4)</td>
+<td class="org-right">0.00263(606)</td>
+<td class="org-right">-1.39(80)</td>
+<td class="org-right">0.00275(73)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">0.65(4)</td>
+<td class="org-right">0.00263(606)</td>
+<td class="org-right">-1.39(80)</td>
+<td class="org-right">0.00275(73)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">0.65(4)</td>
+<td class="org-right">0.00263(606)</td>
+<td class="org-right">-1.39(80)</td>
+<td class="org-right">0.00275(73)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-1-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">chi-square</th>
+<th scope="col" class="org-right">chi-reduced</th>
+<th scope="col" class="org-right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">1689.4014</td>
+<td class="org-right">425.3271</td>
+<td class="org-right">0.0061</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">1689.4014</td>
+<td class="org-right">425.3271</td>
+<td class="org-right">0.0061</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">1689.4014</td>
+<td class="org-right">425.3271</td>
+<td class="org-right">0.0061</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">1689.4014</td>
+<td class="org-right">425.3271</td>
+<td class="org-right">0.0061</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">1689.4014</td>
+<td class="org-right">425.3271</td>
+<td class="org-right">0.0061</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+<p>
+The fits are not plotted here.  In all cases, the fit quality is
+comparable to what is shown in the SCF test document.  The tiny
+differences between the different <code>iord</code> values are almost impossible
+to see in the plot.  Thus, only the tables are presented here.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6"><span class="section-number-2">2</span> Copper</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">2.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-2-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">alpha</th>
+<th scope="col" class="org-right">amp</th>
+<th scope="col" class="org-right">enot</th>
+<th scope="col" class="org-right">ss1</th>
+<th scope="col" class="org-right">thetad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">-0.00100(95)</td>
+<td class="org-right">0.93(4)</td>
+<td class="org-right">3.65(50)</td>
+<td class="org-right">0.00391(34)</td>
+<td class="org-right">231(19)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">-0.00076(104)</td>
+<td class="org-right">0.94(5)</td>
+<td class="org-right">3.54(56)</td>
+<td class="org-right">0.00402(38)</td>
+<td class="org-right">242(22)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">-0.00084(108)</td>
+<td class="org-right">0.94(5)</td>
+<td class="org-right">3.47(58)</td>
+<td class="org-right">0.00402(39)</td>
+<td class="org-right">242(23)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">-0.00085(107)</td>
+<td class="org-right">0.94(5)</td>
+<td class="org-right">3.47(57)</td>
+<td class="org-right">0.00402(39)</td>
+<td class="org-right">241(23)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">-0.00085(108)</td>
+<td class="org-right">0.94(5)</td>
+<td class="org-right">3.47(58)</td>
+<td class="org-right">0.00402(39)</td>
+<td class="org-right">241(23)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">2.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-2-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">chi-square</th>
+<th scope="col" class="org-right">chi-reduced</th>
+<th scope="col" class="org-right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">1451.5050</td>
+<td class="org-right">54.6547</td>
+<td class="org-right">0.0145</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">1814.3186</td>
+<td class="org-right">68.3160</td>
+<td class="org-right">0.0182</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">1957.0127</td>
+<td class="org-right">73.6890</td>
+<td class="org-right">0.0196</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">1939.1358</td>
+<td class="org-right">73.0158</td>
+<td class="org-right">0.0194</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">1960.6756</td>
+<td class="org-right">73.8269</td>
+<td class="org-right">0.0196</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline9" class="outline-2">
+<h2 id="orgheadline9"><span class="section-number-2">3</span> NiO</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7"><span class="section-number-3">3.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-3-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">alpha</th>
+<th scope="col" class="org-right">amp</th>
+<th scope="col" class="org-right">enot</th>
+<th scope="col" class="org-right">ssni</th>
+<th scope="col" class="org-right">ssni2</th>
+<th scope="col" class="org-right">sso</th>
+<th scope="col" class="org-right">sso2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">-0.00143(178)</td>
+<td class="org-right">0.69(5)</td>
+<td class="org-right">-8.21(64)</td>
+<td class="org-right">0.00544(67)</td>
+<td class="org-right">0.00824(131)</td>
+<td class="org-right">0.00421(138)</td>
+<td class="org-right">0.04240(4140)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">-0.00073(145)</td>
+<td class="org-right">0.71(4)</td>
+<td class="org-right">-7.95(53)</td>
+<td class="org-right">0.00555(55)</td>
+<td class="org-right">0.00715(95)</td>
+<td class="org-right">0.00456(119)</td>
+<td class="org-right">0.03368(2237)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">-0.00079(144)</td>
+<td class="org-right">0.71(4)</td>
+<td class="org-right">-7.98(53)</td>
+<td class="org-right">0.00556(55)</td>
+<td class="org-right">0.00714(94)</td>
+<td class="org-right">0.00454(118)</td>
+<td class="org-right">0.03124(1981)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">-0.00081(145)</td>
+<td class="org-right">0.71(4)</td>
+<td class="org-right">-7.98(53)</td>
+<td class="org-right">0.00555(55)</td>
+<td class="org-right">0.00713(94)</td>
+<td class="org-right">0.00453(118)</td>
+<td class="org-right">0.03125(1991)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">-0.00079(144)</td>
+<td class="org-right">0.71(4)</td>
+<td class="org-right">-7.98(53)</td>
+<td class="org-right">0.00556(55)</td>
+<td class="org-right">0.00714(94)</td>
+<td class="org-right">0.00455(118)</td>
+<td class="org-right">0.03113(1970)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><span class="section-number-3">3.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-3-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">chi-square</th>
+<th scope="col" class="org-right">chi-reduced</th>
+<th scope="col" class="org-right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">38702.7615</td>
+<td class="org-right">1901.1944</td>
+<td class="org-right">0.0303</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">26875.8980</td>
+<td class="org-right">1320.2238</td>
+<td class="org-right">0.0211</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">26578.2785</td>
+<td class="org-right">1305.6039</td>
+<td class="org-right">0.0208</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">26758.0818</td>
+<td class="org-right">1314.4363</td>
+<td class="org-right">0.0210</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">26567.5468</td>
+<td class="org-right">1305.0767</td>
+<td class="org-right">0.0208</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline12" class="outline-2">
+<h2 id="orgheadline12"><span class="section-number-2">4</span> FeS2</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10"><span class="section-number-3">4.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-4-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">alpha</th>
+<th scope="col" class="org-right">amp</th>
+<th scope="col" class="org-right">enot</th>
+<th scope="col" class="org-right">ss</th>
+<th scope="col" class="org-right">ss2</th>
+<th scope="col" class="org-right">ssfe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">0.00215(185)</td>
+<td class="org-right">0.68(3)</td>
+<td class="org-right">-2.01(60)</td>
+<td class="org-right">0.00314(62)</td>
+<td class="org-right">0.00444(174)</td>
+<td class="org-right">0.00493(75)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">0.00212(191)</td>
+<td class="org-right">0.68(3)</td>
+<td class="org-right">-2.17(63)</td>
+<td class="org-right">0.00311(63)</td>
+<td class="org-right">0.00423(172)</td>
+<td class="org-right">0.00494(77)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">0.00213(198)</td>
+<td class="org-right">0.68(4)</td>
+<td class="org-right">-2.21(66)</td>
+<td class="org-right">0.00313(66)</td>
+<td class="org-right">0.00415(177)</td>
+<td class="org-right">0.00497(80)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">0.00211(199)</td>
+<td class="org-right">0.68(4)</td>
+<td class="org-right">-2.21(66)</td>
+<td class="org-right">0.00312(66)</td>
+<td class="org-right">0.00414(178)</td>
+<td class="org-right">0.00496(80)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">0.00213(199)</td>
+<td class="org-right">0.68(4)</td>
+<td class="org-right">-2.21(66)</td>
+<td class="org-right">0.00313(66)</td>
+<td class="org-right">0.00415(177)</td>
+<td class="org-right">0.00497(80)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11"><span class="section-number-3">4.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-4-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">chi-square</th>
+<th scope="col" class="org-right">chi-reduced</th>
+<th scope="col" class="org-right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">4447.0925</td>
+<td class="org-right">317.3195</td>
+<td class="org-right">0.0140</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">4634.9046</td>
+<td class="org-right">330.7207</td>
+<td class="org-right">0.0145</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">5022.0462</td>
+<td class="org-right">358.3449</td>
+<td class="org-right">0.0158</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">5058.9254</td>
+<td class="org-right">360.9764</td>
+<td class="org-right">0.0159</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">5035.8570</td>
+<td class="org-right">359.3304</td>
+<td class="org-right">0.0158</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline15" class="outline-2">
+<h2 id="orgheadline15"><span class="section-number-2">5</span> UO2</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-orgheadline13" class="outline-3">
+<h3 id="orgheadline13"><span class="section-number-3">5.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-5-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">amp</th>
+<th scope="col" class="org-right">dro</th>
+<th scope="col" class="org-right">dro2</th>
+<th scope="col" class="org-right">dru</th>
+<th scope="col" class="org-right">enot</th>
+<th scope="col" class="org-right">nu</th>
+<th scope="col" class="org-right">sso</th>
+<th scope="col" class="org-right">sso2</th>
+<th scope="col" class="org-right">ssu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">0.82(10)</td>
+<td class="org-right">-0.027(13)</td>
+<td class="org-right">-0.003(34)</td>
+<td class="org-right">-0.003(12)</td>
+<td class="org-right">2.01(130)</td>
+<td class="org-right">8.61(375)</td>
+<td class="org-right">0.00875(209)</td>
+<td class="org-right">0.00954(555)</td>
+<td class="org-right">0.00352(263)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">0.84(10)</td>
+<td class="org-right">-0.026(13)</td>
+<td class="org-right">-0.013(29)</td>
+<td class="org-right">-0.003(11)</td>
+<td class="org-right">2.08(130)</td>
+<td class="org-right">9.16(373)</td>
+<td class="org-right">0.00892(209)</td>
+<td class="org-right">0.00972(513)</td>
+<td class="org-right">0.00389(250)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">0.84(10)</td>
+<td class="org-right">-0.026(13)</td>
+<td class="org-right">-0.013(29)</td>
+<td class="org-right">-0.002(11)</td>
+<td class="org-right">2.08(130)</td>
+<td class="org-right">9.16(373)</td>
+<td class="org-right">0.00892(209)</td>
+<td class="org-right">0.00972(513)</td>
+<td class="org-right">0.00389(250)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">0.84(10)</td>
+<td class="org-right">-0.026(13)</td>
+<td class="org-right">-0.013(29)</td>
+<td class="org-right">-0.002(11)</td>
+<td class="org-right">2.08(130)</td>
+<td class="org-right">9.16(373)</td>
+<td class="org-right">0.00892(209)</td>
+<td class="org-right">0.00973(513)</td>
+<td class="org-right">0.00389(250)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">0.84(10)</td>
+<td class="org-right">-0.026(13)</td>
+<td class="org-right">-0.013(29)</td>
+<td class="org-right">-0.002(11)</td>
+<td class="org-right">2.08(130)</td>
+<td class="org-right">9.16(373)</td>
+<td class="org-right">0.00892(209)</td>
+<td class="org-right">0.00973(513)</td>
+<td class="org-right">0.00389(250)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14"><span class="section-number-3">5.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-5-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">chi-square</th>
+<th scope="col" class="org-right">chi-reduced</th>
+<th scope="col" class="org-right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">171.0989</td>
+<td class="org-right">22.7117</td>
+<td class="org-right">0.0164</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">169.9560</td>
+<td class="org-right">22.5600</td>
+<td class="org-right">0.0163</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">169.9596</td>
+<td class="org-right">22.5604</td>
+<td class="org-right">0.0163</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">169.8907</td>
+<td class="org-right">22.5513</td>
+<td class="org-right">0.0163</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">169.8918</td>
+<td class="org-right">22.5514</td>
+<td class="org-right">0.0163</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline18" class="outline-2">
+<h2 id="orgheadline18"><span class="section-number-2">6</span> BaZrO3</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-orgheadline16" class="outline-3">
+<h3 id="orgheadline16"><span class="section-number-3">6.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-6-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">alpha</th>
+<th scope="col" class="org-right">amp</th>
+<th scope="col" class="org-right">eba</th>
+<th scope="col" class="org-right">enot</th>
+<th scope="col" class="org-right">ezr</th>
+<th scope="col" class="org-right">ssba</th>
+<th scope="col" class="org-right">sso</th>
+<th scope="col" class="org-right">sso2</th>
+<th scope="col" class="org-right">sszr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">-0.00021(98)</td>
+<td class="org-right">1.05(7)</td>
+<td class="org-right">-10.605(684)</td>
+<td class="org-right">-10.49(69)</td>
+<td class="org-right">-4.337(2543)</td>
+<td class="org-right">0.00522(46)</td>
+<td class="org-right">0.00314(78)</td>
+<td class="org-right">0.00612(212)</td>
+<td class="org-right">0.00342(41)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">-0.00007(74)</td>
+<td class="org-right">1.13(5)</td>
+<td class="org-right">-11.026(482)</td>
+<td class="org-right">-10.60(48)</td>
+<td class="org-right">-6.794(1618)</td>
+<td class="org-right">0.00559(33)</td>
+<td class="org-right">0.00380(59)</td>
+<td class="org-right">0.00850(213)</td>
+<td class="org-right">0.00362(28)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">-0.00004(75)</td>
+<td class="org-right">1.12(5)</td>
+<td class="org-right">-11.005(492)</td>
+<td class="org-right">-10.56(49)</td>
+<td class="org-right">-6.791(1640)</td>
+<td class="org-right">0.00558(34)</td>
+<td class="org-right">0.00376(60)</td>
+<td class="org-right">0.00842(215)</td>
+<td class="org-right">0.00361(29)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">0.00030(77)</td>
+<td class="org-right">1.12(5)</td>
+<td class="org-right">-10.928(497)</td>
+<td class="org-right">-10.48(49)</td>
+<td class="org-right">-6.363(1734)</td>
+<td class="org-right">0.00570(35)</td>
+<td class="org-right">0.00378(61)</td>
+<td class="org-right">0.00847(218)</td>
+<td class="org-right">0.00355(30)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">-0.00005(75)</td>
+<td class="org-right">1.12(5)</td>
+<td class="org-right">-11.009(491)</td>
+<td class="org-right">-10.57(49)</td>
+<td class="org-right">-6.791(1639)</td>
+<td class="org-right">0.00558(34)</td>
+<td class="org-right">0.00377(60)</td>
+<td class="org-right">0.00842(215)</td>
+<td class="org-right">0.00361(29)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgheadline17" class="outline-3">
+<h3 id="orgheadline17"><span class="section-number-3">6.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-6-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">chi-square</th>
+<th scope="col" class="org-right">chi-reduced</th>
+<th scope="col" class="org-right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">14053.7540</td>
+<td class="org-right">869.6780</td>
+<td class="org-right">0.0169</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">6898.9084</td>
+<td class="org-right">426.9200</td>
+<td class="org-right">0.0083</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">7146.3251</td>
+<td class="org-right">442.2307</td>
+<td class="org-right">0.0086</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">7306.0243</td>
+<td class="org-right">452.1133</td>
+<td class="org-right">0.0088</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">7123.5220</td>
+<td class="org-right">440.8196</td>
+<td class="org-right">0.0085</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline21" class="outline-2">
+<h2 id="orgheadline21"><span class="section-number-2">7</span> Bromoadamantane</h2>
+<div class="outline-text-2" id="text-7">
+</div><div id="outline-container-orgheadline19" class="outline-3">
+<h3 id="orgheadline19"><span class="section-number-3">7.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-7-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">amp</th>
+<th scope="col" class="org-right">delr</th>
+<th scope="col" class="org-right">drh</th>
+<th scope="col" class="org-right">enot</th>
+<th scope="col" class="org-right">ss</th>
+<th scope="col" class="org-right">ssh</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">1.34(24)</td>
+<td class="org-right">0.01872(1605)</td>
+<td class="org-right">0.080(27)</td>
+<td class="org-right">1.82(175)</td>
+<td class="org-right">0.00581(210)</td>
+<td class="org-right">0.00096(341)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">1.33(20)</td>
+<td class="org-right">0.01762(1408)</td>
+<td class="org-right">0.073(25)</td>
+<td class="org-right">1.54(156)</td>
+<td class="org-right">0.00560(180)</td>
+<td class="org-right">0.00143(319)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">1.33(21)</td>
+<td class="org-right">0.01636(1430)</td>
+<td class="org-right">0.072(25)</td>
+<td class="org-right">1.40(159)</td>
+<td class="org-right">0.00561(184)</td>
+<td class="org-right">0.00128(316)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">1.33(21)</td>
+<td class="org-right">0.01714(1416)</td>
+<td class="org-right">0.073(24)</td>
+<td class="org-right">1.48(157)</td>
+<td class="org-right">0.00564(182)</td>
+<td class="org-right">0.00128(314)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">1.33(21)</td>
+<td class="org-right">0.01669(1426)</td>
+<td class="org-right">0.073(25)</td>
+<td class="org-right">1.43(158)</td>
+<td class="org-right">0.00563(183)</td>
+<td class="org-right">0.00127(316)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgheadline20" class="outline-3">
+<h3 id="orgheadline20"><span class="section-number-3">7.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-7-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">chi-square</th>
+<th scope="col" class="org-right">chi-reduced</th>
+<th scope="col" class="org-right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">11474.0951</td>
+<td class="org-right">2212.5492</td>
+<td class="org-right">0.0306</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">8632.0143</td>
+<td class="org-right">1664.5109</td>
+<td class="org-right">0.0230</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">8876.4900</td>
+<td class="org-right">1711.6531</td>
+<td class="org-right">0.0237</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">8749.5201</td>
+<td class="org-right">1687.1695</td>
+<td class="org-right">0.0233</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">8842.9991</td>
+<td class="org-right">1705.1951</td>
+<td class="org-right">0.0236</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline24" class="outline-2">
+<h2 id="orgheadline24"><span class="section-number-2">8</span> Uranyl hydrate</h2>
+<div class="outline-text-2" id="text-8">
+</div><div id="outline-container-orgheadline22" class="outline-3">
+<h3 id="orgheadline22"><span class="section-number-3">8.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-8-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">amp</th>
+<th scope="col" class="org-right">deloax</th>
+<th scope="col" class="org-right">deloeq</th>
+<th scope="col" class="org-right">enot</th>
+<th scope="col" class="org-right">sigoax</th>
+<th scope="col" class="org-right">sigoeq</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">1.08(5)</td>
+<td class="org-right">0.04151(452)</td>
+<td class="org-right">-0.04527(800)</td>
+<td class="org-right">3.45(66)</td>
+<td class="org-right">0.00075(60)</td>
+<td class="org-right">0.00692(95)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">1.08(6)</td>
+<td class="org-right">0.04172(547)</td>
+<td class="org-right">-0.04485(971)</td>
+<td class="org-right">3.50(81)</td>
+<td class="org-right">0.00074(73)</td>
+<td class="org-right">0.00691(115)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">1.08(6)</td>
+<td class="org-right">0.04172(549)</td>
+<td class="org-right">-0.04485(974)</td>
+<td class="org-right">3.50(81)</td>
+<td class="org-right">0.00074(73)</td>
+<td class="org-right">0.00691(115)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">1.08(6)</td>
+<td class="org-right">0.04175(546)</td>
+<td class="org-right">-0.04484(968)</td>
+<td class="org-right">3.51(81)</td>
+<td class="org-right">0.00073(72)</td>
+<td class="org-right">0.00691(114)</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">1.08(6)</td>
+<td class="org-right">0.04175(546)</td>
+<td class="org-right">-0.04484(968)</td>
+<td class="org-right">3.51(81)</td>
+<td class="org-right">0.00073(72)</td>
+<td class="org-right">0.00691(114)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgheadline23" class="outline-3">
+<h3 id="orgheadline23"><span class="section-number-3">8.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-8-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">model</th>
+<th scope="col" class="org-right">chi-square</th>
+<th scope="col" class="org-right">chi-reduced</th>
+<th scope="col" class="org-right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">iorder(01)</td>
+<td class="org-right">48.8338</td>
+<td class="org-right">7.8707</td>
+<td class="org-right">0.0035</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(02)</td>
+<td class="org-right">70.9006</td>
+<td class="org-right">11.4273</td>
+<td class="org-right">0.0050</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(03)</td>
+<td class="org-right">71.3468</td>
+<td class="org-right">11.4992</td>
+<td class="org-right">0.0051</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(04)</td>
+<td class="org-right">70.4754</td>
+<td class="org-right">11.3587</td>
+<td class="org-right">0.0050</td>
+</tr>
+
+<tr>
+<td class="org-left">iorder(10)</td>
+<td class="org-right">70.4964</td>
+<td class="org-right">11.3621</td>
+<td class="org-right">0.0050</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline25" class="outline-2">
+<h2 id="orgheadline25"><span class="section-number-2">9</span> Discussion</h2>
+<div class="outline-text-2" id="text-9">
+<ol class="org-ol">
+<li>A couple of the materials pretty much as one might expect.  NiO,
+Bromoadamantane, and BaZrO3 show a significant drop in chi-reduced
+between <code>iord</code> of 1 and 2, while not showing a statistically
+significant change in any of the fitting parameters.</li>
+
+<li>A few materials &#x2013; Copper, FeS2, and uranyl &#x2013; actually show
+somewhat better chi-reduced for <code>iord</code> of 1.  I think this tells us
+that at <code>iord</code> of 1, the calculation is not converged and that the
+effect of this on the EXAFS analysis is ill-determined.  I think it
+would be a mistake to claim something like &ldquo;fitting is better in
+some cases with <code>iord=1</code>.&rdquo;  Rather, this variability is telling us
+that <code>iord=1</code> is a mistake.</li>
+
+<li>In most cases, there is very little change in chi-reduced for
+<code>iord&gt;=2</code>.  While there is some variability among the
+larger <code>iord</code> results for some materials (NiO, for example,
+varied by a bit more than 1%), it seems that the default of
+<code>iord=2</code> is well justified.</li>
+
+<li>Perhaps this exercise could be used to approximate the
+systematic uncertainty contributed by the MS theory to the EXAFS
+analysis&#x2026;.</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2015-09-15</p>
+<p class="author">Author: Bruce Ravel</p>
+<p>
+  <a href="https://github.com/bruceravel/SCFtests">View on GutHub</a>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="README.html">Intro page</a>
+</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
