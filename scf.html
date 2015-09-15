@@ -3,239 +3,102 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2015-09-14 Mon 17:14 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
-<title></title>
+<title>Test the effect of self-consistent potentials on EXAFS analysis</title>
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Bruce Ravel" />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: visible;
-    padding-top: 1.2em;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
-    padding: 3px;
-    border: 1px solid black;
-  }
-  pre.src:hover:before { display: inline;}
-  pre.src-sh:before    { content: 'sh'; }
-  pre.src-bash:before  { content: 'sh'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-R:before     { content: 'R'; }
-  pre.src-perl:before  { content: 'Perl'; }
-  pre.src-java:before  { content: 'Java'; }
-  pre.src-sql:before   { content: 'SQL'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  /*]]>*/-->
-</style>
 <link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
 <link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2013 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
 </head>
 <body>
 <div id="content">
+<h1 class="title">Test the effect of self-consistent potentials on EXAFS analysis</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgheadline1">1. Table of Contents</a></li>
-<li><a href="#orgheadline2">2. Background</a></li>
-<li><a href="#orgheadline8">3. Copper</a>
+<li><a href="#orgheadline1">1. Background</a></li>
+<li><a href="#orgheadline7">2. Copper</a>
 <ul>
-<li><a href="#orgheadline3">3.1. Best fit values</a></li>
-<li><a href="#orgheadline4">3.2. Statistics</a></li>
-<li><a href="#orgheadline5">3.3. Charge transfer and threshold energy</a></li>
-<li><a href="#orgheadline6">3.4. Fits</a></li>
-<li><a href="#orgheadline7">3.5. Discussion</a></li>
+<li><a href="#orgheadline2">2.1. Best fit values</a></li>
+<li><a href="#orgheadline3">2.2. Statistics</a></li>
+<li><a href="#orgheadline4">2.3. Charge transfer and threshold energy</a></li>
+<li><a href="#orgheadline5">2.4. Fits</a></li>
+<li><a href="#orgheadline6">2.5. Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline14">4. NiO</a>
+<li><a href="#orgheadline13">3. NiO</a>
 <ul>
-<li><a href="#orgheadline9">4.1. Best fit values</a></li>
-<li><a href="#orgheadline10">4.2. Statistics</a></li>
-<li><a href="#orgheadline11">4.3. Charge transfer and threshold energy</a></li>
-<li><a href="#orgheadline12">4.4. Fits</a></li>
-<li><a href="#orgheadline13">4.5. Discussion</a></li>
+<li><a href="#orgheadline8">3.1. Best fit values</a></li>
+<li><a href="#orgheadline9">3.2. Statistics</a></li>
+<li><a href="#orgheadline10">3.3. Charge transfer and threshold energy</a></li>
+<li><a href="#orgheadline11">3.4. Fits</a></li>
+<li><a href="#orgheadline12">3.5. Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline20">5. FeS2</a>
+<li><a href="#orgheadline19">4. FeS2</a>
 <ul>
-<li><a href="#orgheadline15">5.1. Best fit values</a></li>
-<li><a href="#orgheadline16">5.2. Statistics</a></li>
-<li><a href="#orgheadline17">5.3. Charge transfer and threshold energy</a></li>
-<li><a href="#orgheadline18">5.4. Fits</a></li>
-<li><a href="#orgheadline19">5.5. Discussion</a></li>
+<li><a href="#orgheadline14">4.1. Best fit values</a></li>
+<li><a href="#orgheadline15">4.2. Statistics</a></li>
+<li><a href="#orgheadline16">4.3. Charge transfer and threshold energy</a></li>
+<li><a href="#orgheadline17">4.4. Fits</a></li>
+<li><a href="#orgheadline18">4.5. Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline26">6. UO2</a>
+<li><a href="#orgheadline25">5. UO2</a>
 <ul>
-<li><a href="#orgheadline21">6.1. Best fit values</a></li>
-<li><a href="#orgheadline22">6.2. Statistics</a></li>
-<li><a href="#orgheadline23">6.3. Charge transfer and threshold energy</a></li>
-<li><a href="#orgheadline24">6.4. Fits</a></li>
-<li><a href="#orgheadline25">6.5. Discussion</a></li>
+<li><a href="#orgheadline20">5.1. Best fit values</a></li>
+<li><a href="#orgheadline21">5.2. Statistics</a></li>
+<li><a href="#orgheadline22">5.3. Charge transfer and threshold energy</a></li>
+<li><a href="#orgheadline23">5.4. Fits</a></li>
+<li><a href="#orgheadline24">5.5. Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline32">7. BaZrO3</a>
+<li><a href="#orgheadline31">6. BaZrO3</a>
 <ul>
-<li><a href="#orgheadline27">7.1. Best fit values</a></li>
-<li><a href="#orgheadline28">7.2. Statistics</a></li>
-<li><a href="#orgheadline29">7.3. Charge transfer and threshold energy</a></li>
-<li><a href="#orgheadline30">7.4. Fits</a></li>
-<li><a href="#orgheadline31">7.5. Discussion</a></li>
+<li><a href="#orgheadline26">6.1. Best fit values</a></li>
+<li><a href="#orgheadline27">6.2. Statistics</a></li>
+<li><a href="#orgheadline28">6.3. Charge transfer and threshold energy</a></li>
+<li><a href="#orgheadline29">6.4. Fits</a></li>
+<li><a href="#orgheadline30">6.5. Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline38">8. Bromoadamantane</a>
+<li><a href="#orgheadline37">7. Bromoadamantane</a>
 <ul>
-<li><a href="#orgheadline33">8.1. Best fit values</a></li>
-<li><a href="#orgheadline34">8.2. Statistics</a></li>
-<li><a href="#orgheadline35">8.3. Charge transfer and threshold energy</a></li>
-<li><a href="#orgheadline36">8.4. Fits</a></li>
-<li><a href="#orgheadline37">8.5. Discussion</a></li>
+<li><a href="#orgheadline32">7.1. Best fit values</a></li>
+<li><a href="#orgheadline33">7.2. Statistics</a></li>
+<li><a href="#orgheadline34">7.3. Charge transfer and threshold energy</a></li>
+<li><a href="#orgheadline35">7.4. Fits</a></li>
+<li><a href="#orgheadline36">7.5. Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline44">9. Uranyl hydrate</a>
+<li><a href="#orgheadline43">8. Uranyl hydrate</a>
 <ul>
-<li><a href="#orgheadline39">9.1. Best fit values</a></li>
-<li><a href="#orgheadline40">9.2. Statistics</a></li>
-<li><a href="#orgheadline41">9.3. Charge transfer and threshold energy</a></li>
-<li><a href="#orgheadline42">9.4. Fits</a></li>
-<li><a href="#orgheadline43">9.5. Discussion</a></li>
+<li><a href="#orgheadline38">8.1. Best fit values</a></li>
+<li><a href="#orgheadline39">8.2. Statistics</a></li>
+<li><a href="#orgheadline40">8.3. Charge transfer and threshold energy</a></li>
+<li><a href="#orgheadline41">8.4. Fits</a></li>
+<li><a href="#orgheadline42">8.5. Discussion</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline48">10. Conclusion</a>
+<li><a href="#orgheadline47">9. Conclusion</a>
 <ul>
-<li><a href="#orgheadline45">10.1. Theoretical approximations and measurement uncertainty</a></li>
-<li><a href="#orgheadline46">10.2. Interpreting the E0 shift parameter</a></li>
-<li><a href="#orgheadline47">10.3. A note on the set of standards</a></li>
+<li><a href="#orgheadline44">9.1. Theoretical approximations and measurement uncertainty</a></li>
+<li><a href="#orgheadline45">9.2. Interpreting the E0 shift parameter</a></li>
+<li><a href="#orgheadline46">9.3. A note on the set of standards</a></li>
 </ul>
 </li>
 </ul>
-</div>
-</div>
-<div id="outline-container-orgheadline1" class="outline-2">
-<h2 id="orgheadline1"><span class="section-number-2">1</span> Table of Contents</h2>
-<div class="outline-text-2" id="text-1">
 </div>
 </div>
 
-<div id="outline-container-orgheadline2" class="outline-2">
-<h2 id="orgheadline2"><span class="section-number-2">2</span> Background</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> Background</h2>
+<div class="outline-text-2" id="text-1">
 <p>
 In a <a href="http://www.mail-archive.com/ifeffit@millenia.cars.aps.anl.gov/msg05038.html">recent post</a> to the <a href="http://cars9.uchicago.edu/mailman/listinfo/ifeffit/">Ifeffit mailing list</a>, a poor soul made this
 comment:
@@ -257,7 +120,7 @@ is 50% bigger than 6.
 </p>
 
 <p>
-Sadly for me, my oh-so-extraordinary wit doesn't win a science argument.
+Sadly for me, my oh-so-extraordinary wit doesn&rsquo;t win a science argument.
 Since actual <i>science</i> wins science arguments, I decided to investigate
 the effect of different theory models on EXAFS analysis. I am doing so
 in the form of a set of tools published as a GitHub repository. In this
@@ -296,7 +159,7 @@ analysis of the EXAFS spectrum.
 </p>
 
 <p>
-Be all that as it may, the "Feff8/Feff9 <b>must</b> be better" comment is
+Be all that as it may, the &ldquo;Feff8/Feff9 <b>must</b> be better&rdquo; comment is
 perennial. This is my attempt to address that question with some kind of
 rigorous effort.
 </p>
@@ -406,8 +269,8 @@ runs. This guaranteed that each theory calculation generated the
 same list of <code>feffNNNN.dat</code> files with the same indexing.</li>
 
 <li>For each material, a table of charge transfer and threshold energies
-is presented. This is information gleaned from <i>Feff8</i>'s screen
-messages and <i>Feff6</i>'s standard header. The charge transfer values
+is presented. This is information gleaned from <i>Feff8</i>&rsquo;s screen
+messages and <i>Feff6</i>&rsquo;s standard header. The charge transfer values
 are the final charge transferred for each unique potential as
 reported in the final round of the self-consistency loop. The
 threshold energy μ is reported for each self-consistency radius as
@@ -420,9 +283,9 @@ fitted values for E0.</li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline8" class="outline-2">
-<h2 id="orgheadline8"><span class="section-number-2">3</span> Copper</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7"><span class="section-number-2">2</span> Copper</h2>
+<div class="outline-text-2" id="text-2">
 <p>
 The data is the canonical copper foil spectrum of <a href="https://github.com/XraySpectroscopy/XAS-Data-Interchange/issues/29">Newville, et
 al. fame</a>. The fitting model is very simple. There is an S0² parameter
@@ -445,9 +308,9 @@ is K.
 </p>
 </div>
 
-<div id="outline-container-orgheadline3" class="outline-3">
-<h3 id="orgheadline3"><span class="section-number-3">3.1</span> Best fit values</h3>
-<div class="outline-text-3" id="text-3-1">
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">2.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-2-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -542,9 +405,9 @@ is K.
 </div>
 </div>
 
-<div id="outline-container-orgheadline4" class="outline-3">
-<h3 id="orgheadline4"><span class="section-number-3">3.2</span> Statistics</h3>
-<div class="outline-text-3" id="text-3-2">
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">2.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-2-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -619,9 +482,9 @@ is K.
 </div>
 </div>
 
-<div id="outline-container-orgheadline5" class="outline-3">
-<h3 id="orgheadline5"><span class="section-number-3">3.3</span> Charge transfer and threshold energy</h3>
-<div class="outline-text-3" id="text-3-3">
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">2.3</span> Charge transfer and threshold energy</h3>
+<div class="outline-text-3" id="text-2-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -688,9 +551,9 @@ Value for μ in feff6 = -5.519
 </div>
 </div>
 
-<div id="outline-container-orgheadline6" class="outline-3">
-<h3 id="orgheadline6"><span class="section-number-3">3.4</span> Fits</h3>
-<div class="outline-text-3" id="text-3-4">
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">2.4</span> Fits</h3>
+<div class="outline-text-3" id="text-2-4">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -736,12 +599,12 @@ Value for μ in feff6 = -5.519
 </div>
 
 
-<div id="outline-container-orgheadline7" class="outline-3">
-<h3 id="orgheadline7"><span class="section-number-3">3.5</span> Discussion</h3>
-<div class="outline-text-3" id="text-3-5">
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6"><span class="section-number-3">2.5</span> Discussion</h3>
+<div class="outline-text-3" id="text-2-5">
 <p>
 I start with copper because, well, <a href="http://www.theatlantic.com/technology/archive/2013/11/english-has-a-new-preposition-because-internet/281601/">because</a> copper. All discussions of
-XAS theory start with copper. It's tradition!
+XAS theory start with copper. It&rsquo;s tradition!
 </p>
 
 <p>
@@ -762,9 +625,9 @@ smaller <i>without</i> the use of self-consistency.
 </div>
 </div>
 
-<div id="outline-container-orgheadline14" class="outline-2">
-<h2 id="orgheadline14"><span class="section-number-2">4</span> NiO</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-orgheadline13" class="outline-2">
+<h2 id="orgheadline13"><span class="section-number-2">3</span> NiO</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 The sample was NiO powder prepared by my colleague Neil Hyatt
 (University of Sheffield) and checked by him for phase purity. The
@@ -789,9 +652,9 @@ the fourth shell Ni scatterer. Each shell has its own σ² parameter
 </p>
 </div>
 
-<div id="outline-container-orgheadline9" class="outline-3">
-<h3 id="orgheadline9"><span class="section-number-3">4.1</span> Best fit values</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><span class="section-number-3">3.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-3-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -906,9 +769,9 @@ the fourth shell Ni scatterer. Each shell has its own σ² parameter
 </div>
 </div>
 
-<div id="outline-container-orgheadline10" class="outline-3">
-<h3 id="orgheadline10"><span class="section-number-3">4.2</span> Statistics</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-orgheadline9" class="outline-3">
+<h3 id="orgheadline9"><span class="section-number-3">3.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-3-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -983,9 +846,9 @@ the fourth shell Ni scatterer. Each shell has its own σ² parameter
 </div>
 </div>
 
-<div id="outline-container-orgheadline11" class="outline-3">
-<h3 id="orgheadline11"><span class="section-number-3">4.3</span> Charge transfer and threshold energy</h3>
-<div class="outline-text-3" id="text-4-3">
+<div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10"><span class="section-number-3">3.3</span> Charge transfer and threshold energy</h3>
+<div class="outline-text-3" id="text-3-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1061,9 +924,9 @@ Value for μ in feff6 = -3.478
 </div>
 </div>
 
-<div id="outline-container-orgheadline12" class="outline-3">
-<h3 id="orgheadline12"><span class="section-number-3">4.4</span> Fits</h3>
-<div class="outline-text-3" id="text-4-4">
+<div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11"><span class="section-number-3">3.4</span> Fits</h3>
+<div class="outline-text-3" id="text-3-4">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1108,9 +971,9 @@ Value for μ in feff6 = -3.478
 </div>
 </div>
 
-<div id="outline-container-orgheadline13" class="outline-3">
-<h3 id="orgheadline13"><span class="section-number-3">4.5</span> Discussion</h3>
-<div class="outline-text-3" id="text-4-5">
+<div id="outline-container-orgheadline12" class="outline-3">
+<h3 id="orgheadline12"><span class="section-number-3">3.5</span> Discussion</h3>
+<div class="outline-text-3" id="text-3-5">
 <p>
 NiO was chosen as the second example because it constitutes the smallest
 added complexity compared to copper. NiO is a rock salt structure, so it
@@ -1126,7 +989,7 @@ unchanged from model to model.
 
 <p>
 This is the first example of dependence of the E0 parameter on
-theoretical model. The ultimate value of Feff's threshold energy depends
+theoretical model. The ultimate value of Feff&rsquo;s threshold energy depends
 on the model. The starting condition is not the same in <i>Feff6</i> as in
 <i>Feff8</i> without self-consistency. This is seen by the 3.3 eV shift in
 fitted E0 value. Furthermore, the threshold changes as charge is
@@ -1144,7 +1007,7 @@ hard to say that one of these E0 results is “better” than the others.
 <p>
 One might hope that improvements in theory would lead to a fitted E0
 parameter of 0 when the edge is chosen at the inflection point of the
-rising edge of the XAS data. While that might be true, we're not there
+rising edge of the XAS data. While that might be true, we&rsquo;re not there
 yet with <i>Feff8</i>. See the conclusion for more
 discussion.
 </p>
@@ -1154,12 +1017,12 @@ discussion.
 </div>
 </div>
 
-<div id="outline-container-orgheadline20" class="outline-2">
-<h2 id="orgheadline20"><span class="section-number-2">5</span> FeS2</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-orgheadline19" class="outline-2">
+<h2 id="orgheadline19"><span class="section-number-2">4</span> FeS2</h2>
+<div class="outline-text-2" id="text-4">
 <p>
-This is one of <a href="https://github.com/bruceravel/XAS-Education/tree/master/Examples/FeS2">my standard teaching examples</a>. It's good for teaching
-as it is fairly simple &#x2013; it's cubic &#x2013; but it has a bit of structure
+This is one of <a href="https://github.com/bruceravel/XAS-Education/tree/master/Examples/FeS2">my standard teaching examples</a>. It&rsquo;s good for teaching
+as it is fairly simple &#x2013; it&rsquo;s cubic &#x2013; but it has a bit of structure
 and two kinds of scatterers. The data are taken from <a href="http://cars.uchicago.edu/~newville/ModelLib/search.html">Matt's online
 collection of references</a>.
 </p>
@@ -1186,9 +1049,9 @@ are Å².
 </p>
 </div>
 
-<div id="outline-container-orgheadline15" class="outline-3">
-<h3 id="orgheadline15"><span class="section-number-3">5.1</span> Best fit values</h3>
-<div class="outline-text-3" id="text-5-1">
+<div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14"><span class="section-number-3">4.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-4-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1293,9 +1156,9 @@ are Å².
 </div>
 </div>
 
-<div id="outline-container-orgheadline16" class="outline-3">
-<h3 id="orgheadline16"><span class="section-number-3">5.2</span> Statistics</h3>
-<div class="outline-text-3" id="text-5-2">
+<div id="outline-container-orgheadline15" class="outline-3">
+<h3 id="orgheadline15"><span class="section-number-3">4.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-4-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1370,9 +1233,9 @@ are Å².
 </div>
 </div>
 
-<div id="outline-container-orgheadline17" class="outline-3">
-<h3 id="orgheadline17"><span class="section-number-3">5.3</span> Charge transfer and threshold energy</h3>
-<div class="outline-text-3" id="text-5-3">
+<div id="outline-container-orgheadline16" class="outline-3">
+<h3 id="orgheadline16"><span class="section-number-3">4.3</span> Charge transfer and threshold energy</h3>
+<div class="outline-text-3" id="text-4-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1448,9 +1311,9 @@ Value for μ in feff6 = -4.308
 </div>
 </div>
 
-<div id="outline-container-orgheadline18" class="outline-3">
-<h3 id="orgheadline18"><span class="section-number-3">5.4</span> Fits</h3>
-<div class="outline-text-3" id="text-5-4">
+<div id="outline-container-orgheadline17" class="outline-3">
+<h3 id="orgheadline17"><span class="section-number-3">4.4</span> Fits</h3>
+<div class="outline-text-3" id="text-4-4">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1495,9 +1358,9 @@ Value for μ in feff6 = -4.308
 </div>
 </div>
 
-<div id="outline-container-orgheadline19" class="outline-3">
-<h3 id="orgheadline19"><span class="section-number-3">5.5</span> Discussion</h3>
-<div class="outline-text-3" id="text-5-5">
+<div id="outline-container-orgheadline18" class="outline-3">
+<h3 id="orgheadline18"><span class="section-number-3">4.5</span> Discussion</h3>
+<div class="outline-text-3" id="text-4-5">
 <p>
 This is just slightly more complex than NiO. It is diatomic, but with a
 slightly less orderly structure than NiO. Again, all parameters except
@@ -1523,11 +1386,11 @@ and <i>Feff8</i>.
 </div>
 </div>
 
-<div id="outline-container-orgheadline26" class="outline-2">
-<h2 id="orgheadline26"><span class="section-number-2">6</span> UO2</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-orgheadline25" class="outline-2">
+<h2 id="orgheadline25"><span class="section-number-2">5</span> UO2</h2>
+<div class="outline-text-2" id="text-5">
 <p>
-UO2/UO2.png]] The data are the UO2 shown in Shelly's paper on
+UO2/UO2.png]] The data are the UO2 shown in Shelly&rsquo;s paper on
 <i>Reduction of Uranium(VI) by Mixed Iron(II)/Iron(III) Hydroxide (Green
 Rust):  Formation of UO2 Nanoparticles</i>:
 <a href="http://dx.doi.org/10.1021/es0208409"><code>http://dx.doi.org/10.1021/es0208409</code></a>
@@ -1547,7 +1410,7 @@ first shell O (<code>dro</code> and <code>sso</code>), a ΔR and σ² for the se
 </p>
 
 <p>
-The model includes the same 6 paths given in Table 2 of Shelly's paper.
+The model includes the same 6 paths given in Table 2 of Shelly&rsquo;s paper.
 </p>
 
 <p>
@@ -1556,9 +1419,9 @@ The model includes the same 6 paths given in Table 2 of Shelly's paper.
 </p>
 </div>
 
-<div id="outline-container-orgheadline21" class="outline-3">
-<h3 id="orgheadline21"><span class="section-number-3">6.1</span> Best fit values</h3>
-<div class="outline-text-3" id="text-6-1">
+<div id="outline-container-orgheadline20" class="outline-3">
+<h3 id="orgheadline20"><span class="section-number-3">5.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-5-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1693,9 +1556,9 @@ The model includes the same 6 paths given in Table 2 of Shelly's paper.
 </div>
 </div>
 
-<div id="outline-container-orgheadline22" class="outline-3">
-<h3 id="orgheadline22"><span class="section-number-3">6.2</span> Statistics</h3>
-<div class="outline-text-3" id="text-6-2">
+<div id="outline-container-orgheadline21" class="outline-3">
+<h3 id="orgheadline21"><span class="section-number-3">5.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-5-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1770,9 +1633,9 @@ The model includes the same 6 paths given in Table 2 of Shelly's paper.
 </div>
 </div>
 
-<div id="outline-container-orgheadline23" class="outline-3">
-<h3 id="orgheadline23"><span class="section-number-3">6.3</span> Charge transfer and threshold energy</h3>
-<div class="outline-text-3" id="text-6-3">
+<div id="outline-container-orgheadline22" class="outline-3">
+<h3 id="orgheadline22"><span class="section-number-3">5.3</span> Charge transfer and threshold energy</h3>
+<div class="outline-text-3" id="text-5-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1848,9 +1711,9 @@ Value for μ in feff6 = -6.058
 </div>
 </div>
 
-<div id="outline-container-orgheadline24" class="outline-3">
-<h3 id="orgheadline24"><span class="section-number-3">6.4</span> Fits</h3>
-<div class="outline-text-3" id="text-6-4">
+<div id="outline-container-orgheadline23" class="outline-3">
+<h3 id="orgheadline23"><span class="section-number-3">5.4</span> Fits</h3>
+<div class="outline-text-3" id="text-5-4">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1895,9 +1758,9 @@ Value for μ in feff6 = -6.058
 </div>
 </div>
 
-<div id="outline-container-orgheadline25" class="outline-3">
-<h3 id="orgheadline25"><span class="section-number-3">6.5</span> Discussion</h3>
-<div class="outline-text-3" id="text-6-5">
+<div id="outline-container-orgheadline24" class="outline-3">
+<h3 id="orgheadline24"><span class="section-number-3">5.5</span> Discussion</h3>
+<div class="outline-text-3" id="text-5-5">
 <p>
 The first thing to notice about UO2 is that the statistical parameters
 of the fit are completely unchanged between theory models.
@@ -1927,13 +1790,13 @@ reduction process.
 </div>
 </div>
 
-<div id="outline-container-orgheadline32" class="outline-2">
-<h2 id="orgheadline32"><span class="section-number-2">7</span> BaZrO3</h2>
-<div class="outline-text-2" id="text-7">
+<div id="outline-container-orgheadline31" class="outline-2">
+<h2 id="orgheadline31"><span class="section-number-2">6</span> BaZrO3</h2>
+<div class="outline-text-2" id="text-6">
 <p>
 BaZrO3/perovskite.png]] In a short paper on the Zr edge of BaZrO3,
 <a href="http://dx.doi.org/10.1016/0921-4526(94)00654-E"><code>http://dx.doi.org/10.1016/0921-4526(94)00654-E</code></a>, Haskel et
-al. proposed that shortcomings of <i>feff</i>'s potential model could be
+al. proposed that shortcomings of <i>feff</i>&rsquo;s potential model could be
 accommodated by floating an energy shift parameter for each scatterer
 species. The concept is that doing so approximates the effect of
 errors in the scattering phase shifts.
@@ -1962,9 +1825,9 @@ parameterized as described in the paper.
 </p>
 </div>
 
-<div id="outline-container-orgheadline27" class="outline-3">
-<h3 id="orgheadline27"><span class="section-number-3">7.1</span> Best fit values</h3>
-<div class="outline-text-3" id="text-7-1">
+<div id="outline-container-orgheadline26" class="outline-3">
+<h3 id="orgheadline26"><span class="section-number-3">6.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-6-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2099,9 +1962,9 @@ parameterized as described in the paper.
 </div>
 </div>
 
-<div id="outline-container-orgheadline28" class="outline-3">
-<h3 id="orgheadline28"><span class="section-number-3">7.2</span> Statistics</h3>
-<div class="outline-text-3" id="text-7-2">
+<div id="outline-container-orgheadline27" class="outline-3">
+<h3 id="orgheadline27"><span class="section-number-3">6.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-6-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2176,9 +2039,9 @@ parameterized as described in the paper.
 </div>
 </div>
 
-<div id="outline-container-orgheadline29" class="outline-3">
-<h3 id="orgheadline29"><span class="section-number-3">7.3</span> Charge transfer and threshold energy</h3>
-<div class="outline-text-3" id="text-7-3">
+<div id="outline-container-orgheadline28" class="outline-3">
+<h3 id="orgheadline28"><span class="section-number-3">6.3</span> Charge transfer and threshold energy</h3>
+<div class="outline-text-3" id="text-6-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2263,9 +2126,9 @@ Value for μ in feff6 = -6.654
 </div>
 </div>
 
-<div id="outline-container-orgheadline30" class="outline-3">
-<h3 id="orgheadline30"><span class="section-number-3">7.4</span> Fits</h3>
-<div class="outline-text-3" id="text-7-4">
+<div id="outline-container-orgheadline29" class="outline-3">
+<h3 id="orgheadline29"><span class="section-number-3">6.4</span> Fits</h3>
+<div class="outline-text-3" id="text-6-4">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2310,12 +2173,12 @@ Value for μ in feff6 = -6.654
 </div>
 </div>
 
-<div id="outline-container-orgheadline31" class="outline-3">
-<h3 id="orgheadline31"><span class="section-number-3">7.5</span> Discussion</h3>
-<div class="outline-text-3" id="text-7-5">
+<div id="outline-container-orgheadline30" class="outline-3">
+<h3 id="orgheadline30"><span class="section-number-3">6.5</span> Discussion</h3>
+<div class="outline-text-3" id="text-6-5">
 <p>
 In the paper cited above, the authors speculate that inaccuracies in
-Feff's potential model can be accommodated by allowing separate E0
+Feff&rsquo;s potential model can be accommodated by allowing separate E0
 parameters to float for each kind of scatterer. In the paper, the claim
 is that the ΔR parameters used to model low temperature BaZrO3 data
 correctly follow the trends seen in high temperature XRD data on the
@@ -2323,7 +2186,7 @@ same material.
 </p>
 
 <p>
-I didn't quite use the same fitting model as in that paper. Instead of a
+I didn&rsquo;t quite use the same fitting model as in that paper. Instead of a
 variety of ΔR parameters, I used a single isotropic expansion
 coefficient, α. With just one data set, the fit using many ΔR parameters
 was not stable.
@@ -2349,9 +2212,9 @@ as the increases in FeS2 and NiO.
 </div>
 </div>
 
-<div id="outline-container-orgheadline38" class="outline-2">
-<h2 id="orgheadline38"><span class="section-number-2">8</span> Bromoadamantane</h2>
-<div class="outline-text-2" id="text-8">
+<div id="outline-container-orgheadline37" class="outline-2">
+<h2 id="orgheadline37"><span class="section-number-2">7</span> Bromoadamantane</h2>
+<div class="outline-text-2" id="text-7">
 <p>
 bromoadamantane/bromoadamantane.png]]
 The data are 1-bromoadamantane. Bromoadamantane is a cycloalkane,
@@ -2389,9 +2252,9 @@ parameter.
 </p>
 </div>
 
-<div id="outline-container-orgheadline33" class="outline-3">
-<h3 id="orgheadline33"><span class="section-number-3">8.1</span> Best fit values</h3>
-<div class="outline-text-3" id="text-8-1">
+<div id="outline-container-orgheadline32" class="outline-3">
+<h3 id="orgheadline32"><span class="section-number-3">7.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-7-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2456,9 +2319,9 @@ parameter.
 </div>
 </div>
 
-<div id="outline-container-orgheadline34" class="outline-3">
-<h3 id="orgheadline34"><span class="section-number-3">8.2</span> Statistics</h3>
-<div class="outline-text-3" id="text-8-2">
+<div id="outline-container-orgheadline33" class="outline-3">
+<h3 id="orgheadline33"><span class="section-number-3">7.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-7-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2505,9 +2368,9 @@ parameter.
 </div>
 </div>
 
-<div id="outline-container-orgheadline35" class="outline-3">
-<h3 id="orgheadline35"><span class="section-number-3">8.3</span> Charge transfer and threshold energy</h3>
-<div class="outline-text-3" id="text-8-3">
+<div id="outline-container-orgheadline34" class="outline-3">
+<h3 id="orgheadline34"><span class="section-number-3">7.3</span> Charge transfer and threshold energy</h3>
+<div class="outline-text-3" id="text-7-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2555,9 +2418,9 @@ Value for μ in feff6 = -2.673
 </div>
 </div>
 
-<div id="outline-container-orgheadline36" class="outline-3">
-<h3 id="orgheadline36"><span class="section-number-3">8.4</span> Fits</h3>
-<div class="outline-text-3" id="text-8-4">
+<div id="outline-container-orgheadline35" class="outline-3">
+<h3 id="orgheadline35"><span class="section-number-3">7.4</span> Fits</h3>
+<div class="outline-text-3" id="text-7-4">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2586,9 +2449,9 @@ Value for μ in feff6 = -2.673
 </div>
 </div>
 
-<div id="outline-container-orgheadline37" class="outline-3">
-<h3 id="orgheadline37"><span class="section-number-3">8.5</span> Discussion</h3>
-<div class="outline-text-3" id="text-8-5">
+<div id="outline-container-orgheadline36" class="outline-3">
+<h3 id="orgheadline36"><span class="section-number-3">7.5</span> Discussion</h3>
+<div class="outline-text-3" id="text-7-5">
 <p>
 In June 2015, the
 <a href="http://www.mail-archive.com/ifeffit@millenia.cars.aps.anl.gov/msg05040.html">following
@@ -2632,7 +2495,7 @@ re-examined by relaxing this constraint. Future work!
 
 <p>
 So, is <i>Feff6</i> “terrible” at handling H scatterers? The answer may be
-“yes” and may be “no”, but these data on bromoadamantane don't suggest
+“yes” and may be “no”, but these data on bromoadamantane don&rsquo;t suggest
 that it is any worse than <i>Feff8</i>.
 </p>
 
@@ -2641,12 +2504,12 @@ that it is any worse than <i>Feff8</i>.
 </div>
 </div>
 
-<div id="outline-container-orgheadline44" class="outline-2">
-<h2 id="orgheadline44"><span class="section-number-2">9</span> Uranyl hydrate</h2>
-<div class="outline-text-2" id="text-9">
+<div id="outline-container-orgheadline43" class="outline-2">
+<h2 id="orgheadline43"><span class="section-number-2">8</span> Uranyl hydrate</h2>
+<div class="outline-text-2" id="text-8">
 <p>
 uranyl/uranyl.png]]
-The data are the hydrated uranyl hydrate shown in Shelly's paper on
+The data are the hydrated uranyl hydrate shown in Shelly&rsquo;s paper on
 <i>X-ray absorption fine structure determination of pH-dependent
 U-bacterial cell wall interactions</i>,
 <a href="http://dx.doi.org/10.1016/S0016-7037(02)00947-X"><code>http://dx.doi.org/10.1016/S0016-7037(02)00947-X</code></a>
@@ -2684,9 +2547,9 @@ and <code>sigoeq</code> are Å².
 </p>
 </div>
 
-<div id="outline-container-orgheadline39" class="outline-3">
-<h3 id="orgheadline39"><span class="section-number-3">9.1</span> Best fit values</h3>
-<div class="outline-text-3" id="text-9-1">
+<div id="outline-container-orgheadline38" class="outline-3">
+<h3 id="orgheadline38"><span class="section-number-3">8.1</span> Best fit values</h3>
+<div class="outline-text-3" id="text-8-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2791,9 +2654,9 @@ and <code>sigoeq</code> are Å².
 </div>
 </div>
 
-<div id="outline-container-orgheadline40" class="outline-3">
-<h3 id="orgheadline40"><span class="section-number-3">9.2</span> Statistics</h3>
-<div class="outline-text-3" id="text-9-2">
+<div id="outline-container-orgheadline39" class="outline-3">
+<h3 id="orgheadline39"><span class="section-number-3">8.2</span> Statistics</h3>
+<div class="outline-text-3" id="text-8-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2868,9 +2731,9 @@ and <code>sigoeq</code> are Å².
 </div>
 </div>
 
-<div id="outline-container-orgheadline41" class="outline-3">
-<h3 id="orgheadline41"><span class="section-number-3">9.3</span> Charge transfer and threshold energy</h3>
-<div class="outline-text-3" id="text-9-3">
+<div id="outline-container-orgheadline40" class="outline-3">
+<h3 id="orgheadline40"><span class="section-number-3">8.3</span> Charge transfer and threshold energy</h3>
+<div class="outline-text-3" id="text-8-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2973,9 +2836,9 @@ Value for μ in feff6 = -1.961
 </div>
 </div>
 
-<div id="outline-container-orgheadline42" class="outline-3">
-<h3 id="orgheadline42"><span class="section-number-3">9.4</span> Fits</h3>
-<div class="outline-text-3" id="text-9-4">
+<div id="outline-container-orgheadline41" class="outline-3">
+<h3 id="orgheadline41"><span class="section-number-3">8.4</span> Fits</h3>
+<div class="outline-text-3" id="text-8-4">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -3020,9 +2883,9 @@ Value for μ in feff6 = -1.961
 </div>
 </div>
 
-<div id="outline-container-orgheadline43" class="outline-3">
-<h3 id="orgheadline43"><span class="section-number-3">9.5</span> Discussion</h3>
-<div class="outline-text-3" id="text-9-5">
+<div id="outline-container-orgheadline42" class="outline-3">
+<h3 id="orgheadline42"><span class="section-number-3">8.5</span> Discussion</h3>
+<div class="outline-text-3" id="text-8-5">
 <p>
 The most interesting part of this fit is the extremely short, double
 bonded, axial oxygen scattering path. With such an extremely rigid bond,
@@ -3056,9 +2919,9 @@ the data. It is, however, correlated with the axial σ² result.
 </div>
 </div>
 
-<div id="outline-container-orgheadline48" class="outline-2">
-<h2 id="orgheadline48"><span class="section-number-2">10</span> Conclusion</h2>
-<div class="outline-text-2" id="text-10">
+<div id="outline-container-orgheadline47" class="outline-2">
+<h2 id="orgheadline47"><span class="section-number-2">9</span> Conclusion</h2>
+<div class="outline-text-2" id="text-9">
 <p>
 Sometimes (FeS2, uranyl) the statistical parameters suggest the best fit
 was found using <i>Feff6</i>. Sometimes (BaZrO3) <i>Feff8</i> with
@@ -3100,9 +2963,9 @@ here, I think not.
 </p>
 </div>
 
-<div id="outline-container-orgheadline45" class="outline-3">
-<h3 id="orgheadline45"><span class="section-number-3">10.1</span> Theoretical approximations and measurement uncertainty</h3>
-<div class="outline-text-3" id="text-10-1">
+<div id="outline-container-orgheadline44" class="outline-3">
+<h3 id="orgheadline44"><span class="section-number-3">9.1</span> Theoretical approximations and measurement uncertainty</h3>
+<div class="outline-text-3" id="text-9-1">
 <p>
 The most valuable result of this effort &#x2013; beyond the immediate question
 of the impact of self-consistent potentials on EXAFS analysis &#x2013; is that
@@ -3121,9 +2984,9 @@ approximations that enter into the theory.
 </div>
 </div>
 
-<div id="outline-container-orgheadline46" class="outline-3">
-<h3 id="orgheadline46"><span class="section-number-3">10.2</span> Interpreting the E0 shift parameter</h3>
-<div class="outline-text-3" id="text-10-2">
+<div id="outline-container-orgheadline45" class="outline-3">
+<h3 id="orgheadline45"><span class="section-number-3">9.2</span> Interpreting the E0 shift parameter</h3>
+<div class="outline-text-3" id="text-9-2">
 <p>
 Way back in the early 1990s, in the days of
 <a href="http://dx.doi.org/10.1103/PhysRevB.44.4146"><i>Feff3</i></a>, the theory was
@@ -3140,7 +3003,7 @@ the Bethe-Salpeter equation of motion of the electron-hole pair. This is
 an impressive and successful approach to core-shell theory, however the
 positions of peaks in the density of states near the edge, both above
 and below, are clearly lacking. Consider the MgO calculation in Fig. 5
-of that paper. It's a great result, but the peaks are demonstrably
+of that paper. It&rsquo;s a great result, but the peaks are demonstrably
 shifted relative to experiment.
 </p>
 
@@ -3161,19 +3024,19 @@ continues to require E0 shift parameters.
 </div>
 </div>
 
-<div id="outline-container-orgheadline47" class="outline-3">
-<h3 id="orgheadline47"><span class="section-number-3">10.3</span> A note on the set of standards</h3>
-<div class="outline-text-3" id="text-10-3">
+<div id="outline-container-orgheadline46" class="outline-3">
+<h3 id="orgheadline46"><span class="section-number-3">9.3</span> A note on the set of standards</h3>
+<div class="outline-text-3" id="text-9-3">
 <p>
 For anyone doing EXAFS analysis, a fairly common moment is the one when
-a fit is not going well, the parameters don't make sense, the fitted
-function doesn't look like the data, and the person doing the analysis
+a fit is not going well, the parameters don&rsquo;t make sense, the fitted
+function doesn&rsquo;t look like the data, and the person doing the analysis
 is deeply confused.
 </p>
 
 <p>
 In that moment, it is extremely tempting to blame the theory. In fact,
-it is super fun to blame Feff. Don't stop there! Blame John Rehr
+it is super fun to blame Feff. Don&rsquo;t stop there! Blame John Rehr
 personally for your analysis woes. Fun <b>and</b> satisfying!
 </p>
 
@@ -3207,13 +3070,13 @@ better sample or to dream up a more representative fitting model.
 </div>
 </div>
 <div id="postamble" class="status">
+<p class="date">Date: 2015-09-15</p>
 <p class="author">Author: Bruce Ravel</p>
 <p>
   <a href="https://github.com/bruceravel/SCFtests">View on GutHub</a>
   &nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="README.html">Index</a>
+  <a href="README.html">Intro page</a>
 </p>
-<p class="date">Created: 2015-09-14 Mon 17:14</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

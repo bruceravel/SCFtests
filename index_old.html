@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>SCFtests by bruceravel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">SCFtests</h1>
+      <h2 class="project-tagline">Testing the effect of self-consistent potentials on EXAFS fitting</h2>
+      <a href="https://github.com/bruceravel/SCFtests" class="btn">View on GitHub</a>
+      <a href="https://github.com/bruceravel/SCFtests/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/bruceravel/SCFtests/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="table-of-contents" class="anchor" href="#table-of-contents" aria-hidden="true"><span class="octicon octicon-link"></span></a>Table of Contents</h1>
+
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#copper">Copper</a></li>
+<li><a href="#nio">NiO, nickel (II) oxide</a></li>
+<li><a href="#fes2">FeS2, pyrite</a></li>
+<li><a href="#uo2">UO2, uraninite</a></li>
+<li><a href="#bazro3">BaZrO3, barium zirconate</a></li>
+<li><a href="#bromoadamantane">C10H15Br, bromoadamantane</a></li>
+<li><a href="#uranyl-hydrate">Uranyl hydrate</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+
+<p><a href="https://zenodo.org/badge/latestdoi/15446/bruceravel/SCFtests"><img src="https://zenodo.org/badge/15446/bruceravel/SCFtests.svg" alt="DOI"></a></p>
+
+<hr>
+
+<h1>
+<a id="background" class="anchor" href="#background" aria-hidden="true"><span class="octicon octicon-link"></span></a>Background</h1>
+
+<p>In a
+<a href="http://www.mail-archive.com/ifeffit%40millenia.cars.aps.anl.gov/msg05038.html">recent post</a>
+to the
+<a href="http://cars9.uchicago.edu/mailman/listinfo/ifeffit/">Ifeffit mailing list</a>,
+a poor soul made this comment:</p>
+
+<pre><code> I wondering about the availability to use a newer FEFF version in
+ Demeter. Since my knowledge only I can run FEFF6. In my case I
+ found different discrepancies using FEFF6 and FEFF9 in the
+ determination of bond length distances for instance. In terms of
+ review of papers, reviewers ask to use a newer version instead
+ FEFF6.
+</code></pre>
+
+<p>This is a topic that comes up regularly on the mailing list.  I have,
+on occasion, joked that <em>Feff9</em> must be 50% better than <em>Feff6</em>
+because 9 is 50% bigger than 6.</p>
+
+<p>Sadly for me, my oh-so-extraordinary wit doesn't win a science
+argument.  Since actual <em>science</em> wins science arguments, I decided to
+investigate the effect of different theory models on EXAFS analysis.
+I am doing so in the form of a set of tools published as a GitHub
+repository.  In this way, <em>anyone</em> can download the tools and rerun
+the tests.  Even better, anyone can apply the tools to new materials
+or new ways of computing the theory.</p>
+
+<p>Because <em>Feff9</em> is not freely available and redistributable, it is
+hard to make use of it in the manner of this exercise.  Consequently,
+the forms of Feff used here are the two redistributable versions: the
+<em>Feff6</em> that comes with <a href="https://github.com/newville/ifeffit">Ifeffit</a>
+and <a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a>.</p>
+
+<p>I presented these results at a
+<a href="http://feffproject.org/SpecialSymposium-JJR/as-program.html">recent symposium on theoretical spectroscopy</a>.
+By far, the most illuminating comment was from Alexei Ankudinov, the
+principle author of <em>Feff8</em>.  Alex was surprised that anyone expected
+<em>Feff8</em> or <em>Feff9</em> to make a difference for EXAFS analysis.  Most of
+the features in those later versions, and particularly in <em>Feff9</em>,
+pertain to calculations of other spectroscopies.  Other new additions
+to the code would not be expected to have much impact for
+photoelectrons of high kinetic energy, i.e. far from the absorption
+edge.</p>
+
+<p>This page is about <em>EXAFS</em> analysis, not XANES calculations or
+calculations of other spectroscopies.  Obviously, any calculation of a
+spectroscopy for which the photoelectron has low kinetic energy will
+be extremely sensitive to the details of the potential surface.
+Self-consistency and charge transfer are
+<a href="http://dx.doi.org/10.1103/PhysRevB.58.7565">unambiguously important</a>
+for such calculations.  The question here is about the impact on the
+analysis of the EXAFS spectrum.</p>
+
+<p>Be all that as it may, the “<em>Feff8</em>/<em>Feff9</em> <strong>must</strong> be
+better“ comment is perennial.  This is my attempt to address
+that question with some kind of rigorous effort.</p>
+
+<p>Here are the conditions of the tests:</p>
+
+<ol>
+<li><p>All XAS data were processed sensibly in
+<a href="http://bruceravel.github.io/demeter/">Athena</a> with E0 chosen to
+be the first peak of the first derivative in μ(E). That may not
+be the best choice of E0 in all cases, but it is the obvious first
+choice and the likeliest choice to be made by a novice user of the
+software.</p></li>
+<li><p>All EXAFS data were Fourier transformed starting at 3/Å and
+ending at a reasonable place where the signal was still much
+bigger than the noise. The choice of 3/Å as the starting
+point was deliberate. The
+<a href="http://dx.doi.org/10.1103/PhysRevB.47.14126">Autobk algorithm</a>
+(and most, if not all, other algorithms) is often unreliable
+below about 3/Å due to the fact that the μ(E) is changing
+very quickly in that region. Thus the data above 3/Å are
+likely to be reliably free of systematic error due to the
+details of the background removal.</p></li>
+<li><p>All the materials considered have well-known structures. For these
+tests, I want to avoid the situation where error in a fitting
+model could be attributed to incomplete prior knowledge about the
+structure. That is, I want to isolate the details of the fitting
+model from the details of the theoretical calculation.</p></li>
+<li><p>The first three examples are dense, crystalline solids for which I
+expect self-consistency to contribute rather little to the
+analysis. The remaining materials all contribute interesting
+features for which self-consistency and charge transfer might play
+a role.</p></li>
+<li><p>In the plots, the ranges of the Fourier transform and of the fit
+are indicated by vertical black lines.</p></li>
+<li><p>Each material is fitted using theory from the version of <em>Feff6</em>
+that ships with <a href="https://github.com/newville/ifeffit">Ifeffit</a>,
+from <a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a> with
+self-consistency turned off, and from with
+<a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a> with
+self-consistency.  In each case, the default self-energy model
+(Hedin-Lundqvist) was used.</p></li>
+<li><p>For each material that is not a molecule, the analysis is done
+with a sequence of self-consistency radii. This is done to test
+the importance of the consideration of that parameter on the
+analysis. In the case of hydrated uranyl hydrate, this is a
+molecule, but the Feff calculation is made on a crystalline
+analogue to the molecule. The effect of self-consistency radius is
+tested in that case.</p></li>
+<li><p>Where appropriate (bromoadamantane, for example), the
+<a href="http://leonardo.phys.washington.edu/feff/wiki/static/s/c/f/SCF_1ebb.html"><code>lfms</code> parameter of the <code>SCF</code> card</a>
+is set to 1.</p></li>
+<li><p>The uranyl calculation was a bit challenging with
+<a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a>. To get the
+program to run to completion, it was necessary to set
+<a href="http://leonardo.phys.washington.edu/feff/wiki/static/f/o/l/FOLP_93fc.html">the FOLP parameter</a>
+to 0.9 for each unique potential. Given that the quality of the
+fit was much the same as for using <em>Feff6</em>, this was not examined
+further. Still, this merits further attention for this material.</p></li>
+<li><p>I was interested to know if the effect of SCF on EXAFS fitting
+was different for a first shell fit as compared to a more
+extensive fitting model. So fits were generated for the first
+shells only of all materials except for uranyl hydrate for which
+the axial and equatorial scatterers cannot be isolated. Also, Matt
+tells me that, years ago, he and John looked at some <em>Feff6</em>/<em>Feff8</em>
+comparisons, but only for first shell fits. These first shell fits
+are intended for comparison to that older work.  <em>The results of
+the first shell fits are included in the repository, but not on
+this page as they do not tell a different story from the more
+complete fits presented here.</em></p></li>
+<li><p>All fits were performed with a toolset written by Bruce and
+included here in this repository using the XAS analysis
+capabilities of <a href="https://github.com/xraypy/xraylarch/">Larch</a>.
+Along with Larch scripts, I used a mish-mash of python, shell, and
+perl scripts.  See
+<a href="https://github.com/bruceravel/SCFtests/blob/master/use.md">https://github.com/bruceravel/SCFtests/blob/master/use.md</a> for
+details.</p></li>
+<li><p>All uncertainties are 1σ error bars determined from the
+diagonal elements of the covariance matrix evaluated during the
+Levenberg-Marquardt minimizations.</p></li>
+<li><p>The plots shown below for each material were generated using the
+tools in this repository.  You will notice that they appear to be
+highly repetitive.  For each material it is the case that the fits
+using the different theoretical models are nearly
+indistinguishable by eye.  The full complement of fits are shown
+for the sake of completeness.  As you scroll through the plots of
+the fit results, you may be tempted to think that the same image
+has been replicated several times.  I assure you that each plot is
+actual plot made using the actual fit to the different theory
+models!</p></li>
+<li><p>The very astute Feff user might point out that the path indexing
+is not guaranteed to be consistent across versions.  That is, a
+small MS path may barely exceed the heap criterion in one version
+of Feff, but not in another.  That would change the indexing for
+all paths with longer half-path-lengths, thus confounding the use
+of single Larch fitting script with the different version of the
+theory.  To avoid this problem, the pathfinder in <em>Feff6</em> was run,
+generating
+<a href="http://leonardo.phys.washington.edu/feff/wiki/static/f/e/f/FEFF_Program_control_1397.html">a <code>paths.dat</code> file</a>.
+This <code>paths.dat</code> was then copied into the folders where the
+various <a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a>
+calculations were run.  The pathfinder was then skipped in each of
+the <em>Feff8</em> runs.  This guaranteed that each theory calculation
+generated the same list of <code>feffNNNN.dat</code> files with the same
+indexing.</p></li>
+<li><p>For each material, a table of charge transfer and threshold
+energies is presented.  This is information gleaned from <em>Feff8</em>'s
+screen messages and <em>Feff6</em>'s standard header.  The charge
+transfer values are the final charge transferred for each unique
+potential as reported in the final round of the self-consistency
+loop.  The threshold energy μ is reported for each
+self-consistency radius as well as for <em>Feff8</em> without
+self-consistency and for <em>Feff6</em>.  This table is included ion
+hopes that it will help make sense of the fitted values for E0.</p></li>
+</ol>
+
+<hr>
+
+<h1>
+<a id="copper" class="anchor" href="#copper" aria-hidden="true"><span class="octicon octicon-link"></span></a>Copper</h1>
+
+<p>The data is the canonical copper foil spectrum of
+<a href="https://github.com/XraySpectroscopy/XAS-Data-Interchange/issues/29">Newville, et al. fame</a>. The
+fitting model is very simple. There is an S0² parameter (<code>amp</code>),
+an energy shift for all paths (<code>enot</code>), and a volumetric lattice
+expansion coefficient (<code>alpha</code>). The σ² values for all paths
+were computed using the correlated Debye model and a temperature of
+10K, except for the first shell, which has its own σ²
+variable (<code>ss1</code>).</p>
+
+<p>The fit included 4 coordination shells, which includes several
+co-linear multiple scattering paths of the same distance as the fourth
+shell single scattering path.</p>
+
+<p><code>amp</code> and <code>alpha</code> are unitless. <code>enot</code> is eV, <code>ss1</code> is Å², and
+<code>thetad</code> is K.</p>
+
+<h2>
+<a id="best-fit-values" class="anchor" href="#best-fit-values" aria-hidden="true"><span class="octicon octicon-link"></span></a>Best fit values</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="left">alpha</th>
+<th align="left">amp</th>
+<th align="left">enot</th>
+<th align="left">ss1</th>
+<th align="left">thetad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="left">-0.00074(92)</td>
+<td align="left">0.96(4)</td>
+<td align="left">4.97(49)</td>
+<td align="left">0.00382(33)</td>
+<td align="left">253(22)</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="left">-0.00046(90)</td>
+<td align="left">0.95(4)</td>
+<td align="left">5.71(48)</td>
+<td align="left">0.00400(33)</td>
+<td align="left">239(19)</td>
+</tr>
+<tr>
+<td align="left">withSCF(3)</td>
+<td align="left">-0.00077(104)</td>
+<td align="left">0.94(5)</td>
+<td align="left">3.45(56)</td>
+<td align="left">0.00402(38)</td>
+<td align="left">241(22)</td>
+</tr>
+<tr>
+<td align="left">withSCF(4)</td>
+<td align="left">-0.00076(104)</td>
+<td align="left">0.94(5)</td>
+<td align="left">3.54(56)</td>
+<td align="left">0.00402(38)</td>
+<td align="left">242(22)</td>
+</tr>
+<tr>
+<td align="left">withSCF(5)</td>
+<td align="left">-0.00077(104)</td>
+<td align="left">0.94(5)</td>
+<td align="left">3.40(56)</td>
+<td align="left">0.00402(38)</td>
+<td align="left">241(22)</td>
+</tr>
+<tr>
+<td align="left">withSCF(5.5)</td>
+<td align="left">-0.00077(105)</td>
+<td align="left">0.94(5)</td>
+<td align="left">3.41(56)</td>
+<td align="left">0.00402(38)</td>
+<td align="left">241(22)</td>
+</tr>
+<tr>
+<td align="left">withSCF(6)</td>
+<td align="left">-0.00076(104)</td>
+<td align="left">0.94(5)</td>
+<td align="left">3.46(56)</td>
+<td align="left">0.00402(38)</td>
+<td align="left">241(22)</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="statistics" class="anchor" href="#statistics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Statistics</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="right">χ²</th>
+<th align="right">reduced χ²</th>
+<th align="right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="right">1444.2957</td>
+<td align="right">54.3832</td>
+<td align="right">0.0145</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="right">1414.0154</td>
+<td align="right">53.2430</td>
+<td align="right">0.0142</td>
+</tr>
+<tr>
+<td align="left">withSCF(3)</td>
+<td align="right">1820.7826</td>
+<td align="right">68.5594</td>
+<td align="right">0.0182</td>
+</tr>
+<tr>
+<td align="left">withSCF(4)</td>
+<td align="right">1814.3186</td>
+<td align="right">68.3160</td>
+<td align="right">0.0182</td>
+</tr>
+<tr>
+<td align="left">withSCF(5)</td>
+<td align="right">1816.7825</td>
+<td align="right">68.4088</td>
+<td align="right">0.0182</td>
+</tr>
+<tr>
+<td align="left">withSCF(5.5)</td>
+<td align="right">1823.5990</td>
+<td align="right">68.6654</td>
+<td align="right">0.0183</td>
+</tr>
+<tr>
+<td align="left">withSCF(6)</td>
+<td align="right">1819.3955</td>
+<td align="right">68.5071</td>
+<td align="right">0.0182</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="charge-transfer-and-threshold-energy" class="anchor" href="#charge-transfer-and-threshold-energy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Charge transfer and threshold energy</h2>
+
+<table>
+<thead>
+<tr>
+<th>ip</th>
+<th>R=3</th>
+<th>R=4</th>
+<th>R=5</th>
+<th>R=5.5</th>
+<th>R=6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>-0.527</td>
+<td>-0.524</td>
+<td>-0.512</td>
+<td>-0.523</td>
+<td>-0.516</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0.005</td>
+<td>0.005</td>
+<td>0.005</td>
+<td>0.005</td>
+<td>0.005</td>
+</tr>
+<tr>
+<td>μ</td>
+<td>-8.091</td>
+<td>-7.964</td>
+<td>-8.104</td>
+<td>-8.124</td>
+<td>-8.056</td>
+</tr>
+</tbody>
+</table>
+
+<p>Starting value for μ in feff8 = -3.820</p>
+
+<p>Value for μ in feff6 = -5.519</p>
+
+<h2>
+<a id="fits" class="anchor" href="#fits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fits</h2>
+
+<table>
+<thead>
+<tr>
+<th>feff6</th>
+<th>no SCF</th>
+<th>SCF, R=3</th>
+<th>SCF, R=4</th>
+<th>SCF, R=5</th>
+<th>SCF, R=5.5</th>
+<th>SCF, R=6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_feff6.png" alt="fit with feff6"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_noSCF.png" alt="fit with feff8 no SCF"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_3.png" alt="fit with feff8, SCF, R=3"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_4.png" alt="fit with feff8, SCF, R=4"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_5.png" alt="fit with feff8, SCF, R=5"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_5.5.png" alt="fit with feff8, SCF, R=5.5"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/Copper/scf/fit_withSCF_6.png" alt="fit with feff8, SCF, R=6"></td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="discussion" class="anchor" href="#discussion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discussion</h2>
+
+<p>I start with copper because, well,
+<a href="http://www.theatlantic.com/technology/archive/2013/11/english-has-a-new-preposition-because-internet/281601/">because</a>
+copper.  All discussions of XAS theory start with copper.  It's
+tradition!</p>
+
+<p>In fact, I expect copper to be a null result.  There is no reason to
+expect that charge transfer and self-consistency would have much effect
+on a monoatomic material.  That expectation is borne out.</p>
+
+<p>The fitting parameters are constant well within their uncertainties
+and across all theory models.  The statistical parameters also do not
+change much across the models.  Amusingly, reduced χ² and
+R-factor are a bit smaller <em>without</em> the use of self-consistency.</p>
+
+<hr>
+
+<h1>
+<a id="nio" class="anchor" href="#nio" aria-hidden="true"><span class="octicon octicon-link"></span></a>NiO</h1>
+
+<p>The sample was NiO powder prepared by my colleague Neil Hyatt
+(University of Sheffield) and checked by him for phase purity. The
+powder was mixed with polyethylene glycol and pressed into a pellet to
+make a edge step of 0.78. The data were measured by Bruce at NSLS
+beamline X23A2 and will be appearing in an upcoming article in Journal
+of Synchrotron Radiation. The simple fitting model to this rock salt
+structure included a S0² parameter (<code>amp</code>), an energy shift
+(<code>enot</code>), and a volumetric lattice expansion coefficient (<code>alpha</code>).</p>
+
+<p>The fit included 4 coordination shells, 2 with O and 2 with Ni. There
+are several co-linear multiple scattering paths at the same distance
+as the fourth shell Ni scatterer. Each shell has its own σ²
+parameter (<code>sso</code>, <code>ssni</code>, <code>sso2</code>, and <code>ssni2</code>, respectively.).</p>
+
+<p><code>amp</code> and <code>alpha</code> are unitless. <code>enot</code> is eV. <code>sso</code>, <code>ssni</code>, <code>sso2</code>,
+and <code>ssni2</code> are Å².</p>
+
+<h2>
+<a id="best-fit-values-1" class="anchor" href="#best-fit-values-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Best fit values</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="left">alpha</th>
+<th align="left">amp</th>
+<th align="left">enot</th>
+<th align="left">ssni</th>
+<th align="left">ssni2</th>
+<th align="left">sso</th>
+<th align="left">sso2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="left">0.00062(146)</td>
+<td align="left">0.71(5)</td>
+<td align="left">-1.22(54)</td>
+<td align="left">0.00546(56)</td>
+<td align="left">0.00714(95)</td>
+<td align="left">0.00437(120)</td>
+<td align="left">0.04205(3218)</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="left">0.00050(152)</td>
+<td align="left">0.68(5)</td>
+<td align="left">2.49(56)</td>
+<td align="left">0.00534(58)</td>
+<td align="left">0.00715(101)</td>
+<td align="left">0.00468(131)</td>
+<td align="left">0.03946(2918)</td>
+</tr>
+<tr>
+<td align="left">withSCF(2.5)</td>
+<td align="left">-0.00021(148)</td>
+<td align="left">0.71(4)</td>
+<td align="left">-7.34(54)</td>
+<td align="left">0.00554(56)</td>
+<td align="left">0.00726(97)</td>
+<td align="left">0.00468(123)</td>
+<td align="left">0.03146(2038)</td>
+</tr>
+<tr>
+<td align="left">withSCF(3)</td>
+<td align="left">-0.00073(145)</td>
+<td align="left">0.71(4)</td>
+<td align="left">-7.95(53)</td>
+<td align="left">0.00555(55)</td>
+<td align="left">0.00715(95)</td>
+<td align="left">0.00456(119)</td>
+<td align="left">0.03368(2237)</td>
+</tr>
+<tr>
+<td align="left">withSCF(3.7)</td>
+<td align="left">-0.00068(145)</td>
+<td align="left">0.71(4)</td>
+<td align="left">-7.94(53)</td>
+<td align="left">0.00555(55)</td>
+<td align="left">0.00716(95)</td>
+<td align="left">0.00457(119)</td>
+<td align="left">0.03344(2213)</td>
+</tr>
+<tr>
+<td align="left">withSCF(4.2)</td>
+<td align="left">-0.00010(149)</td>
+<td align="left">0.71(4)</td>
+<td align="left">-7.29(55)</td>
+<td align="left">0.00554(56)</td>
+<td align="left">0.00727(98)</td>
+<td align="left">0.00470(124)</td>
+<td align="left">0.03099(1996)</td>
+</tr>
+<tr>
+<td align="left">withSCF(4.7)</td>
+<td align="left">-0.00023(148)</td>
+<td align="left">0.71(4)</td>
+<td align="left">-7.31(54)</td>
+<td align="left">0.00554(56)</td>
+<td align="left">0.00725(97)</td>
+<td align="left">0.00466(123)</td>
+<td align="left">0.03167(2060)</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="statistics-1" class="anchor" href="#statistics-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Statistics</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="right">χ²</th>
+<th align="right">reduced χ²</th>
+<th align="right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="right">27430.3658</td>
+<td align="right">1347.4609</td>
+<td align="right">0.0215</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="right">29860.6446</td>
+<td align="right">1466.8434</td>
+<td align="right">0.0234</td>
+</tr>
+<tr>
+<td align="left">withSCF(2.5)</td>
+<td align="right">28069.2786</td>
+<td align="right">1378.8462</td>
+<td align="right">0.0220</td>
+</tr>
+<tr>
+<td align="left">withSCF(3)</td>
+<td align="right">26875.8980</td>
+<td align="right">1320.2238</td>
+<td align="right">0.0211</td>
+</tr>
+<tr>
+<td align="left">withSCF(3.7)</td>
+<td align="right">26950.4623</td>
+<td align="right">1323.8866</td>
+<td align="right">0.0211</td>
+</tr>
+<tr>
+<td align="left">withSCF(4.2)</td>
+<td align="right">28301.4677</td>
+<td align="right">1390.2520</td>
+<td align="right">0.0222</td>
+</tr>
+<tr>
+<td align="left">withSCF(4.7)</td>
+<td align="right">28050.1096</td>
+<td align="right">1377.9046</td>
+<td align="right">0.0220</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="charge-transfer-and-threshold-energy-1" class="anchor" href="#charge-transfer-and-threshold-energy-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Charge transfer and threshold energy</h2>
+
+<table>
+<thead>
+<tr>
+<th>ip</th>
+<th>R=2.5</th>
+<th>R=3</th>
+<th>R=3.7</th>
+<th>R=4.2</th>
+<th>R=4.7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0.084</td>
+<td>0.150</td>
+<td>0.145</td>
+<td>0.092</td>
+<td>0.080</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0.090</td>
+<td>0.177</td>
+<td>0.171</td>
+<td>0.092</td>
+<td>0.104</td>
+</tr>
+<tr>
+<td>2</td>
+<td>-0.091</td>
+<td>-0.179</td>
+<td>-0.172</td>
+<td>-0.093</td>
+<td>-0.105</td>
+</tr>
+<tr>
+<td>μ</td>
+<td>-12.012</td>
+<td>-12.768</td>
+<td>-12.749</td>
+<td>-11.952</td>
+<td>-11.973</td>
+</tr>
+</tbody>
+</table>
+
+<p>Starting value for μ in feff8 = -3.100</p>
+
+<p>Value for μ in feff6 = -3.478</p>
+
+<h2>
+<a id="fits-1" class="anchor" href="#fits-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fits</h2>
+
+<table>
+<thead>
+<tr>
+<th>feff6</th>
+<th>no SCF</th>
+<th>SCF, R=2.5</th>
+<th>SCF, R=3</th>
+<th>SCF, R=3.7</th>
+<th>SCF, R=4.2</th>
+<th>SCF, R=4.7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_feff6.png" alt="fit with feff6"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_noSCF.png" alt="fit with feff8 no SCF"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_2.5.png" alt="fit with feff8, SCF, R=2.5"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_3.png" alt="fit with feff8, SCF, R=3"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_3.7.png" alt="fit with feff8, SCF, R=3.7"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_4.2.png" alt="fit with feff8, SCF, R=4.2"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/NiO/scf/fit_withSCF_4.7.png" alt="fit with feff8, SCF, R=4.7"></td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="discussion-1" class="anchor" href="#discussion-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discussion</h2>
+
+<p>NiO was chosen as the second example because it constitutes the
+smallest added complexity compared to copper.  NiO is a rock salt
+structure, so it is highly ordered and the local configuration around
+the Ni atom is very well known.  With an oxygen ligand, there should
+be some charge transfer.</p>
+
+<p>With the exception of the E0 parameter, all of the parameters are
+constant well within their error bars.  The statistical parameters are
+unchanged from model to model.</p>
+
+<p>This is the first example of dependence of the E0 parameter on
+theoretical model.  The ultimate value of Feff's threshold energy
+depends on the model.  The starting condition is not the same in
+<em>Feff6</em> as in <em>Feff8</em> without self-consistency.  This is seen by
+the 3.3 eV shift in fitted E0 value.  Furthermore, the threshold
+changes as charge is transferred and self-consistency is reached.
+This results in a -6 eV shift relative to <em>Feff6</em>.</p>
+
+<p>My standard explanation of the E0 fitting parameter when I am teaching
+EXAFS is that it is the parameter that lines up the zero of wavenumber
+in the data with the zero of wavenumber in the theory.  As such, it is
+hard to say that one of these E0 results is “better” than
+the others.</p>
+
+<p>One might hope that improvements in theory would lead to a fitted E0
+parameter of 0 when the edge is chosen at the inflection point of the
+rising edge of the XAS data.  While that might be true, we're not
+there yet with <em>Feff8</em>.  See <a href="#conclusion">the conclusion</a> for more
+discussion.</p>
+
+<hr>
+
+<h1>
+<a id="fes2" class="anchor" href="#fes2" aria-hidden="true"><span class="octicon octicon-link"></span></a>FeS2</h1>
+
+<p>This is one of
+<a href="https://github.com/bruceravel/XAS-Education/tree/master/Examples/FeS2">my standard teaching examples</a>.
+It’s good for teaching as it is fairly simple – it’s cubic – but it
+has a bit of structure and two kinds of scatterers. The data are taken
+from
+<a href="http://cars.uchicago.edu/%7Enewville/ModelLib/search.html">Matt’s online collection of references</a>.</p>
+
+<p>The model includes a S0² parameter (<code>amp</code>), an energy shift (<code>enot</code>),
+and a volumetric lattice expansion coefficient (<code>alpha</code>). The first
+and second shell S scatterers each get a σ² parameter (<code>ss</code> and
+<code>ss2</code>). The third shell of S atoms only contains 2 scatterers. In
+practice, floating its σ² parameter independently does not
+yield a statistical improvement to the fit, so the <code>ss2</code> parameter is
+used for the third shell σ². Finally a σ² parameter is
+floated for the Fe shell.</p>
+
+<p>The fitting model includes a variety of multiple scattering paths,
+including a triangle between the first shell S and the fourth shell
+Fe, and four paths that bounce around among first shell S atoms.</p>
+
+<p><code>amp</code> and <code>alpha</code> are unitless. <code>enot</code> is eV. <code>ss</code>, <code>ss2</code>, and <code>ssfe</code>
+are Å².</p>
+
+<h2>
+<a id="best-fit-values-2" class="anchor" href="#best-fit-values-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Best fit values</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="left">alpha</th>
+<th align="left">amp</th>
+<th align="left">enot</th>
+<th align="left">ss</th>
+<th align="left">ss2</th>
+<th align="left">ssfe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="left">0.00092(126)</td>
+<td align="left">0.69(2)</td>
+<td align="left">2.77(42)</td>
+<td align="left">0.00296(41)</td>
+<td align="left">0.00366(106)</td>
+<td align="left">0.00484(50)</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="left">0.00183(171)</td>
+<td align="left">0.65(3)</td>
+<td align="left">7.01(57)</td>
+<td align="left">0.00294(57)</td>
+<td align="left">0.00386(151)</td>
+<td align="left">0.00471(68)</td>
+</tr>
+<tr>
+<td align="left">withSCF(3)</td>
+<td align="left">0.00219(191)</td>
+<td align="left">0.68(3)</td>
+<td align="left">-2.01(63)</td>
+<td align="left">0.00311(63)</td>
+<td align="left">0.00422(172)</td>
+<td align="left">0.00495(77)</td>
+</tr>
+<tr>
+<td align="left">withSCF(3.6)</td>
+<td align="left">0.00212(188)</td>
+<td align="left">0.68(3)</td>
+<td align="left">-2.15(62)</td>
+<td align="left">0.00311(62)</td>
+<td align="left">0.00423(170)</td>
+<td align="left">0.00495(76)</td>
+</tr>
+<tr>
+<td align="left">withSCF(4)</td>
+<td align="left">0.00212(191)</td>
+<td align="left">0.68(3)</td>
+<td align="left">-2.17(63)</td>
+<td align="left">0.00311(63)</td>
+<td align="left">0.00423(172)</td>
+<td align="left">0.00494(77)</td>
+</tr>
+<tr>
+<td align="left">withSCF(5.3)</td>
+<td align="left">0.00216(194)</td>
+<td align="left">0.68(4)</td>
+<td align="left">-1.92(64)</td>
+<td align="left">0.00310(64)</td>
+<td align="left">0.00421(175)</td>
+<td align="left">0.00493(78)</td>
+</tr>
+<tr>
+<td align="left">withSCF(5.5)</td>
+<td align="left">0.00216(194)</td>
+<td align="left">0.68(4)</td>
+<td align="left">-1.88(64)</td>
+<td align="left">0.00310(64)</td>
+<td align="left">0.00421(175)</td>
+<td align="left">0.00493(78)</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="statistics-2" class="anchor" href="#statistics-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Statistics</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="right">χ²</th>
+<th align="right">reduced χ²</th>
+<th align="right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="right">2052.3016</td>
+<td align="right">146.4407</td>
+<td align="right">0.0064</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="right">3783.2180</td>
+<td align="right">269.9491</td>
+<td align="right">0.0119</td>
+</tr>
+<tr>
+<td align="left">withSCF(3)</td>
+<td align="right">4639.2799</td>
+<td align="right">331.0329</td>
+<td align="right">0.0146</td>
+</tr>
+<tr>
+<td align="left">withSCF(3.6)</td>
+<td align="right">4502.7226</td>
+<td align="right">321.2889</td>
+<td align="right">0.0141</td>
+</tr>
+<tr>
+<td align="left">withSCF(4)</td>
+<td align="right">4634.9046</td>
+<td align="right">330.7207</td>
+<td align="right">0.0145</td>
+</tr>
+<tr>
+<td align="left">withSCF(5.3)</td>
+<td align="right">4778.2793</td>
+<td align="right">340.9511</td>
+<td align="right">0.0150</td>
+</tr>
+<tr>
+<td align="left">withSCF(5.5)</td>
+<td align="right">4798.0987</td>
+<td align="right">342.3653</td>
+<td align="right">0.0151</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="charge-transfer-and-threshold-energy-2" class="anchor" href="#charge-transfer-and-threshold-energy-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Charge transfer and threshold energy</h2>
+
+<table>
+<thead>
+<tr>
+<th>ip</th>
+<th>R=3</th>
+<th>R=3.6</th>
+<th>R=4</th>
+<th>R=5.3</th>
+<th>R=5.5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>-0.332</td>
+<td>-0.346</td>
+<td>-0.359</td>
+<td>-0.378</td>
+<td>-0.376</td>
+</tr>
+<tr>
+<td>1</td>
+<td>-0.325</td>
+<td>-0.346</td>
+<td>-0.380</td>
+<td>-0.396</td>
+<td>-0.397</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.164</td>
+<td>0.175</td>
+<td>0.192</td>
+<td>0.200</td>
+<td>0.201</td>
+</tr>
+<tr>
+<td>μ</td>
+<td>-9.464</td>
+<td>-9.555</td>
+<td>-9.671</td>
+<td>-9.488</td>
+<td>-9.465</td>
+</tr>
+</tbody>
+</table>
+
+<p>Starting value for μ in feff8 = -0.796</p>
+
+<p>Value for μ in feff6 = -4.308</p>
+
+<h2>
+<a id="fits-2" class="anchor" href="#fits-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fits</h2>
+
+<table>
+<thead>
+<tr>
+<th>feff6</th>
+<th>no SCF</th>
+<th>SCF, R=3</th>
+<th>SCF, R=3.6</th>
+<th>SCF, R=4</th>
+<th>SCF, R=5.3</th>
+<th>SCF, R=5.5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_feff6.png" alt="fit with feff6"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_noSCF.png" alt="fit with feff8 no SCF"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_withSCF_3.png" alt="fit with feff8, SCF, R=3"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_withSCF_3.6.png" alt="fit with feff8, SCF, R=3.6"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_withSCF_4.png" alt="fit with feff8, SCF, R=4"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_withSCF_5.3.png" alt="fit with feff8, SCF, R=5.3"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/FeS2/scf/fit_withSCF_5.5.png" alt="fit with feff8, SCF, R=5.5"></td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="discussion-2" class="anchor" href="#discussion-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discussion</h2>
+
+<p>This is just slightly more complex than NiO.  It is diatomic, but with
+a slightly less orderly structure than NiO.  Again, all parameters
+except for E0 are consistent within uncertainty, although the α
+parameter does show some correlation with E0.  All other parameters
+are essentially unchanged.</p>
+
+<p>The E0 parameter, with self-consistency, is equally far from 0 as for
+<em>Feff6</em>, although with a sign change.</p>
+
+<p>There are a small handful of small MS paths with half-path-lengths
+within the fitting range but which are not included in this fit.  This
+may account for the increase in reduced χ² and R-factor
+between <em>Feff6</em> and <em>Feff8</em>.</p>
+
+<hr>
+
+<h1>
+<a id="uo2" class="anchor" href="#uo2" aria-hidden="true"><span class="octicon octicon-link"></span></a>UO2</h1>
+
+<p><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/UO2.png" alt="Uraninite"></p>
+
+<p>The data are the UO2 shown in Shelly’s paper on <em>Reduction of
+Uranium(VI) by Mixed Iron(II)/Iron(III) Hydroxide (Green Rust): 
+Formation of UO2 Nanoparticles</em>:
+<a href="http://dx.doi.org/10.1021/es0208409"><code>http://dx.doi.org/10.1021/es0208409</code></a></p>
+
+<p>This is an interesting test as it is an f-electron system.</p>
+
+<p>The fitting model follows rather closely to what is described in that
+paper, particularly the content of Table 2, although I allow S0² to
+float (<code>amp</code>). Along with an energy shift (<code>enot</code>), a ΔR and
+σ² for the first shell O (<code>dro</code> and <code>sso</code>), a ΔR and
+σ² for the second shell U (<code>dru</code> and <code>ssu</code>), and a ΔR and
+σ² for the third shell O (<code>dro2</code> and <code>sso2</code>), there is a
+parameter for the number of U scatterers (<code>nu</code>).</p>
+
+<p>The model includes the same 6 paths given in Table 2 of Shelly’s
+paper.</p>
+
+<p><code>amp</code> is unitless. <code>enot</code> is eV. <code>dro</code>, <code>dru</code>, and <code>dro2</code> are
+Å. <code>sso</code>, <code>ssu</code>, and <code>sso2</code> are Å2.</p>
+
+<h2>
+<a id="best-fit-values-3" class="anchor" href="#best-fit-values-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Best fit values</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="left">amp</th>
+<th align="left">dro</th>
+<th align="left">dro2</th>
+<th align="left">dru</th>
+<th align="left">enot</th>
+<th align="left">nu</th>
+<th align="left">sso</th>
+<th align="left">sso2</th>
+<th align="left">ssu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="left">0.87(11)</td>
+<td align="left">-0.022(14)</td>
+<td align="left">-0.055(24)</td>
+<td align="left">0.005(11)</td>
+<td align="left">4.87(136)</td>
+<td align="left">11.43(481)</td>
+<td align="left">0.00939(213)</td>
+<td align="left">0.01060(440)</td>
+<td align="left">0.00488(247)</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="left">0.84(11)</td>
+<td align="left">-0.023(15)</td>
+<td align="left">-0.024(32)</td>
+<td align="left">0.001(12)</td>
+<td align="left">8.15(146)</td>
+<td align="left">9.27(416)</td>
+<td align="left">0.00872(221)</td>
+<td align="left">0.01061(618)</td>
+<td align="left">0.00382(273)</td>
+</tr>
+<tr>
+<td align="left">withSCF(3)</td>
+<td align="left">0.84(10)</td>
+<td align="left">-0.026(13)</td>
+<td align="left">-0.013(28)</td>
+<td align="left">-0.002(11)</td>
+<td align="left">1.63(129)</td>
+<td align="left">9.21(376)</td>
+<td align="left">0.00894(209)</td>
+<td align="left">0.00976(511)</td>
+<td align="left">0.00393(250)</td>
+</tr>
+<tr>
+<td align="left">withSCF(4)</td>
+<td align="left">0.84(10)</td>
+<td align="left">-0.026(13)</td>
+<td align="left">-0.013(29)</td>
+<td align="left">-0.003(11)</td>
+<td align="left">2.08(130)</td>
+<td align="left">9.16(373)</td>
+<td align="left">0.00892(209)</td>
+<td align="left">0.00972(513)</td>
+<td align="left">0.00389(250)</td>
+</tr>
+<tr>
+<td align="left">withSCF(5)</td>
+<td align="left">0.84(10)</td>
+<td align="left">-0.026(13)</td>
+<td align="left">-0.012(28)</td>
+<td align="left">-0.003(11)</td>
+<td align="left">1.72(129)</td>
+<td align="left">9.18(373)</td>
+<td align="left">0.00893(208)</td>
+<td align="left">0.00969(508)</td>
+<td align="left">0.00391(249)</td>
+</tr>
+<tr>
+<td align="left">withSCF(5.5)</td>
+<td align="left">0.84(10)</td>
+<td align="left">-0.026(13)</td>
+<td align="left">-0.012(28)</td>
+<td align="left">-0.003(11)</td>
+<td align="left">1.62(129)</td>
+<td align="left">9.17(372)</td>
+<td align="left">0.00894(208)</td>
+<td align="left">0.00970(509)</td>
+<td align="left">0.00391(249)</td>
+</tr>
+<tr>
+<td align="left">withSCF(6)</td>
+<td align="left">0.84(10)</td>
+<td align="left">-0.026(13)</td>
+<td align="left">-0.012(29)</td>
+<td align="left">-0.003(11)</td>
+<td align="left">1.71(129)</td>
+<td align="left">9.16(372)</td>
+<td align="left">0.00893(208)</td>
+<td align="left">0.00971(510)</td>
+<td align="left">0.00390(249)</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="statistics-3" class="anchor" href="#statistics-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Statistics</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="right">χ²</th>
+<th align="right">reduced χ²</th>
+<th align="right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="right">166.2736</td>
+<td align="right">22.0712</td>
+<td align="right">0.0160</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="right">188.4320</td>
+<td align="right">25.0125</td>
+<td align="right">0.0181</td>
+</tr>
+<tr>
+<td align="left">withSCF(3)</td>
+<td align="right">169.5918</td>
+<td align="right">22.5116</td>
+<td align="right">0.0163</td>
+</tr>
+<tr>
+<td align="left">withSCF(4)</td>
+<td align="right">169.9560</td>
+<td align="right">22.5600</td>
+<td align="right">0.0163</td>
+</tr>
+<tr>
+<td align="left">withSCF(5)</td>
+<td align="right">169.1192</td>
+<td align="right">22.4489</td>
+<td align="right">0.0163</td>
+</tr>
+<tr>
+<td align="left">withSCF(5.5)</td>
+<td align="right">169.1306</td>
+<td align="right">22.4504</td>
+<td align="right">0.0163</td>
+</tr>
+<tr>
+<td align="left">withSCF(6)</td>
+<td align="right">169.2412</td>
+<td align="right">22.4651</td>
+<td align="right">0.0163</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="charge-transfer-and-threshold-energy-3" class="anchor" href="#charge-transfer-and-threshold-energy-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Charge transfer and threshold energy</h2>
+
+<table>
+<thead>
+<tr>
+<th>ip</th>
+<th>R=3</th>
+<th>R=4</th>
+<th>R=5</th>
+<th>R=5.5</th>
+<th>R=6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1.122</td>
+<td>1.146</td>
+<td>1.180</td>
+<td>1.189</td>
+<td>1.191</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0.715</td>
+<td>0.726</td>
+<td>0.740</td>
+<td>0.745</td>
+<td>0.741</td>
+</tr>
+<tr>
+<td>2</td>
+<td>-0.363</td>
+<td>-0.369</td>
+<td>-0.376</td>
+<td>-0.379</td>
+<td>-0.377</td>
+</tr>
+<tr>
+<td>μ</td>
+<td>-8.541</td>
+<td>-8.114</td>
+<td>-8.522</td>
+<td>-8.624</td>
+<td>-8.542</td>
+</tr>
+</tbody>
+</table>
+
+<p>Starting value for μ in feff8 = -0.640</p>
+
+<p>Value for μ in feff6 = -6.058</p>
+
+<h2>
+<a id="fits-3" class="anchor" href="#fits-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fits</h2>
+
+<table>
+<thead>
+<tr>
+<th>feff6</th>
+<th>no SCF</th>
+<th>SCF, R=3</th>
+<th>SCF, R=4</th>
+<th>SCF, R=5</th>
+<th>SCF, R=5.5</th>
+<th>SCF, R=6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fit_feff6.png" alt="fit with feff6"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fit_noSCF.png" alt="fit with feff8 no SCF"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fit_withSCF_3.png" alt="fit with feff8, SCF, R=3"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fitUO2/scf/fit_withSCF_4.png" alt="fit with feff8, SCF, R=4"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fit_withSCF_5.png" alt="fit with feff8, SCF, R=5"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fit_withSCF_5.5.png" alt="fit with feff8, SCF, R=5.5"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/UO2/scf/fit_withSCF_6.png" alt="fit with feff8, SCF, R=6"></td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="discussion-3" class="anchor" href="#discussion-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discussion</h2>
+
+<p>The first thing to notice about UO2 is that the statistical parameters
+of the fit are completely unchanged between theory models.</p>
+
+<p>This E0 parameter is the first one that behaves in the expected way
+– with self-consistency and charge transfer, the fitted E0 ends
+up closer to 0.  Perhaps this is a hint that self-consistency is
+important for f-electron systems.</p>
+
+<p>All of the other fitting parameters are unchanged within their
+uncertainties.  One parameter merits a bit more discussion.  In the
+paper cited above, the fitted value of <code>nu</code>, i.e. the partial
+occupancy of the U atom in the second scattering shell, is used to say
+something about the size of the uraninite nanoparticles generated by
+the reduction process.  While the fitted value of <code>nu</code> does not change
+outside of its very large uncertainty, it does change substantively.
+This would likely effect the interpretation of the fitting results in
+the context of the reduction process.</p>
+
+<hr>
+
+<h1>
+<a id="bazro3" class="anchor" href="#bazro3" aria-hidden="true"><span class="octicon octicon-link"></span></a>BaZrO3</h1>
+
+<p><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/perovskite.png" alt="The perovskite structure."></p>
+
+<p>In a short paper on the Zr edge of BaZrO3,
+<a href="http://dx.doi.org/10.1016/0921-4526(94)00654-E"><code>http://dx.doi.org/10.1016/0921-4526(94)00654-E</code></a>,
+Haskel et al.  proposed that shortcomings of <em>feff</em>’s potential model
+could be accommodated by floating an energy shift parameter for each
+scatterer species. The concept is that doing so approximates the
+effect of errors in the scattering phase shifts.</p>
+
+<p>The data are the same as in that paper, although the fitting model is
+slightly different. Rather than floating ΔR parameters for each
+shell, I used a volumetric expansion coefficient (<code>alpha</code>). Along with
+S0² (<code>amp</code>), there are energy shifts for each scatterer (<code>enot</code>,
+<code>ezr</code>, and <code>eba</code>) and σ² parameters for each scatterer (<code>sso</code>,
+<code>sszr</code>, and <code>ssba</code>. The fourth shell O is included in the fit. It gets
+a σ² (<code>sso2</code>) but uses the energy shift for the O scatterer.</p>
+
+<p>BaZrO3 is a true perovskite. Zr sites in the octahedral B site. A
+variety of co-linear multiple scattering paths at the distance of the
+third shell Zr scatterer are included in the fit. The energy shifts
+are parameterized as described in the paper.</p>
+
+<p><code>amp</code> and <code>alpha</code> are unitless. <code>enot</code>, <code>ezr</code>, and <code>eba</code> are
+eV. <code>sso</code>, <code>sszr</code>, <code>ssba</code>, and <code>sso2</code> are Å².</p>
+
+<h2>
+<a id="best-fit-values-4" class="anchor" href="#best-fit-values-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Best fit values</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="left">alpha</th>
+<th align="left">amp</th>
+<th align="left">eba</th>
+<th align="left">enot</th>
+<th align="left">ezr</th>
+<th align="left">ssba</th>
+<th align="left">sso</th>
+<th align="left">sso2</th>
+<th align="left">sszr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="left">-0.00032(85)</td>
+<td align="left">1.22(7)</td>
+<td align="left">-9.906(567)</td>
+<td align="left">-8.55(57)</td>
+<td align="left">-5.597(1717)</td>
+<td align="left">0.00561(37)</td>
+<td align="left">0.00403(70)</td>
+<td align="left">0.00908(253)</td>
+<td align="left">0.00413(33)</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="left">0.00044(86)</td>
+<td align="left">1.07(6)</td>
+<td align="left">-3.901(589)</td>
+<td align="left">-2.32(58)</td>
+<td align="left">0.946(1886)</td>
+<td align="left">0.00530(38)</td>
+<td align="left">0.00361(70)</td>
+<td align="left">0.00791(242)</td>
+<td align="left">0.00369(34)</td>
+</tr>
+<tr>
+<td align="left">withSCF(3)</td>
+<td align="left">-0.00007(72)</td>
+<td align="left">1.13(5)</td>
+<td align="left">-10.768(469)</td>
+<td align="left">-10.52(47)</td>
+<td align="left">-6.682(1580)</td>
+<td align="left">0.00561(32)</td>
+<td align="left">0.00382(58)</td>
+<td align="left">0.00855(208)</td>
+<td align="left">0.00362(28)</td>
+</tr>
+<tr>
+<td align="left">withSCF(4)</td>
+<td align="left">-0.00007(74)</td>
+<td align="left">1.13(5)</td>
+<td align="left">-11.026(482)</td>
+<td align="left">-10.60(48)</td>
+<td align="left">-6.794(1618)</td>
+<td align="left">0.00559(33)</td>
+<td align="left">0.00380(59)</td>
+<td align="left">0.00850(213)</td>
+<td align="left">0.00362(28)</td>
+</tr>
+<tr>
+<td align="left">withSCF(5)</td>
+<td align="left">-0.00007(73)</td>
+<td align="left">1.13(5)</td>
+<td align="left">-11.094(479)</td>
+<td align="left">-10.81(48)</td>
+<td align="left">-7.057(1604)</td>
+<td align="left">0.00561(33)</td>
+<td align="left">0.00381(59)</td>
+<td align="left">0.00850(211)</td>
+<td align="left">0.00363(28)</td>
+</tr>
+<tr>
+<td align="left">withSCF(5.5)</td>
+<td align="left">-0.00007(73)</td>
+<td align="left">1.13(5)</td>
+<td align="left">-10.950(477)</td>
+<td align="left">-10.77(48)</td>
+<td align="left">-7.050(1594)</td>
+<td align="left">0.00562(33)</td>
+<td align="left">0.00382(59)</td>
+<td align="left">0.00850(210)</td>
+<td align="left">0.00364(28)</td>
+</tr>
+<tr>
+<td align="left">withSCF(6)</td>
+<td align="left">-0.00005(73)</td>
+<td align="left">1.13(5)</td>
+<td align="left">-10.705(474)</td>
+<td align="left">-10.49(48)</td>
+<td align="left">-6.726(1590)</td>
+<td align="left">0.00562(33)</td>
+<td align="left">0.00382(59)</td>
+<td align="left">0.00851(208)</td>
+<td align="left">0.00364(28)</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="statistics-4" class="anchor" href="#statistics-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Statistics</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="right">χ²</th>
+<th align="right">reduced χ²</th>
+<th align="right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="right">8979.2479</td>
+<td align="right">555.6561</td>
+<td align="right">0.0108</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="right">9536.0604</td>
+<td align="right">590.1130</td>
+<td align="right">0.0114</td>
+</tr>
+<tr>
+<td align="left">withSCF(3)</td>
+<td align="right">6579.0004</td>
+<td align="right">407.1234</td>
+<td align="right">0.0079</td>
+</tr>
+<tr>
+<td align="left">withSCF(4)</td>
+<td align="right">6898.9084</td>
+<td align="right">426.9200</td>
+<td align="right">0.0083</td>
+</tr>
+<tr>
+<td align="left">withSCF(5)</td>
+<td align="right">6837.1517</td>
+<td align="right">423.0984</td>
+<td align="right">0.0082</td>
+</tr>
+<tr>
+<td align="left">withSCF(5.5)</td>
+<td align="right">6790.5892</td>
+<td align="right">420.2170</td>
+<td align="right">0.0081</td>
+</tr>
+<tr>
+<td align="left">withSCF(6)</td>
+<td align="right">6690.0972</td>
+<td align="right">413.9983</td>
+<td align="right">0.0080</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="charge-transfer-and-threshold-energy-4" class="anchor" href="#charge-transfer-and-threshold-energy-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Charge transfer and threshold energy</h2>
+
+<table>
+<thead>
+<tr>
+<th>ip</th>
+<th>R=3</th>
+<th>R=4</th>
+<th>R=5</th>
+<th>R=5.5</th>
+<th>R=6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0.250</td>
+<td>0.313</td>
+<td>0.279</td>
+<td>0.244</td>
+<td>0.218</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0.607</td>
+<td>0.546</td>
+<td>0.607</td>
+<td>0.653</td>
+<td>0.628</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.535</td>
+<td>0.561</td>
+<td>0.528</td>
+<td>0.495</td>
+<td>0.494</td>
+</tr>
+<tr>
+<td>3</td>
+<td>-0.381</td>
+<td>-0.370</td>
+<td>-0.379</td>
+<td>-0.383</td>
+<td>-0.375</td>
+</tr>
+<tr>
+<td>μ</td>
+<td>-7.698</td>
+<td>-7.958</td>
+<td>-8.036</td>
+<td>-7.902</td>
+<td>-7.600</td>
+</tr>
+</tbody>
+</table>
+
+<p>Starting value for μ in feff8 = -1.336</p>
+
+<p>Value for μ in feff6 = -6.654</p>
+
+<h2>
+<a id="fits-4" class="anchor" href="#fits-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fits</h2>
+
+<table>
+<thead>
+<tr>
+<th>feff6</th>
+<th>no SCF</th>
+<th>SCF, R=3</th>
+<th>SCF, R=4</th>
+<th>SCF, R=5</th>
+<th>SCF, R=5.5</th>
+<th>SCF, R=6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_feff6.png" alt="fit with feff6"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_noSCF.png" alt="fit with feff8 no SCF"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_withSCF_3.png" alt="fit with feff8, SCF, R=3"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_withSCF_4.png" alt="fit with feff8, SCF, R=4"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_withSCF_5.png" alt="fit with feff8, SCF, R=5"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_withSCF_5.5.png" alt="fit with feff8, SCF, R=5.5"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/BaZrO3/scf/fit_withSCF_6.png" alt="fit with feff8, SCF, R=6"></td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="discussion-4" class="anchor" href="#discussion-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discussion</h2>
+
+<p>In the paper cited above, the authors speculate that inaccuracies in
+Feff's potential model can be accommodated by allowing separate E0
+parameters to float for each kind of scatterer.  In the paper, the
+claim is that the ΔR parameters used to model low temperature
+BaZrO3 data correctly follow the trends seen in high temperature XRD
+data on the same material.</p>
+
+<p>I didn't quite use the same fitting model as in that paper.  Instead
+of a variety of ΔR parameters, I used a single isotropic
+expansion coefficient, α.  With just one data set, the fit using
+many ΔR parameters was not stable.</p>
+
+<p>The hope, in this case, is that self-consistency and charge transfer
+would make all the E0 parameters close to 0 <strong>and</strong> remove the need
+for multiple E0 parameters in the fit.  Neither of those hopes were
+realized.  The E0 parameters in the self-consistent fits were not much
+different from the results of the <em>Feff6</em> fit and none of them ended
+up near 0.</p>
+
+<p>Other fitting parameters were, as in other materials, consistent
+within uncertainties.  In this case, the reduced χ² and
+R-factor were a bit lower with self-consistency with relative
+reductions on the same scale as the increases in FeS2 and NiO.</p>
+
+<hr>
+
+<h1>
+<a id="bromoadamantane" class="anchor" href="#bromoadamantane" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bromoadamantane</h1>
+
+<p><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/bromoadamantane.png" alt=" 1-bromoadamantane"></p>
+
+<p>The data are 1-bromoadamantane. Bromoadamantane is a cycloalkane, meaning
+that it is a hydrocarbon with rings of carbon atoms. It is also a
+diamondoid, meaning that it is a strong, stiff, 3D network of covalent
+bonds. 1-bromoadamantane has one hydrogen atom replaced by a bromine
+atom.</p>
+
+<p>The material was supplied by my colleague Alessandra Leri of Manhattan
+Marymount College in the form of a white powder. This powder was
+spread onto Kapton tape which was folded to make a sample with an edge
+step of about 1.7. The data were measured by Bruce at NSLS beamline
+X23A2.</p>
+
+<p>This is an interesting test case because it is a molecule (thus the
+entire molecule can be included in the self-consistency calculation)
+and because there is measurable scattering from the neighboring
+hydrogen atoms. While the σ² of the hydrogen scatterers is
+not well-determined, the fit is statistically significantly worse when
+the hydrogen scatterers are excluded.</p>
+
+<p>The fit includes the nearest neighbor C, the next three C atoms, and
+the neighboring 6 hydrogen atoms. The DS triangle paths involving the
+first and second neighbor C atoms are also included. The fitting model
+assumes that the adamantane anion is very rigid compared to the Br-C
+bond. Thus, the formula explained in
+<a href="http://dx.doi.org/10.1088/1742-6596/190/1/012026"><code>http://dx.doi.org/10.1088/1742-6596/190/1/012026</code></a>
+is used to constrain the second neighbor C distance to the first
+neighbor C ΔR parameter.</p>
+
+<h2>
+<a id="best-fit-values-5" class="anchor" href="#best-fit-values-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Best fit values</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="left">amp</th>
+<th align="left">delr</th>
+<th align="left">drh</th>
+<th align="left">enot</th>
+<th align="left">ss</th>
+<th align="left">ssh</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="left">1.57(24)</td>
+<td align="left">0.01826(1456)</td>
+<td align="left">0.041(20)</td>
+<td align="left">5.95(181)</td>
+<td align="left">0.00659(183)</td>
+<td align="left">0.00159(266)</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="left">1.24(22)</td>
+<td align="left">0.01682(1608)</td>
+<td align="left">0.079(24)</td>
+<td align="left">12.03(169)</td>
+<td align="left">0.00554(206)</td>
+<td align="left">0.00008(310)</td>
+</tr>
+<tr>
+<td align="left">withSCF(8)</td>
+<td align="left">1.33(20)</td>
+<td align="left">0.01762(1408)</td>
+<td align="left">0.073(25)</td>
+<td align="left">1.54(156)</td>
+<td align="left">0.00560(180)</td>
+<td align="left">0.00143(319)</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="statistics-5" class="anchor" href="#statistics-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Statistics</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="right">χ²</th>
+<th align="right">reduced χ²</th>
+<th align="right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="right">7743.8859</td>
+<td align="right">1493.2531</td>
+<td align="right">0.0207</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="right">10540.8219</td>
+<td align="right">2032.5862</td>
+<td align="right">0.0281</td>
+</tr>
+<tr>
+<td align="left">withSCF(8)</td>
+<td align="right">8632.0582</td>
+<td align="right">1664.5194</td>
+<td align="right">0.0230</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="charge-transfer-and-threshold-energy-5" class="anchor" href="#charge-transfer-and-threshold-energy-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Charge transfer and threshold energy</h2>
+
+<table>
+<thead>
+<tr>
+<th>ip</th>
+<th>R=8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0.468</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0.024</td>
+</tr>
+<tr>
+<td>2</td>
+<td>-0.047</td>
+</tr>
+<tr>
+<td>μ</td>
+<td>-6.087</td>
+</tr>
+</tbody>
+</table>
+
+<p>Starting value for μ in feff8 = 4.480</p>
+
+<p>Value for μ in feff6 = -2.673</p>
+
+<h2>
+<a id="fits-5" class="anchor" href="#fits-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fits</h2>
+
+<table>
+<thead>
+<tr>
+<th>feff6</th>
+<th>no SCF</th>
+<th>SCF, R=8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/scf/fit_feff6.png" alt="fit with feff6"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/scf/fit_noSCF.png" alt="fit with feff8 no SCF"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/bromoadamantane/scf/fit_withSCF_8.png" alt="fit with feff8, SCF, R=8"></td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="discussion-5" class="anchor" href="#discussion-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discussion</h2>
+
+<p>In June 2015, the
+<a href="http://www.mail-archive.com/ifeffit@millenia.cars.aps.anl.gov/msg05040.html">following quote</a>
+appeared on the
+<a href="http://cars9.uchicago.edu/mailman/listinfo/ifeffit/">Ifeffit mailing list</a>:</p>
+
+<pre><code>  There are some demonstrated cases where Feff8 is slightly
+  better than Feff6 at modeling EXAFS. The most notable cases
+  are when H is in the input file -- Feff6 is terrible at this.
+</code></pre>
+
+<p>Bromoadamantane is a case where scattering from H atoms can be seen
+in the EXAFS data.  The statistical parameters are all much smaller
+when the H SS path is included in the fit compared to fits which
+exclude that scattering path.  This is true even though the
+σ² value for the H SS path is ill-determined – its
+uncertainty is such that σ² for H is not positive-definite.
+This is likely because the small mass of the H atom makes its partial
+pair distribution function highly non-Gaussian.  The approximation of
+a simple σ² to model this distribution is not all that
+good.  Despite the ill-defined σ², the ΔR is well
+defined.</p>
+
+<p>The parameters of the first shell C scatterer are quite well defined
+and consistent across theory models.  S0² varies a bit outside
+of its uncertainty, as does ΔR for the H atom.  The statistical
+parameters for the fits with self-consistency and <em>Feff6</em> are
+basically indistinguishable.</p>
+
+<p>The fitting model is clearly inadequate in the region from 2
+Å to 2.5 Å.  The likely cause of this is the fairly rigid
+constrain placed on the parameters of the second shell C scatterer.
+This fitting model should be re-examined by relaxing this constraint.
+Future work!</p>
+
+<p>So, is <em>Feff6</em> “terrible” at handling H scatterers?  The
+answer may be “yes” and may be “no”, but these
+data on bromoadamantane don't suggest that it is any worse than
+<em>Feff8</em>.</p>
+
+<hr>
+
+<h1>
+<a id="uranyl-hydrate" class="anchor" href="#uranyl-hydrate" aria-hidden="true"><span class="octicon octicon-link"></span></a>Uranyl hydrate</h1>
+
+<p><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/uranyl.png" alt="The uranyl motif from sodium uranyl triacetate."></p>
+
+<p>The data are the hydrated uranyl hydrate shown in Shelly’s paper on
+<em>X-ray absorption fine structure determination of pH-dependent
+U-bacterial cell wall interactions</em>,
+<a href="http://dx.doi.org/10.1016/S0016-7037(02)00947-X"><code>http://dx.doi.org/10.1016/S0016-7037(02)00947-X</code></a></p>
+
+<p>This is an interesting test case because it involves very short
+~1.78Å oxygenyl bonds in an f-electron system.</p>
+
+<p>The <code>AFOLP</code> card was used to run <em>feff6</em>. The <code>FOLP</code> card with a value
+of 0.9 for each potential was used to get <em>feff8.5</em> to run to
+completion.</p>
+
+<p>Following the lead of that paper, feff was run on the crystal sodium
+uranyl triacetate. The relevant bit of the structure is shown in the
+figure. For the fitting model, scattering paths related to the axial
+and equatorial O atoms (red balls) are used in the fit. Other paths
+are unused. The parameterization given in Tables 2 and 5 is used in
+this fit.</p>
+
+<p>There is an S0² (<code>amp</code>) and an energy shift (<code>enot</code>). The axial
+and equatorial oxygen atoms each get a ΔR (<code>deloax</code> and
+<code>deloeq</code>) and a σ² (<code>sigoax</code> and <code>sigoeq</code>).</p>
+
+<p><code>amp</code> is unitless. <code>enot</code> is eV. <code>deloax</code> and <code>deloeq</code> are
+Å. <code>sigoax</code> and <code>sigoeq</code> are Å².</p>
+
+<h2>
+<a id="best-fit-values-6" class="anchor" href="#best-fit-values-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Best fit values</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="left">amp</th>
+<th align="left">deloax</th>
+<th align="left">deloeq</th>
+<th align="left">enot</th>
+<th align="left">sigoax</th>
+<th align="left">sigoeq</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="left">0.93(4)</td>
+<td align="left">0.03504(396)</td>
+<td align="left">-0.04278(770)</td>
+<td align="left">10.63(60)</td>
+<td align="left">-0.00007(53)</td>
+<td align="left">0.00726(94)</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="left">1.04(6)</td>
+<td align="left">0.03684(523)</td>
+<td align="left">-0.05319(975)</td>
+<td align="left">11.32(78)</td>
+<td align="left">0.00032(72)</td>
+<td align="left">0.00699(118)</td>
+</tr>
+<tr>
+<td align="left">withSCF(2.5)</td>
+<td align="left">1.08(6)</td>
+<td align="left">0.04165(548)</td>
+<td align="left">-0.04475(972)</td>
+<td align="left">3.45(81)</td>
+<td align="left">0.00074(73)</td>
+<td align="left">0.00692(115)</td>
+</tr>
+<tr>
+<td align="left">withSCF(2.9)</td>
+<td align="left">1.08(6)</td>
+<td align="left">0.04172(547)</td>
+<td align="left">-0.04485(971)</td>
+<td align="left">3.50(81)</td>
+<td align="left">0.00074(73)</td>
+<td align="left">0.00691(115)</td>
+</tr>
+<tr>
+<td align="left">withSCF(4.0)</td>
+<td align="left">1.08(6)</td>
+<td align="left">0.04144(545)</td>
+<td align="left">-0.04455(969)</td>
+<td align="left">3.59(81)</td>
+<td align="left">0.00075(73)</td>
+<td align="left">0.00694(115)</td>
+</tr>
+<tr>
+<td align="left">withSCF(5.2)</td>
+<td align="left">1.08(6)</td>
+<td align="left">0.04154(545)</td>
+<td align="left">-0.04473(967)</td>
+<td align="left">3.66(81)</td>
+<td align="left">0.00074(72)</td>
+<td align="left">0.00693(114)</td>
+</tr>
+<tr>
+<td align="left">withSCF(6.8)</td>
+<td align="left">1.08(6)</td>
+<td align="left">0.04163(545)</td>
+<td align="left">-0.04478(968)</td>
+<td align="left">3.63(81)</td>
+<td align="left">0.00074(72)</td>
+<td align="left">0.00693(114)</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="statistics-6" class="anchor" href="#statistics-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Statistics</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">model</th>
+<th align="right">χ²</th>
+<th align="right">reduced χ²</th>
+<th align="right">R-factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">feff6</td>
+<td align="right">37.6972</td>
+<td align="right">6.0758</td>
+<td align="right">0.0027</td>
+</tr>
+<tr>
+<td align="left">noSCF</td>
+<td align="right">69.0909</td>
+<td align="right">11.1356</td>
+<td align="right">0.0049</td>
+</tr>
+<tr>
+<td align="left">withSCF(2.5)</td>
+<td align="right">71.0295</td>
+<td align="right">11.4480</td>
+<td align="right">0.0050</td>
+</tr>
+<tr>
+<td align="left">withSCF(2.9)</td>
+<td align="right">70.8922</td>
+<td align="right">11.4259</td>
+<td align="right">0.0050</td>
+</tr>
+<tr>
+<td align="left">withSCF(4.0)</td>
+<td align="right">70.4038</td>
+<td align="right">11.3472</td>
+<td align="right">0.0050</td>
+</tr>
+<tr>
+<td align="left">withSCF(5.2)</td>
+<td align="right">70.2351</td>
+<td align="right">11.3200</td>
+<td align="right">0.0050</td>
+</tr>
+<tr>
+<td align="left">withSCF(6.8)</td>
+<td align="right">70.3644</td>
+<td align="right">11.3408</td>
+<td align="right">0.0050</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="charge-transfer-and-threshold-energy-6" class="anchor" href="#charge-transfer-and-threshold-energy-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Charge transfer and threshold energy</h2>
+
+<table>
+<thead>
+<tr>
+<th>ip</th>
+<th>R=2.5</th>
+<th>R=2.9</th>
+<th>R=4.0</th>
+<th>R=5.2</th>
+<th>R=6.8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1.496</td>
+<td>1.487</td>
+<td>1.464</td>
+<td>1.474</td>
+<td>1.467</td>
+</tr>
+<tr>
+<td>1</td>
+<td>-0.590</td>
+<td>-0.582</td>
+<td>-0.620</td>
+<td>-0.639</td>
+<td>-0.633</td>
+</tr>
+<tr>
+<td>2</td>
+<td>-1.585</td>
+<td>-1.600</td>
+<td>-1.527</td>
+<td>-1.542</td>
+<td>-1.546</td>
+</tr>
+<tr>
+<td>3</td>
+<td>-0.325</td>
+<td>-0.329</td>
+<td>-0.292</td>
+<td>-0.303</td>
+<td>-0.310</td>
+</tr>
+<tr>
+<td>4</td>
+<td>-0.160</td>
+<td>-0.154</td>
+<td>-0.173</td>
+<td>-0.168</td>
+<td>-0.168</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0.628</td>
+<td>0.625</td>
+<td>0.626</td>
+<td>0.630</td>
+<td>0.632</td>
+</tr>
+<tr>
+<td>μ</td>
+<td>-2.810</td>
+<td>-2.751</td>
+<td>-2.629</td>
+<td>-2.569</td>
+<td>-2.587</td>
+</tr>
+</tbody>
+</table>
+
+<p>Starting value for μ in feff8 = 6.030</p>
+
+<p>Value for μ in feff6 = -1.961</p>
+
+<h2>
+<a id="fits-6" class="anchor" href="#fits-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fits</h2>
+
+<table>
+<thead>
+<tr>
+<th>feff6</th>
+<th>no SCF</th>
+<th>SCF, R=2.5</th>
+<th>SCF, R=2.9</th>
+<th>SCF, R=4</th>
+<th>SCF, R=5.2</th>
+<th>SCF, R=6.8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_feff6.png" alt="fit with feff6"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_noSCF.png" alt="fit with feff8 no SCF"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_2.5.png" alt="fit with feff8, SCF, R=2.5"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_2.9.png" alt="fit with feff8, SCF, R=2.9"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_4.png" alt="fit with feff8, SCF, R=4"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_5.2.png" alt="fit with feff8, SCF, R=5.2"></td>
+<td><img src="https://raw.githubusercontent.com/bruceravel/SCFtests/master/uranyl/scf/fit_withSCF_6.8.png" alt="fit with feff8, SCF, R=6.8"></td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="discussion-6" class="anchor" href="#discussion-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discussion</h2>
+
+<p>The most interesting part of this fit is the extremely short, double
+bonded, axial oxygen scattering path.  With such an extremely rigid
+bond, σ² is hard to determine.  Even the most sensible
+result in the table above gives an answer that is barely
+positive-definite.</p>
+
+<p>Beyond that parameter, the story here is, by now, familiar.  Most
+fitting parameters are consistent over the theory models.  This is one
+of the cases where the statistical parameters are slightly better for
+<em>Feff6</em> than for any of the <em>Feff8</em> fits.</p>
+
+<p>Like with UO2, the E0 values of the self-consistent fits are what one
+hopes to find.  They are much closer to zero when the edge energy of
+the data is chosen at the inflection point of the rising edge.  Is
+this a trend suggesting that self-consistency is important for setting
+the energy scale of f-electron systems?</p>
+
+<p>Also like the UO2 example, the SO² value is a bit different
+using <em>Feff6</em> and <em>Feff8</em>, which could have an impact on the
+interpretation of the data.  It is, however, correlated with the axial
+σ² result.</p>
+
+<hr>
+
+<h1>
+<a id="conclusion" class="anchor" href="#conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion</h1>
+
+<p>Sometimes (FeS2, uranyl) the statistical parameters suggest the best
+fit was found using <em>Feff6</em>.  Sometimes (BaZrO3) <em>Feff8</em> with
+self-consistency gave the smaller reduced χ² and R-factor.
+And sometimes (UO2) it made no difference.</p>
+
+<p>Excepting E0 parameters, the fits presented here yielded equivalent
+values for fitting parameters using <em>Feff6</em> and <em>Feff8</em> with
+self-consistency.  Only in the case of f-electron systems – UO2
+and uranyl – were the fitting results for E0 parameters more
+sensible with <em>Feff8</em> and self-consistency.</p>
+
+<p>In most cases, the fit using <em>Feff8</em> without self-consistency resulted
+in the largest statistical parameters.</p>
+
+<p><a href="http://bruceravel.github.io/demeter/">Artemis</a> has used <em>Feff6</em> for
+years.  Nothing presented here suggests that was a bad idea.</p>
+
+<p>In the future, <a href="http://bruceravel.github.io/demeter/">Artemis</a> will
+likely use <a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a>.  It
+seems that the most sensible default behavior for
+<a href="http://bruceravel.github.io/demeter/">Artemis</a> would be to run
+<a href="https://github.com/xraypy/feff85exafs"><em>feff85exafs</em></a> using a very
+short self-consistency radius.</p>
+
+<p>Is a reviewer justified in demanding that an author use a more recent
+version of Feff than <em>Feff6</em>?  On the basis of what I have presented
+here, I think not.</p>
+
+<h2>
+<a id="theoretical-approximations-and-measurement-uncertainty" class="anchor" href="#theoretical-approximations-and-measurement-uncertainty" aria-hidden="true"><span class="octicon octicon-link"></span></a>Theoretical approximations and measurement uncertainty</h2>
+
+<p>The most valuable result of this effort – beyond the immediate
+question of the impact of self-consistent potentials on EXAFS analysis
+– is that these results provide a sense of what level of
+uncertainty is introduced to the application of Gaussian statistics to
+EXAFS analysis by uncertainties in the theory model used as the basis
+of the fitting.</p>
+
+<p><a href="http://dx.doi.org/10.1107/S0909049512039544">This paper</a> attempts to
+quantify many of the sources of uncertainty in an EXAFS measurement.
+The sort of comparison presented here offers hope of quantifying the
+contribution to the uncertainty budget of the measurement due to the
+approximations that enter into the theory.</p>
+
+<h2>
+<a id="interpreting-the-e0-shift-parameter" class="anchor" href="#interpreting-the-e0-shift-parameter" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interpreting the E0 shift parameter</h2>
+
+<p>Way back in the early 1990s, in the days of
+<a href="http://dx.doi.org/10.1103/PhysRevB.44.4146"><em>Feff3</em></a>, the theory was
+already good enough to get calculated, relative peak positions very
+consistent with experimental data in the EXAFS region.  That is, the
+phase part of the calculation was already highly reliable for large
+photoelectron kinetic energies in the very earliest days of XAS
+theory.</p>
+
+<p>Consider <a href="http://dx.doi.org/10.1103/PhysRevB.83.115106">this paper</a> on
+a leading contender for the best theoretical approach to XANES and
+XES, the Bethe-Salpeter equation of motion of the electron-hole pair.
+This is an impressive and successful approach to core-shell theory,
+however the positions of peaks in the density of states near the edge,
+both above and below, are clearly lacking.  Consider the MgO
+calculation in Fig. 5 of that paper.  It's a great result, but the
+peaks are demonstrably shifted relative to experiment.</p>
+
+<p>In the context of finding the threshold energy and the zero of
+photoelectron wavenumber, a misplacement of peaks in the DOS will
+result in a misplacement of the threshold.  From the <em>Feff3</em> results,
+we know that a E0 shift is adequate to position the high kinetic
+energy peaks well with respect to the data.  Given the shortcomings
+even of the current most advanced theory with respect to finding the
+absolute energy threshold, it is clear that a parameter for an overall
+E0 shift remains necessary to line up the EXAFS data with the EXAFS
+theory.  While one must remain mindful that fitted E0 shifts <strong>can</strong> be
+<a href="http://dx.doi.org/10.1107/S0909049598002970">too large</a>, thus
+confounding the measurement of other parameters, EXAFS analysis
+continues to require E0 shift parameters.</p>
+
+<h2>
+<a id="a-note-on-the-set-of-standards" class="anchor" href="#a-note-on-the-set-of-standards" aria-hidden="true"><span class="octicon octicon-link"></span></a>A note on the set of standards</h2>
+
+<p>For anyone doing EXAFS analysis, a fairly common moment is the one
+when a fit is not going well, the parameters don't make sense, the
+fitted function doesn't look like the data, and the person doing the
+analysis is deeply confused.</p>
+
+<p>In that moment, it is extremely tempting to blame the theory.  In
+fact, it is super fun to blame Feff.  Don't stop there!  Blame John
+Rehr personally for your analysis woes.  Fun <strong>and</strong> satisfying!</p>
+
+<p>The truth is, that moment of confusion usually happens with a real
+research project and typically with a material for which the
+experimenter has rather little prior knowledge about the actual
+structure of the sample.  While it is tempting to attribute a poor fit
+to an inadequacy of the theory, it is vastly more likely that the
+problem is a shortcoming of the fitting model.</p>
+
+<p>In this exercise, I chose a set of materials for which I have
+excellent prior knowledge about the local configuration around the
+absorber.  With a good structural model, any shortcomings of the fit
+would then more likely be attributable to shortcomings of the theory.</p>
+
+<p>This exercise, along with my long experience, tell me that when you,
+dear reader, find yourself cursing Feff and/or John, you should
+indulge that only long enough to get it out of your system.  Then you
+should think deeply about your sample and how you represent its
+structure in the fit.  It is much more likely that your sample is
+something other than what you expect and that the solution to your
+problem is to prepare a better sample or to dream up a more
+representative fitting model.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/bruceravel/SCFtests">SCFtests</a> is maintained by <a href="https://github.com/bruceravel">bruceravel</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
