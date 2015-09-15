@@ -46,6 +46,7 @@
 </li>
 <li><a href="#orgheadline15">5. Adding new materials</a></li>
 <li><a href="#orgheadline16">6. Adding new tests</a></li>
+<li><a href="#orgheadline17">7. Making the web pages</a></li>
 </ul>
 </div>
 </div>
@@ -91,10 +92,10 @@ The following python modules are used (<code>sudo pip install &lt;module&gt;</co
 
 <p>
 Each of these folders has much of the same stuff as the data-bearing
-tests for <a href="https://github.com/xraypy/feff85exafs">feff85exafs</a>,
-including a mustache template for <code>feff.inp</code>, a json file controlling
-how the template is filled in, χ(k) data, a python script defining a
-fitting model using Larch, and a Feff6 input file.
+tests for <a href="https://github.com/xraypy/feff85exafs">feff85exafs</a>, including a mustache template for <code>feff.inp</code>, a
+json file controlling how the template is filled in, χ(k) data, a
+python script defining a fitting model using Larch, and a Feff6 input
+file.
 </p>
 
 <p>
@@ -538,15 +539,39 @@ tests will still run correctly.
 </p>
 </div>
 </div>
+
+<div id="outline-container-orgheadline17" class="outline-2">
+<h2 id="orgheadline17"><span class="section-number-2">7</span> Making the web pages</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+I use emacs, git, and GitHub to manage the web pages.
+</p>
+
+<p>
+Generating html pages for the GitHub Pages site uses several
+emacs-related features, including:
+</p>
+
+<ol class="org-ol">
+<li>Emacs&rsquo; <a href="http://orgmode.org/">org-mode</a></li>
+<li>The <a href="https://github.com/fniessen/org-html-themes">ReadTheOrg</a> export theme (slightly modified by me, with my
+modifications pushed to the <code>gh-pages</code> branch)</li>
+<li>The <a href="https://github.com/fniessen/orgmk">orgmk</a> batch processer</li>
+<li>The <a href="https://melpa.org/#/htmlize">htmlize package</a></li>
+</ol>
+
+<p>
+My workflow is that I edit the <code>.org</code> files in Emacs.  I then use the
+simple <code>o2h.sh</code> command line script to process each of the org files
+into html files.  The html files, along with style and image files,
+are pushed to the <code>gh-pages</code> branch of the repository.
+</p>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 2015-09-15</p>
 <p class="author">Author: Bruce Ravel</p>
-<p>
-  <a href="https://github.com/bruceravel/SCFtests">View on GutHub</a>
-  &nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="index.html">Intro page</a>
-</p>
 <p>
   <a href="https://github.com/bruceravel/SCFtests">View on GutHub</a>
   &nbsp;&nbsp;|&nbsp;&nbsp;
