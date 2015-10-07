@@ -757,11 +757,20 @@ hr{
     scrollbar-track-color : #343131;
 }
 
-#table-of-contents h2{
+#table-of-contents h1{
     z-index:200;
     background-color:#2980B9;
     text-align:center;
     padding:0.809em;
+    display:block;
+    color:#fcfcfc;
+    font-size: 140%}
+
+#table-of-contents h2{
+    z-index:200;
+    background-color:#2980B9;
+    text-align:center;
+    padding:0.409em;
     display:block;
     color:#fcfcfc;
     font-size: 100%;
