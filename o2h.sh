@@ -9,7 +9,9 @@ for f in $all; do
     org2html -y $f.org
     ## use sed to insert links.template near the end of each html file
     sed '/class="author"/ r links.template' $f.html > __temp
-    mv __temp $f.html
+    sed '/id="table-of-contents"/ r title.template' __temp > __temp2
+    mv __temp2 $f.html
+    rm -f __temp
 done
 
 ## copy all the files over

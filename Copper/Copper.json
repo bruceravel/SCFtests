@@ -3,6 +3,7 @@
     "rpath": 5.2,
     "doscf": false,
     "s02": 0,
+    "iplsmn" : 0,
     "iorder": 2,
     "pathfinder": 1,
     "radii": [3, 4, 5, 5.5, 6],

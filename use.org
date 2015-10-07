@@ -91,13 +91,15 @@ The executive summary of this test is that the original assessment of
 
 Here are some ideas for new things to try
 
--  SCF test on a temperature sequence (NiO, Copper, FeS2,
-   bromoadamantane can all be done easily)
--  Multi-pole self-energy, full calculation or John's idea for a
-   MPSE-lite (basically a broadened single pole)
--  Calculation R-grid (RGRID=0.05 is the default, could try 0.03, 0.01,
-   and 0.07)
--  Output k grid (this would require editing code)
+- SCF test on a temperature sequence (NiO, Copper, FeS2,
+  bromoadamantane can all be done easily)
+- Multi-pole self-energy, full calculation or John's idea for a
+  MPSE-lite (basically a broadened single pole)
+  + [[http://dx.doi.org/10.1103/PhysRevB.76.195116][Original paper by Kas et al]]
+  + [[http://dx.doi.org/10.1088/1742-6596/190/1/012023][XAFS 14 paper, Newville, Kas, Rehr]]
+- Calculation R-grid (RGRID=0.05 is the default, could try 0.03, 0.01,
+  and 0.07)
+- Output k grid (this would require editing code)
 
 * Workflow
 
@@ -333,7 +335,7 @@ and written to =<testname>/<condition>/feff.inp=. Finally, Feff is run.
 Note that, to verify that the /exact/ same set of scattering paths are
 used for every test, the =paths.dat= file from the =scf/feff6= test
 should be copied into each new testing subdirectory. The reason for this
-is to be sure that path indexing is consistent between models. Which a
+is to be sure that path indexing is consistent between models. With a
 small change to the Feff model, the amplitude of a small path might
 cause it to fall below one of Feff's filtering criteria. This would
 change the indexing of subsequent paths. The fitting models in the =.py=
