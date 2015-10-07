@@ -193,7 +193,11 @@ Here are some ideas for new things to try
 <li>SCF test on a temperature sequence (NiO, Copper, FeS2,
 bromoadamantane can all be done easily)</li>
 <li>Multi-pole self-energy, full calculation or John&rsquo;s idea for a
-MPSE-lite (basically a broadened single pole)</li>
+MPSE-lite (basically a broadened single pole)
+<ul class="org-ul">
+<li><a href="http://dx.doi.org/10.1103/PhysRevB.76.195116">Original paper by Kas et al</a></li>
+<li><a href="http://dx.doi.org/10.1088/1742-6596/190/1/012023">XAFS 14 paper, Newville, Kas, Rehr</a></li>
+</ul></li>
 <li>Calculation R-grid (RGRID=0.05 is the default, could try 0.03, 0.01,
 and 0.07)</li>
 <li>Output k grid (this would require editing code)</li>
@@ -518,7 +522,7 @@ and written to <code>&lt;testname&gt;/&lt;condition&gt;/feff.inp</code>. Finally
 Note that, to verify that the <i>exact</i> same set of scattering paths are
 used for every test, the <code>paths.dat</code> file from the <code>scf/feff6</code> test
 should be copied into each new testing subdirectory. The reason for this
-is to be sure that path indexing is consistent between models. Which a
+is to be sure that path indexing is consistent between models. With a
 small change to the Feff model, the amplitude of a small path might
 cause it to fall below one of Feff&rsquo;s filtering criteria. This would
 change the indexing of subsequent paths. The fitting models in the <code>.py</code>
@@ -570,7 +574,7 @@ are pushed to the <code>gh-pages</code> branch of the repository.
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Date: 2015-09-15</p>
+<p class="date">Date: 2015-10-07</p>
 <p class="author">Author: Bruce Ravel</p>
 <p>
   <a href="https://github.com/bruceravel/SCFtests">View on GutHub</a>
