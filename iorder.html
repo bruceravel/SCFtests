@@ -85,26 +85,24 @@ The <a href="http://leonardo.phys.washington.edu/feff/wiki/static/i/o/r/IORDER_3
 
 <blockquote>
 <p>
-Order of the approximation used in module <code>GENFMT</code>.
-<code>feff</code> uses order 2 by default, which is correct to terms of
-order 1/(pR)^2 and corresponds to 6x6 scattering matrices
-in the Rehr-Albers formalism.  Single scattering is calculated
-exactly to this order.  The 6x6 approximation is accurate to
-within a few percent in every case we have tried (that is, higher
-order doesn’t change the result more than a few percent). However
-M4 shells and higher shells may require increased iorder for
-coupling the matrix elements.  Changing the default values requires
-some familiarity with the Rehr-Albers paper and the structure of the
-module <code>GENFMT</code>.  To do so, follow the instructions in the
-feff source code in subroutine
-<a href="https://github.com/xraypy/feff85exafs/blob/master/src/GENFMT/setlam.f"><code>setlam</code></a>.  The key <code>iord</code> is passed to
-<code>setlam</code> for processing.  You may need to change
-<a href="https://github.com/xraypy/feff85exafs/blob/master/src/HEADERS/dim.h#L37">the code parameter <code>lamtot</code></a> if you want to do higher order
-calculations.  For details of the algorithm used by <code>GENFMT</code>,
-see <a href="http://dx.doi.org/10.1103/PhysRevB.41.8139">the paper by J.J. Rehr and R.C. Albers</a>. For the M4 and
-higher edges, you may receive an error message like: Lambda array
-overfilled. In that case the calculations should be repeated with
-<code>IORDER -70202</code> (10x10 matrices).
+Order of the approximation used in module <code>GENFMT</code>.  <code>feff</code> uses
+order 2 by default, which is correct to terms of order 1/(pR)^2 and
+corresponds to 6x6 scattering matrices in the Rehr-Albers formalism.
+Single scattering is calculated exactly to this order.  The 6x6
+approximation is accurate to within a few percent in every case we
+have tried (that is, higher order doesn’t change the result more
+than a few percent). However M4 shells and higher shells may require
+increased iorder for coupling the matrix elements.  Changing the
+default values requires some familiarity with the Rehr-Albers paper
+and the structure of the module <code>GENFMT</code>.  To do so, follow the
+instructions in the feff source code in subroutine <a href="https://github.com/xraypy/feff85exafs/blob/master/src/GENFMT/setlam.f"><code>setlam</code></a>.  The
+key <code>iord</code> is passed to <code>setlam</code> for processing.  You may need to
+change <a href="https://github.com/xraypy/feff85exafs/blob/master/src/HEADERS/dim.h#L37">the code parameter <code>lamtot</code></a> if you want to do higher order
+calculations.  For details of the algorithm used by <code>GENFMT</code>, see
+<a href="http://dx.doi.org/10.1103/PhysRevB.41.8139">the paper by J.J. Rehr and R.C. Albers</a>. For the M4 and higher edges,
+you may receive an error message like: Lambda array overfilled. In
+that case the calculations should be repeated with <code>IORDER -70202</code>
+(10x10 matrices).
 </p>
 </blockquote>
 
@@ -136,12 +134,12 @@ collinear paths differently from other multiple scattering paths.
 </p>
 
 <p>
-Changes to the <code>iord</code> parameter should only effect multiple
-scattering paths.  Single scattering paths are calculated without that
+Changes to the <code>iord</code> parameter should only effect multiple scattering
+paths.  Single scattering paths are calculated without that
 approximation.  This is easily tested.  Running a sequence of first
-shell fits with different values if <code>iord</code> does, in fact,
-result in identical fit results.  For example, here are the results
-for first shell fits to FeS2:
+shell fits with different values if <code>iord</code> does, in fact, result in
+identical fit results.  For example, here are the results for first
+shell fits to FeS2:
 </p>
 
 
@@ -283,8 +281,6 @@ for first shell fits to FeS2:
 </tr>
 </tbody>
 </table>
-
-
 
 
 <p>
@@ -1434,10 +1430,10 @@ to see in the plot.  Thus, only the tables are presented here.
 <h2 id="orgheadline25"><span class="section-number-2">9</span> Discussion</h2>
 <div class="outline-text-2" id="text-9">
 <ol class="org-ol">
-<li>A couple of the materials pretty much as one might expect.  NiO,
-Bromoadamantane, and BaZrO3 show a significant drop in chi-reduced
-between <code>iord</code> of 1 and 2, while not showing a statistically
-significant change in any of the fitting parameters.</li>
+<li>A couple of the materials behave pretty much as one might expect.
+NiO, Bromoadamantane, and BaZrO3 show a significant drop in
+chi-reduced between <code>iord</code> of 1 and 2, while not showing a
+statistically significant change in any of the fitting parameters.</li>
 
 <li>A few materials &#x2013; Copper, FeS2, and uranyl &#x2013; actually show
 somewhat better chi-reduced for <code>iord</code> of 1.  I think this tells us
@@ -1453,15 +1449,14 @@ larger <code>iord</code> results for some materials (NiO, for example,
 varied by a bit more than 1%), it seems that the default of
 <code>iord=2</code> is well justified.</li>
 
-<li>Perhaps this exercise could be used to approximate the
-systematic uncertainty contributed by the MS theory to the EXAFS
-analysis&#x2026;.</li>
+<li>Perhaps this exercise could be used to approximate the systematic
+uncertainty contributed by the MS theory to the EXAFS analysis&#x2026;.</li>
 </ol>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Date: 2015-10-07</p>
+<p class="date">Date: 2015-10-08</p>
 <p class="author">Author: Bruce Ravel</p>
 <p>
   <a href="https://github.com/bruceravel/SCFtests">View on GutHub</a>

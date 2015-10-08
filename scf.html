@@ -105,14 +105,16 @@ In a <a href="http://www.mail-archive.com/ifeffit@millenia.cars.aps.anl.gov/msg0
 comment:
 </p>
 
-<pre class="example">
+<blockquote>
+<p>
 I wondering about the availability to use a newer FEFF version in
 Demeter. Since my knowledge only I can run FEFF6. In my case I
 found different discrepancies using FEFF6 and FEFF9 in the
 determination of bond length distances for instance. In terms of
 review of papers, reviewers ask to use a newer version instead
 FEFF6.
-</pre>
+</p>
+</blockquote>
 
 <p>
 This is a topic that comes up regularly on the mailing list. I have, on
@@ -179,9 +181,9 @@ software.</li>
 <li>All EXAFS data were Fourier transformed starting at 3/Å and ending
 at a reasonable place where the signal was still much bigger than
 the noise. The choice of 3/Å as the starting point was deliberate.
-The <a href="http://dx.doi.org/10.1103/PhysRevB.47.14126">Autobk algorithm</a> (and most, if not all, other algorithms) is
+The <a href="http://dx.doi.org/10.1103/PhysRevB.47.14126">Autobk algorithm</a> (and, indeed, all other algorithms) is
 often unreliable below about 3/Å due to the fact that the μ(E) is
-changing very quickly in that region. Thus the data above 3/Å are
+changing very quickly in that region.  Thus the data above 3/Å are
 likely to be reliably free of systematic error due to the details
 of the background removal.</li>
 
@@ -191,8 +193,8 @@ could be attributed to incomplete prior knowledge about the
 structure. That is, I want to isolate the details of the fitting
 model from the details of the theoretical calculation.</li>
 
-<li>The first three examples are dense, crystalline solids for which I
-expect self-consistency to contribute rather little to the
+<li>The first three examples are dense, crystalline solids for which
+one expects self-consistency to contribute rather little to the
 analysis.  The remaining materials all contribute interesting
 features for which self-consistency and charge transfer might play
 a role.</li>
@@ -213,8 +215,8 @@ In the case of hydrated uranyl hydrate, this is a molecule, but the
 Feff calculation is made on a crystalline analogue to the molecule.
 The effect of self-consistency radius is tested in that case.</li>
 
-<li>Where appropriate (bromoadamantane, for example), the <a href="http://leonardo.phys.washington.edu/feff/wiki/static/s/c/f/SCF_1ebb.html"><code>lfms</code>
-   parameter of the <code>SCF</code> card</a> is set to 1.</li>
+<li>Where appropriate (bromoadamantane, for example),
+the <a href="http://leonardo.phys.washington.edu/feff/wiki/static/s/c/f/SCF_1ebb.html"><code>lfms</code> parameter of the <code>SCF</code> card</a> is set to 1.</li>
 
 <li>The uranyl calculation was a bit challenging with <a href="https://github.com/xraypy/feff85exafs"><i>feff85exafs</i></a>. To
 get the program to run to completion, it was necessary to set <a href="http://leonardo.phys.washington.edu/feff/wiki/static/f/o/l/FOLP_93fc.html">the
@@ -228,12 +230,12 @@ different for a first shell fit as compared to a more extensive
 fitting model. So fits were generated for the first shells only of
 all materials except for uranyl hydrate for which the axial and
 equatorial scatterers cannot be isolated. Also, Matt tells me
-that, years ago, he and John looked at some <i>Feff6///Feff8</i>
+that, years ago, he and John looked at some <i>Feff6/Feff8</i>
 comparisons, but only for first shell fits. These first shell fits
-are intended for comparison to that older work. /The results of
+are intended for comparison to that older work. (The results of
 the first shell fits are included in the repository, but not on
 this page as they do not tell a different story from the more
-complete fits presented here./</li>
+complete fits presented here.)</li>
 
 <li>All fits were performed with a toolset written by Bruce and
 included here in this repository using the XAS analysis
@@ -285,8 +287,8 @@ fitted values for E0.</li>
 <h2 id="orgheadline7"><span class="section-number-2">2</span> Copper</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-The data is the canonical copper foil spectrum of <a href="https://github.com/XraySpectroscopy/XAS-Data-Interchange/issues/29">Newville, et
-al. fame</a>. The fitting model is very simple. There is an S0² parameter
+The data is the canonical copper foil spectrum of <a href="https://github.com/XraySpectroscopy/XAS-Data-Interchange/issues/29">Newville, PhD thesis
+fame</a>. The fitting model is very simple. There is an S0² parameter
 (<code>amp</code>), an energy shift for all paths (<code>enot</code>), and a volumetric
 lattice expansion coefficient (<code>alpha</code>). The σ² values for all paths
 were computed using the correlated Debye model and a temperature of
@@ -632,7 +634,7 @@ The sample was NiO powder prepared by my colleague Neil Hyatt
 powder was mixed with polyethylene glycol and pressed into a pellet to
 make a edge step of 0.78. The data were measured by Bruce at NSLS
 beamline X23A2 and reported in a recent issue of Journal of
-Synchrotron Radiation (<a href="http://dx.doi.org/10.1107/S1600577515013521"><a href="10.1107/S1600577515013521">10.1107/S1600577515013521</a></a>). The simple
+Synchrotron Radiation: <a href="http://dx.doi.org/10.1107/S1600577515013521">DOI: 10.1107/S1600577515013521</a>. The simple
 fitting model to this rock salt structure included a S0² parameter
 (<code>amp</code>), an energy shift (<code>enot</code>), and a volumetric lattice expansion
 coefficient (<code>alpha</code>).
@@ -3090,7 +3092,7 @@ better sample or to dream up a more representative fitting model.
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Date: 2015-10-07</p>
+<p class="date">Date: 2015-10-08</p>
 <p class="author">Author: Bruce Ravel</p>
 <p>
   <a href="https://github.com/bruceravel/SCFtests">View on GutHub</a>
