@@ -40,7 +40,7 @@ class FeffTestGroup(Group):
         Group.__init__(self,  **kwargs)
         self._larch       = Interpreter()
         self.materials    = ("Copper", "NiO", "FeS2", "UO2", "BaZrO3", "bromoadamantane", "uranyl")
-        self.tests        = ('scf', 'iorder')
+        self.tests        = ('scf', 'iorder', 'mpse')
         self.__material   = None
         self.__test       = None
         self.testmodule   = None
@@ -141,7 +141,7 @@ class FeffTestGroup(Group):
             chdir(join(self.material, self.test, which))
             feffoutput = glob.glob("*")
             for f in sorted(feffoutput):
-                tosave = re.compile("feff(\d+\.dat|\.inp)|(chi|files|paths|xmu)\.dat|f85e.log")
+                tosave = re.compile("feff(\d+\.dat|\.inp)|(chi|exc|files|paths|xmu)\.dat|f85e.log")
                 if not tosave.match(f): unlink(f)
         finally:
             chdir(owd)

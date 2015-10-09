@@ -810,7 +810,7 @@ data is chosen at the inflection point of the rising edge. Is this a
 trend suggesting that self-consistency is important for setting the
 energy scale of f-electron systems?
 
-Also like the UO2 example, the SO² value is a bit different using
+Also like the UO2 example, the S0² value is a bit different using
 /Feff6/ and /Feff8/, which could have an impact on the interpretation of
 the data. It is, however, correlated with the axial σ² result.
 
@@ -875,17 +875,16 @@ great result, but the peaks are demonstrably shifted relative to
 experiment.
 
 In the context of finding the threshold energy and the zero of
-photoelectron wavenumber, a misplacement of peaks in the DOS will result
-in a misplacement of the threshold. From the /Feff3/ results, we know
-that a E0 shift is adequate to position the high kinetic energy peaks
-well with respect to the data. Given the shortcomings even of the
-current most advanced theory with respect to finding the absolute energy
-threshold, it is clear that a parameter for an overall E0 shift remains
-necessary to line up the EXAFS data with the EXAFS theory. While one
-must remain mindful that fitted E0 shifts *can* be
-[[http://dx.doi.org/10.1107/S0909049598002970][too large]], thus
-confounding the measurement of other parameters, EXAFS analysis
-continues to require E0 shift parameters.
+photoelectron wavenumber, a misplacement of peaks in the DOS will
+result in a misplacement of the threshold. From the /Feff3/ results,
+we know that an E0 shift is adequate to position the high kinetic
+energy peaks well with respect to the data. Given the shortcomings
+even of the current most advanced theory with respect to finding the
+absolute energy threshold, it is clear that a parameter for an overall
+E0 shift remains necessary to line up the EXAFS data with the EXAFS
+theory. While one must remain mindful that fitted E0 shifts *can* be
+[[http://dx.doi.org/10.1107/S0909049598002970][too large]], thus confounding the measurement of other parameters, EXAFS
+analysis continues to require E0 shift parameters.
 
 ** A note on the set of standards
 

@@ -79,6 +79,7 @@ iord.pdf
 noSCF/
 withSCF*/
 iorder/
+mpse/
 **/fit*.k
 **/fit*.r
 **/fit*.gp
