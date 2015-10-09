@@ -35,7 +35,8 @@ def prep(fefftest):
     target = fefftest.target('single') # make the folder for the single run
     fefftest.json['pathfinder'] = 0
     fefftest.json['iplsmn'] = 0
-    fefftest.json['doscf'] = '* '
+    fefftest.json['doscf'] = ''
+    fefftest.json['scf'] = fefftest.json['radii'][0]
     runner.feffinp = join(target, 'feff.inp')
     with open(runner.feffinp, 'w') as inp:
         inp.write(renderer.render_path( fefftest.mustache, fefftest.json ))  # mat/mat.mustache with mat/mat.json
@@ -48,7 +49,8 @@ def prep(fefftest):
     target = fefftest.target('multi') # make the folder for the multi run
     fefftest.json['pathfinder'] = 0
     fefftest.json['iplsmn'] = 1
-    fefftest.json['doscf'] = '* '
+    fefftest.json['doscf'] = ''
+    fefftest.json['scf'] = fefftest.json['radii'][0]
     runner.feffinp = join(target, 'feff.inp')
     runner.mpse = True
     with open(runner.feffinp, 'w') as inp:
