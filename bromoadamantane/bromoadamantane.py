@@ -35,15 +35,17 @@ def do_fit(self, which, firstshell=False, fittest='baseline'):
                 _larch=self._larch  )
     if not firstshell:
         gds.brc     = Parameter(expr = '1.9521+delr',  units='AA',  _larch=self._larch)
-        gds.phir    = Parameter(109.29960 * 3.141592653589793 / 180,   vary=False, _larch=self._larch)
+        #gds.phir    = Parameter(109.29960 * 3.141592653589793 / 180,   vary=False, _larch=self._larch)
         gds.cc      = Parameter(1.53780,   vary=False, _larch=self._larch)
-        gds.tanbeta = Parameter(expr = '(brc+cc)*tan(phir/2) / (brc-cc)', _larch=self._larch)
-        gds.beta    = Parameter(expr = 'atan(tanbeta)', _larch=self._larch)
-        gds.brc2    = Parameter(expr = '(brc-cc)*cos(phir/2)/cos(beta)',  units='AA', _larch=self._larch)
+        #gds.tanbeta = Parameter(expr = '(brc+cc)*tan(phir/2) / (brc-cc)', _larch=self._larch)
+        #gds.beta    = Parameter(expr = 'atan(tanbeta)', _larch=self._larch)
+        #gds.brc2    = Parameter(expr = '(brc-cc)*cos(phir/2)/cos(beta)',  units='AA', _larch=self._larch)
         gds.drh     = Parameter(0.04,      vary=True,  units='AA', decimals=3, _larch=self._larch)
         gds.ssh     = Parameter(0.005,     vary=True,  units='AA^2', _larch=self._larch)
         gds.ss2     = Parameter(expr = 'ss*(brc2/brc)**2', units ='AA^2', _larch=self._larch)
-
+        gds.drc     = Parameter(0.04,      vary=True,  units='AA', decimals=3, _larch=self._larch)
+        gds.brc2    = Parameter(expr = '2.8565+drc',   units='AA', decimals=3, _larch=self._larch)
+        
     paths = list()
     paths.append(feffpath(realpath(join(folder, "feff0001.dat")),
                           s02    = 'amp',
@@ -57,7 +59,8 @@ def do_fit(self, which, firstshell=False, fittest='baseline'):
                               s02    = 'amp',
                               e0     = 'enot',
                               sigma2 = 'ss2',
-                              deltar = 'brc2-2.8565', _larch=self._larch))
+                              #deltar = 'brc2-2.8565',
+                              deltar = 'drc',_larch=self._larch))
         paths.append(feffpath(realpath(join(folder, "feff0003.dat")),
                               s02    = 'amp',
                               e0     = 'enot',
