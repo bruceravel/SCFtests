@@ -632,28 +632,34 @@ scatterers are excluded.
 
 The fit includes the nearest neighbor C, the next three C atoms, and
 the neighboring 6 hydrogen atoms. The DS triangle paths involving the
-first and second neighbor C atoms are also included. The fitting model
-assumes that the adamantane anion is very rigid compared to the Br-C
-bond. Thus, the formula explained in
-[[http://dx.doi.org/10.1088/1742-6596/190/1/012026][DOI: 10.1088/1742-6596/190/1/012026]] is used to
-constrain the second neighbor C distance to the first neighbor C ΔR
-parameter.
+first and second neighbor C atoms are also included. 
+
+ΔR parameters are floated for the nearest neighbor carbon, the
+second neighbor carbon, and the hydrogen scatterers.  The adamantane
+anion is taken to be quite rigid compared to the Br-C bond, so the
+second neighbor σ² parameter is constrained to scale geometrically
+(i.e.\ by the square of the ratio of the fitted distances) from the σ²
+for the nearest neighbor.
+
 
 ** Best fit values
 
-| model        | amp        | delr            | drh         | enot         | ss             | ssh            |
-|--------------+------------+-----------------+-------------+--------------+----------------+----------------|
-| feff6        | 1.57(24)   | 0.01826(1456)   | 0.041(20)   | 5.95(181)    | 0.00659(183)   | 0.00159(266)   |
-| noSCF        | 1.24(22)   | 0.01682(1608)   | 0.079(24)   | 12.03(169)   | 0.00554(206)   | 0.00008(310)   |
-| withSCF(8)   | 1.33(20)   | 0.01762(1408)   | 0.073(25)   | 1.54(156)    | 0.00560(180)   | 0.00143(319)   |
+| model      |      amp |      delr |        drc |       drh |        enot |           ss |          ssh |
+|------------+----------+-----------+------------+-----------+-------------+--------------+--------------|
+| feff6      | 1.35(18) | 0.018(11) | -0.013(17) | 0.031(22) |  5.66(1.39) | 0.00522(144) | 0.00294(327) |
+| noSCF      | 1.11(13) | 0.014(12) | -0.021(19) | 0.076(24) | 10.97(1.37) | 0.00405(137) | 0.00145(326) |
+| withSCF(8) | 1.20(12) | 0.014(10) | -0.017(15) | 0.070(24) |  0.57(1.20) | 0.00431(119) | 0.00363(370) |
+
+
 
 ** Statistics
 
-| model        | χ²           | reduced χ²   | R-factor   |
-|--------------+--------------+--------------+------------|
-| feff6        | 7743.8859    | 1493.2531    | 0.0207     |
-| noSCF        | 10540.8219   | 2032.5862    | 0.0281     |
-| withSCF(8)   | 8632.0582    | 1664.5194    | 0.0230     |
+| model      |  χ²  | reduced χ² | R-factor |
+|------------+------+------------+----------|
+| feff6      | 3928 |        938 |    0.010 |
+| noSCF      | 4656 |       1112 |    0.012 |
+| withSCF(8) | 3516 |        839 |    0.009 |
+
 
 ** Charge transfer and threshold energy
 
@@ -698,16 +704,11 @@ makes its partial pair distribution function highly non-Gaussian. The
 approximation of a simple σ² to model this distribution is not all that
 good. Despite the ill-defined σ², the ΔR is well defined.
 
-The parameters of the first shell C scatterer are quite well defined and
-consistent across theory models. S0² varies a bit outside of its
-uncertainty, as does ΔR for the H atom. The statistical parameters for
-the fits with self-consistency and /Feff6/ are basically
-indistinguishable.
-
-The fitting model is clearly inadequate in the region from 2 Å to 2.5 Å.
-The likely cause of this is the fairly rigid constrain placed on the
-parameters of the second shell C scatterer. This fitting model should be
-re-examined by relaxing this constraint. Future work!
+The parameters of the first shell C scatterer are quite well defined
+and consistent across theory models.  S0² varies to the limit of
+its uncertainty and ΔR for the H atom varies outside its
+uncertainty.  The statistical parameters for the fits with
+self-consistency and /Feff6/ are basically indistinguishable.
 
 So, is /Feff6/ “terrible” at handling H scatterers? The answer may be
 “yes” and may be “no”, but these data on bromoadamantane don't suggest
